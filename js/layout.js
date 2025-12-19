@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // HEADER
     if (headerHost) {
-        fetch("//xaimua_page/header.html")
+        fetch("/xaimua_page/header.html")
         .then(res => res.text())
         .then(html => {
             headerHost.innerHTML = html;
@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // FOOTER
     if (footerHost) {
-        fetch("/html/footer.html")
+        fetch("/xaimua_page/footer.html")
             .then(res => res.text())
             .then(html => {
                 footerHost.innerHTML = html;
