@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const footer = document.getElementById("footer");
 
     if (header) {
-        fetch("html/header.html")
+        fetch("/xaimua_page/header.html")
             .then(r => r.text())   // ← ESTA LÍNEA FALTABA
             .then(html => {
                 header.innerHTML = html;

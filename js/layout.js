@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // HEADER
     if (headerHost) {
-        fetch("/html/header.html")
+        fetch("//xaimua_page/header.html")
         .then(res => res.text())
         .then(html => {
             headerHost.innerHTML = html;
