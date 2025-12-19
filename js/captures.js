@@ -19,15 +19,18 @@ export function initCaptures(captures) {
 
   track.innerHTML = "";
 
-  for (const src of captures.images) {
-    const img = document.createElement("img");
-    img.alt = "Captura Xaimua";
-    img.loading = "lazy";
-    img.decoding = "async";
-    img.src = toApiImgUrl(src);
+  // ⏳ Espera un frame para asegurar DOM listo
+  requestAnimationFrame(() => {
+    for (const src of captures.images) {
+      const img = document.createElement("img");
+      img.alt = "Captura Xaimua";
+      img.loading = "lazy";
+      img.decoding = "async";
+      img.src = toApiImgUrl(src);
 
-    img.onerror = () => console.warn("❌ No cargó:", img.src);
+      img.onerror = () => console.warn("❌ No cargó:", img.src);
 
-    track.appendChild(img);
-  }
+      track.appendChild(img);
+    }
+  });
 }
