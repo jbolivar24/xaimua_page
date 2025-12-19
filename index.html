@@ -26,6 +26,51 @@
     <!-- 🚀 NAVBAR PRINCIPAL -->
     <header id="header"></header>
 
+    <header class="site-header">
+  <!-- PEGAS AQUÍ EL CONTENIDO DEL header.html -->
+        <div class="header-inner">
+
+            <!-- LOGO -->
+            <div class="logo">
+                <a href="index.html#inicio" class="logo-link">
+                    <img src="img/logo.png" alt="Xaimua">
+                </a>
+            </div>
+
+            <!-- HAMBURGUESA SOLO EN MÓVIL -->
+            <button class="menu-toggle" id="menuToggle">☰</button>
+
+            <!-- MENÚ EN DOS FILAS -->
+            <div class="menu">
+                <div class="fila fila-arriba">
+                    <a href="index.html#inicio">Inicio</a>
+                    <a href="index.html#que-es">¿Qué es?</a>
+                    <a href="index.html#caracteristicas">Características</a>
+                    <a href="index.html#capturas">Capturas</a>        
+                </div>
+
+                <div class="fila fila-abajo">
+                    <a href="index.html#descargas">Descargas</a>
+                    <a href="#contacto-footer" id="btn-contacto">Contacto</a>
+                    <a href="html/tienda.html">Tienda</a>
+                    <a href="html/ayuda.html">Ayuda</a>            
+                </div>
+            </div>
+
+            <!-- BOTÓN INGRESAR -->
+            <div class="btn-login-wrapper">
+                <a href="html/login.html" class="btn-header-login">
+                    <svg class="login-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M10 17l5-5-5-5v3H3v4h7v3zM19 3h-6v2h6v14h-6v2h6a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/>
+                    </svg>
+                    Ingresar
+                </a>
+            </div>
+
+        </div>
+
+    </header>
+
     <div id="inicio"></div>
 
     <div class="banner">
@@ -148,7 +193,38 @@
     </a>
 
     <!-- 🚀 FOOTER (se rellena con layout.js) -->
-    <footer id="footer"></footer>
+
+    <footer class="site-footer">
+        <!-- PEGAS AQUÍ EL CONTENIDO DEL footer.html -->
+         <div class="footer-inner" id="contacto-footer">
+
+            <div class="footer-col">
+                <img src="/img/logo.png" class="footer-logo" alt="Xaimua">
+                <p>© 2025 Xaimua • Gestión Inteligente</p>
+                <p>Sistema POS para negocios reales.</p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Navegación</h4>
+                <a href="index.html#inicio">Inicio</a>
+                <a href="html/tienda.html">Tienda</a>
+                <a href="html/ayuda.html">Ayuda</a>
+            </div>
+
+            <div class="footer-col">
+                <h4 id="titulo-contacto">Contacto</h4>
+
+                <a id="correo-xaimua"
+                href="mailto:soporte@xaimua.com?subject=Consulta%20sobre%20Xaimua&body=Hola,%20necesito%20ayuda%20con:">
+                    soporte@xaimua.com
+                </a>
+
+                <a href="html/formulario.html">Formulario de contacto</a>
+            </div>
+
+        </div>
+
+    </footer>
 
     <!-- 📬 SCRIPT PARA FORZAR GMAIL EN ANDROID CUANDO SE HAGA CLICK EN soporte@xaimua.com -->
     <script>
