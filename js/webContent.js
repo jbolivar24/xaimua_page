@@ -22,8 +22,11 @@ export function loadWebContent() {
     .then(data => {
 
         if (data["que-es"]) {
-            document.getElementById("titulo-que-es").textContent = data["que-es"].title;
-            document.getElementById("texto-que-es").textContent = data["que-es"].text;
+            const t = document.getElementById("titulo-que-es");
+            const p = document.getElementById("texto-que-es");
+
+            if (t) t.textContent = data["que-es"].title;
+            if (p) p.textContent = data["que-es"].text;
         }
 
         if (data.caracteristicas) {
