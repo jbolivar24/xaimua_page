@@ -110,41 +110,52 @@ document.addEventListener("DOMContentLoaded", () => {
     const headerHost = document.getElementById("header");
     const footerHost = document.getElementById("footer");
 
+    // Detectar nivel de carpeta
+    let basePath = "";
+
+    const path = window.location.pathname;
+
+    if (path.includes("/admin/")) {
+        basePath = "../html/";
+    } else if (path.includes("/html/")) {
+        basePath = "";
+    } else {
+        basePath = "html/";
+    }
+
     // HEADER
     if (headerHost) {
-        fetch("/xaimua_page/header.html")
-        .then(res => res.text())
-        .then(html => {
-            headerHost.innerHTML = html;
+        fetch(basePath + "header.html")
+            .then(res => res.text())
+            .then(html => {
+                headerHost.innerHTML = html;
 
-            configurarScrollYAnimaciones();
+                configurarScrollYAnimaciones();
 
-            const menuToggle = document.getElementById("menuToggle");
-            const menu = document.querySelector(".menu");
+                const menuToggle = document.getElementById("menuToggle");
+                const menu = document.querySelector(".menu");
 
-            if (menuToggle && menu) {
-                menuToggle.addEventListener("click", () => {
-                    menu.classList.toggle("show");
-                });
-
-                const menuLinks = document.querySelectorAll(".menu a");
-                menuLinks.forEach(link => {
-                    link.addEventListener("click", () => {
-                        menu.classList.remove("show");
+                if (menuToggle && menu) {
+                    menuToggle.addEventListener("click", () => {
+                        menu.classList.toggle("show");
                     });
-                });
-            }
-        });
 
+                    document.querySelectorAll(".menu a").forEach(link => {
+                        link.addEventListener("click", () => {
+                            menu.classList.remove("show");
+                        });
+                    });
+                }
+            })
+            .catch(err => console.error("Error cargando header:", err));
     }
 
     // FOOTER
     if (footerHost) {
-        fetch("/xaimua_page/footer.html")
+        fetch(basePath + "footer.html")
             .then(res => res.text())
             .then(html => {
                 footerHost.innerHTML = html;
-
                 iniciarAnimacionContacto();
                 activarCorreo();
             })
