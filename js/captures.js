@@ -1,35 +1,32 @@
-const API_BASE = "https://undeservedly-hammerheaded-lindsay.ngrok-free.dev";
+// captures.js (LOCAL, SIN BACKEND)
 
-function toApiImgUrl(src) {
-  // Si ya es absoluto, no lo tocamos
-  if (src.startsWith("http://") || src.startsWith("https://")) return src;
+const REPO_BASE = window.location.hostname.includes("github.io")
+    ? "/xaimua_page"
+    : "";
 
-  if (!src.startsWith("/")) src = `/${src}`;
+// ===== CONFIGURACIÓN DE CAPTURAS =====
+// Si mañana agregas más imágenes, solo suma aquí
+const capturesImages = [
+    "c1.png"
+];
 
-  const clean = src.replace(/^\/img\//, "");
+// ===== INIT =====
+export function initCaptures() {
+    const track = document.getElementById("capturesTrack");
+    if (!track) return;
 
-  return `${API_BASE}/api/img/${clean}?ngrok-skip-browser-warning=true`;
-}
+    track.innerHTML = "";
 
+    // Esperamos un frame para asegurar DOM listo
+    requestAnimationFrame(() => {
+        capturesImages.forEach(file => {
+            const img = document.createElement("img");
+            img.src = `${REPO_BASE}/img/captures/${file}`;
+            img.alt = "Captura Xaimua";
+            img.loading = "lazy";
+            img.decoding = "async";
 
-export function initCaptures(captures) {
-  const track = document.getElementById("capturesTrack");
-  if (!track || !captures?.images?.length) return;
-
-  track.innerHTML = "";
-
-  // ⏳ Espera un frame para asegurar DOM listo
-  requestAnimationFrame(() => {
-    for (const src of captures.images) {
-      const img = document.createElement("img");
-      img.alt = "Captura Xaimua";
-      img.loading = "lazy";
-      img.decoding = "async";
-      img.src = toApiImgUrl(src);
-
-      img.onerror = () => console.warn("❌ No cargó:", img.src);
-
-      track.appendChild(img);
-    }
-  });
+            track.appendChild(img);
+        });
+    });
 }

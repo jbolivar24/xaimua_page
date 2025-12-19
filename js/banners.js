@@ -1,5 +1,5 @@
-// banners.js
-const API_BASE = "https://undeservedly-hammerheaded-lindsay.ngrok-free.dev";
+// banners.js (LOCAL, SIN BACKEND)
+
 const REPO_BASE = window.location.hostname.includes("github.io")
     ? "/xaimua_page"
     : "";
@@ -7,73 +7,60 @@ const REPO_BASE = window.location.hostname.includes("github.io")
 let bannerIndex = 0;
 let bannerTimer = null;
 
-// ================= IMG URL NORMALIZER =================
-function toApiImgUrl(src) {
-    if (!src) return "";
-
-    // Si ya es absoluta
-    if (src.startsWith("http://") || src.startsWith("https://")) {
-        return `${src}?ngrok-skip-browser-warning=true`;
+// ===== CONFIGURACIÓN DE BANNERS =====
+const banners = [
+    {
+        image: "banner1_v3.png",
+        action: "ANCHOR",
+        value: "que-es"
+    },
+    {
+        image: "banner2_v3.png",
+        action: "ANCHOR",
+        value: "capturas"
+    },
+    {
+        image: "banner3_v3.png",
+        action: "ANCHOR",
+        value: "descargas"
+    },
+    {
+        image: "banner4_v3.png",
+        action: "URL",
+        value: "https://xaimua.com"
     }
+];
 
-    // Asegura slash inicial
-    if (!src.startsWith("/")) src = `/${src}`;
-
-    // "/img/banners/b1.png" -> "banners/b1.png"
-    const clean = src.replace(/^\/img\//, "");
-
-    return `${API_BASE}/api/img/${clean}?ngrok-skip-browser-warning=true`;
-}
-
-// ================= INIT BANNERS ======================
-export async function initBanners() {
+// ===== INIT =====
+export function initBanners() {
     const track = document.getElementById("bannerTrack");
     if (!track) return;
 
-    try {
-        const res = await fetch(`${API_BASE}/api/banners`, {
-            headers: { "ngrok-skip-browser-warning": "true" }
-        });
+    track.innerHTML = "";
+    bannerIndex = 0;
 
-        if (!res.ok) throw new Error("No se pudieron cargar banners");
+    banners.forEach(banner => {
+        const div = document.createElement("div");
+        div.className = "banner-item";
 
-        const banners = await res.json();
-        banners.sort((a, b) => a.order - b.order);
+        const img = document.createElement("img");
+        img.src = `${REPO_BASE}/img/banners/${banner.image}`;
+        img.alt = "Banner Xaimua";
+        img.loading = "lazy";
+        img.decoding = "async";
 
-        track.innerHTML = "";
-        bannerIndex = 0;
+        div.appendChild(img);
+        div.addEventListener("click", () => handleBannerClick(banner));
+        track.appendChild(div);
+    });
 
-        banners.forEach(banner => {
-            const div = document.createElement("div");
-            div.className = "banner-item";
-
-            const img = document.createElement("img");
-            img.alt = banner.title || "Banner Xaimua";
-            img.loading = "lazy";
-            img.decoding = "async";
-            img.src = toApiImgUrl(banner.image);
-
-            img.onerror = () => {
-                console.warn("❌ No cargó banner:", img.src);
-            };
-
-            div.appendChild(img);
-            div.addEventListener("click", () => handleBannerClick(banner));
-
-            track.appendChild(div);
-        });
-
-        if (bannerTimer) clearInterval(bannerTimer);
-        if (banners.length > 1) {
-            bannerTimer = setInterval(() => rotateBanner(banners.length), 5000);
-        }
-
-    } catch (err) {
-        console.error("Error cargando banners:", err);
+    if (bannerTimer) clearInterval(bannerTimer);
+    if (banners.length > 1) {
+        bannerTimer = setInterval(() => rotateBanner(banners.length), 5000);
     }
 }
 
-// ================= ROTATION ==========================
+// ===== ROTACIÓN =====
 function rotateBanner(total) {
     bannerIndex = (bannerIndex + 1) % total;
     const track = document.getElementById("bannerTrack");
@@ -82,15 +69,15 @@ function rotateBanner(total) {
     }
 }
 
-// ================= CLICK ACTIONS =====================
+// ===== CLICK =====
 function handleBannerClick(banner) {
-    switch (banner.action) {
-        case "PRODUCT":
-            window.location.href = `${REPO_BASE}/html/producto.html?id=${banner.value}`;
-            break;
+    const base = window.location.hostname.includes("github.io")
+        ? "/xaimua_page/index.html"
+        : "/index.html";
 
+    switch (banner.action) {
         case "ANCHOR":
-            window.location.href = `${REPO_BASE}/index.html#${banner.value}`;
+            window.location.href = `${base}#${banner.value}`;
             break;
 
         case "URL":
