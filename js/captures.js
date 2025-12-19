@@ -4,14 +4,13 @@ function toApiImgUrl(src) {
   // Si ya es absoluto, no lo tocamos
   if (src.startsWith("http://") || src.startsWith("https://")) return src;
 
-  // Normaliza: si viene "img/..." lo vuelve "/img/..."
   if (!src.startsWith("/")) src = `/${src}`;
 
-  // "/img/captures/c1.png" -> "captures/c1.png"
   const clean = src.replace(/^\/img\//, "");
 
-  return `${API_BASE}/api/img/${clean}`;
+  return `${API_BASE}/api/img/${clean}?ngrok-skip-browser-warning=true`;
 }
+
 
 export function initCaptures(captures) {
   const track = document.getElementById("capturesTrack");
