@@ -1,0 +1,56 @@
+/* css/components/captures.css */
+
+.captures-carousel {
+  width: 100%;
+  max-width: 1100px;
+  margin: 20px auto 0 auto;
+
+  /* altura flexible pero controlada */
+  height: clamp(180px, 30vw, 320px);
+
+  overflow: hidden;
+  background: #2a2a2a;
+  border-radius: 16px;
+}
+
+.captures-track {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+
+  height: 100%;
+  width: max-content; /* importante para que pueda “deslizar” */
+  will-change: transform;
+}
+
+.captures-track img {
+  height: calc(100% - 28px); /* respirito arriba/abajo */
+  width: auto;
+  flex-shrink: 0;
+  object-fit: contain;
+
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* animación (por si quieres usarla desde CSS también) */
+@keyframes scrollCaptures {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@media (max-width: 768px) {
+  .captures-carousel {
+    height: 220px;
+  }
+
+  .captures-track img {
+    height: calc(100% - 20px);
+  }
+}
+
+@media (max-width: 480px) {
+  .captures-carousel {
+    height: 180px;
+  }
+}

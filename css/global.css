@@ -1,0 +1,21 @@
+/* 🌍 ESTILO GLOBAL */
+html, body {
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+    overflow-x: hidden;
+    background: #3D403D;
+    color: white;
+    font-family: Arial, sans-serif;
+    scroll-behavior: smooth;
+}
+
+/* Evita que el contenido quede debajo del header fijo.
+   Si ves que se tapa algo, ajusta este padding. */
+body {
+    padding-top: 0;
+}
+
+h2 {
+    margin-top: 0;
+}

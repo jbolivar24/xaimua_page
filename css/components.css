@@ -1,0 +1,11 @@
+/* css/components.css
+   Archivo "loader": aquí NO van estilos largos.
+   Solo importa componentes ordenados y legibles.
+*/
+
+@import url("./components/shipping-badge.css");
+@import url("./components/banner.css");
+@import url("./components/captures.css");
+@import url("./components/modal.css");
+@import url("./components/product.css");
+@import url("./components/whatsapp.css");

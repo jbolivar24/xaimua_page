@@ -1,0 +1,92 @@
+/* ================== FORMULARIO ================== */
+
+.formulario-container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.titulo-form {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 24px;
+}
+
+.formulario .grupo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+.formulario label {
+    font-size: 14px;
+    margin-bottom: 6px;
+    opacity: 0.85;
+}
+
+.formulario input,
+.formulario textarea {
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 12px;
+    color: #fff;
+    font-size: 15px;
+    outline: none;
+}
+
+.formulario input:focus,
+.formulario textarea:focus {
+    border-color: #00b3e6;
+}
+
+/* ================== BOTÓN ================== */
+
+.btn-enviar {
+    margin-top: 10px;
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    background: linear-gradient(135deg, #00b3e6, #0099cc);
+    color: #fff;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-enviar:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+}
+
+.btn-enviar:active {
+    transform: scale(0.98);
+}
+
+/* ================== TOAST ESTILO ANDROID ================== */
+
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(0,0,0,0.85);
+    color: #fff;
+    padding: 14px 22px;
+    border-radius: 24px;
+    font-size: 14px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 9999;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}

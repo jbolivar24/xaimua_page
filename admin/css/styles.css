@@ -1,0 +1,167 @@
+body {
+    background: #f5f5f5;
+    margin: 0;
+    font-family: "Segoe UI", sans-serif;
+    color: #333;
+}
+
+header {
+    background: #3D403D;
+    padding: 15px;
+    color: white;
+    text-align: center;
+    font-size: 22px;
+}
+
+.table-container {
+    padding: 20px;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+/* TABLA */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px #0002;
+}
+
+thead {
+    background: #3D403D;
+    color: white;
+}
+
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    font-size: 14px;
+}
+
+tbody tr:hover {
+    background: #f3f3f3;
+    cursor: pointer;
+}
+
+tbody tr.selected {
+    background: #cde3ff !important;
+}
+
+/* CARDS */
+.card {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px #0003;
+    flex: 1;
+}
+
+/* LAYOUT */
+.row {
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+}
+
+/* BOTONERA */
+.action-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.action-bar.hidden {
+    display: none;
+}
+
+button {
+    padding: 8px 14px;
+    background: #3D403D;
+    border: none;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #4e514e;
+}
+
+/* ÁREAS DE TEXTO */
+.output {
+    background: #eee;
+    padding: 10px;
+    height: 260px;
+    overflow-y: auto;
+    border-radius: 6px;
+}
+
+/* ================= ADMIN HEADER ================= */
+
+.admin-header {
+    background: #3D403D;
+    color: white;
+    padding: 12px 20px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+}
+
+.admin-logo img {
+    height: 74px;
+    display: block;
+}
+
+.admin-logo {
+    display: flex;
+    align-items: center;
+}
+
+.admin-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+ 
+
+.admin-server {
+    font-size: 12px;
+    opacity: 0.8;
+    font-family: monospace;
+    white-space: nowrap;
+}
+
+/* ================= ADMIN FOOTER ================= */
+
+.admin-footer {
+    margin-top: 40px;
+    padding: 12px;
+    text-align: center;
+    font-size: 13px;
+    color: #777;
+}
+
+button.danger {
+    background: #b30000;
+    color: white;
+}
+
+button.danger:hover {
+    background: #8f0000;
+}
+
+.action-bar.always-visible {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.action-bar.hidden {
+    display: none;
+}

@@ -1,0 +1,38 @@
+/* css/components/shipping-badge.css */
+
+.product-meta {
+  margin-top: 6px;
+  opacity: 0.95;
+}
+
+.ship-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 6px 10px;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.ship-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* semántica */
+.ship-badge.free .ship-dot {
+  background: rgba(0, 255, 140, 0.75);
+}
+
+.ship-badge.paid .ship-dot {
+  background: rgba(255, 200, 0, 0.80);
+}
+
+.ship-badge.carrier .ship-dot {
+  background: rgba(0, 180, 255, 0.80);
+}

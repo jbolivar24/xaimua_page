@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Xaimua Admin Panel</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Layout admin (header / footer) -->
+    <script src="js/layout.js" defer></script>
+</head>
+<body>
+
+<!-- ===== HEADER DINÁMICO ===== -->
+<header id="header"></header>
+
+<section class="card table-container">
+
+    <h2>Clientes conectados</h2>
+
+    <!-- BOTONERA GLOBAL -->
+    <div class="action-bar always-visible">
+        <button class="danger" onclick="shutdownBackend()">🛑 Detener Backend</button>
+    </div>
+    <!-- BOTONERA CLIENTES -->
+    <div id="actionBar" class="action-bar hidden">
+        <button onclick="executeAction('sendBBDD')">📂 Enviar BBDD</button>
+        <button onclick="executeAction('sendAllData')">📊 Admin Data</button>
+        <button onclick="executeAction('lockDevice')">🔒 Bloquear</button>
+        <button onclick="executeAction('unlockDevice')">🔓 Desbloquear</button>
+        <button onclick="executeAction('confirmPayment')">💰 Confirmar Pago</button>
+        <button onclick="openNotifyConfig()">🧾 Notificaciones</button>
+        <button onclick="executeRestore()">📦 Restaurar Backup</button>
+    </div>
+
+    <!-- TABLA DE CLIENTES -->
+    <table id="clientsTable">
+        <thead>
+            <tr>
+                <th>Cliente ID</th>
+                <th>Android ID</th>
+                <th>Estado</th>
+                <th>Última conexión</th>
+                <th>Timestamp</th>
+                <th>IP</th>
+                <th>Ventas Hoy</th>
+                <th>Último pago</th>
+                <th>Inicio primer turno</th>
+                <th>POS vinculados</th>
+                <th>Condición</th>
+                <th>Cierre(s) de turno</th>
+                <th>Versión Android</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+</section>
+
+<section class="row">
+    <div class="card">
+        <h3>Información detallada</h3>
+        <pre id="clientInfo" class="output"></pre>
+    </div>
+
+    <div class="card">
+        <h3>Consola</h3>
+        <pre id="log" class="output"></pre>
+    </div>
+</section>
+
+<!-- Input para subir backups -->
+<input id="fileInput" type="file" accept=".zip" style="display:none">
+
+<!-- ===== FOOTER DINÁMICO ===== -->
+<footer id="footer"></footer>
+
+<!-- JS principal del admin -->
+<script src="js/app.js"></script>
+
+</body>
+</html>

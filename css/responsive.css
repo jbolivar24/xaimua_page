@@ -1,0 +1,48 @@
+/* 🍔 HAMBURGUESA (OCULTA EN ESCRITORIO) */
+.hamburger {
+    display: none;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+/* Menú móvil contenedor */
+.mobile-menu {
+    display: none;
+}
+
+/* 📱 AJUSTES PARA PANTALLAS PEQUEÑAS */
+@media (max-width: 780px) {
+
+    nav {
+        display: none;  /* ocultar menú normal si usas mobile-menu */
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .mobile-menu {
+        display: none;
+        flex-direction: column;
+        background: rgba(0,0,0,0.85);
+        position: absolute;
+        top: 60px;
+        right: 10px;
+        padding: 20px;
+        border-radius: 10px;
+        gap: 10px;
+    }
+
+    .mobile-menu a {
+        padding: 10px 15px;
+        border-radius: 8px;
+        background: rgba(255,255,255,0.12);
+    }
+}
+
+/* Ajuste de scroll en móviles */
+@media (max-width: 880px) {
+    [id] {
+        scroll-margin-top: -00px !important; 
+    }
+}

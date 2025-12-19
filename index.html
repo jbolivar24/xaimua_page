@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Xaimua - Gestión Inteligente</title>
+
+    
+    <!-- 🎨 CSS general -->
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/sections.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/downloads.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- ⚡ Funciones JS -->
+    <script src="js/layout.js" defer></script>
+    <script type="module" src="/js/home.js"></script>
+</head>
+
+<body>
+
+    <!-- 🚀 NAVBAR PRINCIPAL -->
+    <header id="header"></header>
+
+    <div id="inicio"></div>
+
+    <div class="banner">
+        <div class="banner-track" id="bannerTrack"></div>
+    </div>
+    
+    <!-- 🚀 SECCIONES DEL SITIO -->    
+    
+    <section id="que-es">
+        <h2 id="titulo-que-es"></h2>
+        <p id="texto-que-es"></p>
+    </section>
+
+    <section id="caracteristicas">
+        <h2 id="titulo-caracteristicas"></h2>
+        <ul id="lista-caracteristicas"></ul>
+    </section>
+
+    <section id="capturas" class="captures">
+        <h2 id="titulo-capturas"></h2>
+        <p id="texto-capturas"></p>
+
+        <div class="captures-carousel">
+            <div class="captures-track" id="capturesTrack">
+                <!-- imágenes por JS -->
+            </div>
+        </div>
+    </section>
+
+    <section id="descargas">
+        <h2 id="titulo-descargas"></h2>
+
+        <p id="texto-descargas-top"></p>
+
+        <ul id="lista-descargas"></ul>
+
+        <p id="texto-descargas-bottom"></p>
+
+        <div class="descargas-contenedor">
+        
+            <!-- Botón Play Store -->
+            <a href="https://play.google.com/store/apps/details?id=com.xaimua.xaimua_app" target="_blank" class="download-btn">
+                <img src="img/es_badge_web_generic.png" alt="Disponible en Google Play">
+            </a>
+
+            <!-- Botón descarga directa -->
+            <a href="https://undeservedly-hammerheaded-lindsay.ngrok-free.dev/apk/xaimua" 
+               class="download-btn direct">
+                <img src="img/direct_download.png" alt="Descarga directa APK">
+            </a>
+
+        </div>
+    </section>
+
+    <!-- 🌙 MODAL DE AVISO DESCARGA -->
+    <div id="modal-descarga" class="modal">
+        <div class="modal-content">
+
+            <div class="modal-icons">
+                <svg class="icon-download" viewBox="0 0 64 70">
+                    <path d="M32 6 v34" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+                    <path d="M16 32 l16 16 l16 -16" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <rect x="12" y="50" width="40" height="8" rx="4" fill="currentColor"/>
+                </svg>
+
+                <svg class="icon-shield" viewBox="0 0 64 70">
+                    <path d="M32 4 L8 14 v18 c0 18 12 30 24 34 c12 -4 24 -16 24 -34 V14 Z"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="5"
+                        stroke-linejoin="round"/>
+
+                    <path d="M22 34 l8 10 l12 -16"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="6"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"/>
+                </svg>
+            </div>
+
+            <h3>Descarga iniciada</h3>
+
+            <p>
+                Tu archivo APK está comenzando a descargarse.  
+                Cuando termine, lo encontrarás en la carpeta <b>Descargas</b> de tu dispositivo.
+            </p>
+
+            <p>
+                Si estás descargando desde un computador, debes <b>transferir el archivo APK a tu teléfono Android</b>
+                para poder instalarlo. Esta instalación manual se usa cuando tu dispositivo no es compatible con
+                la versión disponible en Google Play.
+            </p>
+
+            <p>
+                Android te pedirá activar la opción <b>Permitir apps de orígenes desconocidos</b>.
+                Es completamente normal.
+            </p>
+
+            <p>
+                Google puede mostrar advertencias genéricas durante la instalación.  
+                <b>No significan peligro</b>: son mensajes estándar para cualquier app que se instale fuera de Play Store.
+            </p>
+
+            <h4>Cómo instalar la APK</h4>
+            <ol>
+                <li>Espera a que la descarga termine.</li>
+                <li>Ábrela desde la barra de notificaciones o desde la carpeta <b>Descargas</b>.</li>
+                <li>Activa <b>“Permitir esta fuente”</b> si Android lo solicita.</li>
+                <li>Toca <b>Instalar</b>.</li>
+            </ol>
+
+            <button id="cerrar-modal" class="btn-cerrar">Entendido</button>
+        </div>
+    </div>
+
+    <!-- 💬 BOTÓN WHATSAPP FLOTANTE (DENTRO DEL BODY) -->
+    <a href="https://wa.me/56933232104" class="btn-whatsapp">
+        <img src="img/Digital_Glyph_Green.png" alt="WhatsApp">
+    </a>
+
+    <!-- 🚀 FOOTER (se rellena con layout.js) -->
+    <footer id="footer"></footer>
+
+    <!-- 📬 SCRIPT PARA FORZAR GMAIL EN ANDROID CUANDO SE HAGA CLICK EN soporte@xaimua.com -->
+    <script>
+        document.addEventListener("click", function (e) {
+            const correoLink = e.target.closest("#correo-xaimua");
+            if (!correoLink) return;
+
+            const isAndroid = /android/i.test(navigator.userAgent);
+            if (!isAndroid) {
+                // En PC / iOS / otros → dejar que el mailto normal funcione
+                return;
+            }
+
+            e.preventDefault();
+
+            const subject = "Consulta sobre Xaimua";
+            const body = "Hola, necesito ayuda con:";
+
+            const gmailIntent =
+              "intent://compose?to=soporte@xaimua.com" +
+              "&subject=" + encodeURIComponent(subject) +
+              "&body=" + encodeURIComponent(body) +
+              "#Intent;package=com.google.android.gm;scheme=mailto;end;";
+
+            // 1) Intento abrir Gmail App
+            window.location.href = gmailIntent;
+
+            // 2) Si no hay Gmail, caemos a mailto normal
+            setTimeout(() => {
+                const mailto =
+                  "mailto:soporte@xaimua.com" +
+                  "?subject=" + encodeURIComponent(subject) +
+                  "&body=" + encodeURIComponent(body);
+                window.location.href = mailto;
+            }, 600);
+        });
+    </script>
+
+</body>
+</html>

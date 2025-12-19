@@ -1,0 +1,26 @@
+/* css/components/whatsapp.css */
+
+.btn-whatsapp {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 9999;
+
+  width: 64px;
+  height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  text-decoration: none;
+  background: transparent;
+}
+
+.btn-whatsapp img,
+.btn-whatsapp svg {
+  width: 64px;
+  height: 64px;
+  display: block;
+}

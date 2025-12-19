@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xaimua - Producto</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/sections.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+
+    <!-- JS -->
+    <script src="../js/layout.js" defer></script>
+    <script src="../js/producto.js" defer></script>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header id="header"></header>
+
+<!-- CONTENIDO PRODUCTO -->
+<section class="section product-detail">
+
+    <div class="product-detail-grid">
+
+        <!-- IMÁGENES -->
+        <div class="product-images">
+
+            <img
+                id="productMainImage"
+                class="product-main-image"
+                alt="Producto"
+            >
+
+            <div id="productThumbs" class="product-thumbs"></div>
+
+        </div>
+
+        <!-- INFO -->
+        <div class="product-info">
+            <p class="product-price">
+                Precio: <strong id="productPrice">$0</strong>
+            </p>
+
+            <p id="productShipping" class="product-meta"></p>
+            
+            <div class="product-quantity">
+                <label for="productQty">Cantidad</label>
+                <input
+                    id="productQty"
+                    type="number"
+                    min="1"
+                    value="1"
+                >
+            </div>
+            <p class="product-total">
+                Total: <strong id="productTotal">$0</strong>
+            </p>
+
+            <!-- 👇 ID para JS -->
+            <h1 id="productName" class="product-title">
+                Nombre del producto
+            </h1>
+
+            <!-- 👇 ID para JS -->
+            <p id="productDescription" class="product-description">
+                Descripción del producto. Aquí va el texto largo.
+            </p>
+
+            <!-- BOTÓN COMPRAR -->
+            <button id="buyProductBtn" class="btn-buy">
+                Comprar
+            </button>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- MODAL COMPRA -->
+<div id="buyModal" class="modal hidden">
+
+    <div class="modal-box">
+        <h3>Datos de envío</h3>
+
+        <form id="buyForm">
+
+            <input type="text" placeholder="Nombre completo" required>
+            <input type="text" placeholder="Dirección" required>
+            <input type="text" placeholder="Ciudad" required>
+            <input type="text" placeholder="Teléfono" required>
+            <input type="email" placeholder="Correo electrónico" required>
+
+            <div class="modal-actions">
+                <button type="button" id="cancelBuy">
+                    Cancelar
+                </button>
+                <button type="submit" class="btn-buy">
+                    Continuar al pago
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer id="footer"></footer>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xaimua - Formulario</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/sections.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="../css/forms.css">
+    <script src="../js/layout.js" defer></script>
+    <script src="../js/form.js" defer></script>
+</head>
+
+<body>
+
+<!-- 🧭 COPIA ESTE MISMO HEADER EN TODAS LAS PÁGINAS -->
+<header id="header"></header>
+
+<section class="section">
+    <section class="section formulario-container">
+        <h2 class="titulo-form">Formulario de Contacto</h2>
+
+        <form id="form-xaimua" class="formulario">
+
+            <div class="grupo">
+                <label>Nombre</label>
+                <input type="text" id="nombre" required placeholder="Tu nombre completo">
+            </div>
+
+            <div class="grupo">
+                <label>Correo</label>
+                <input type="email" id="correo" required placeholder="tucorreo@gmail.com">
+            </div>
+
+            <div class="grupo">
+                <label>Teléfono (opcional)</label>
+                <input type="text" id="telefono" placeholder="+56 9 1234 5678">
+            </div>
+
+            <div class="grupo">
+                <label>Asunto</label>
+                <input type="text" id="asunto" required placeholder="Motivo del mensaje">
+            </div>
+
+            <div class="grupo">
+                <label>Mensaje</label>
+                <textarea id="mensaje" required placeholder="Escribe tu mensaje aquí..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-enviar">Enviar mensaje</button>
+
+        </form>
+
+        <div id="toast" class="toast">Mensaje enviado ✔</div>
+
+    </section>
+  
+</section>
+
+</body>
+
+<footer id="footer"></footer>
+
+</html>
