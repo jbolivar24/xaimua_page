@@ -1,8 +1,8 @@
 // webContent.js
 
 // ================= BACKEND =================
-// Si estás en GitHub Pages → usa backend remoto
-// Si estás en local → puedes cambiar esto sin romper nada
+// GitHub Pages → backend remoto
+// Local → backend local
 const API_BASE = window.location.hostname.includes("github.io")
     ? "https://undeservedly-hammerheaded-lindsay.ngrok-free.dev"
     : "http://localhost:8080";
@@ -12,6 +12,7 @@ import { initCaptures } from "./captures.js";
 
 // ================= LOAD CONTENT =============
 export function loadWebContent() {
+
     fetch(`${API_BASE}/api/web/sections`, {
         headers: { "ngrok-skip-browser-warning": "true" }
     })
@@ -21,6 +22,7 @@ export function loadWebContent() {
     })
     .then(data => {
 
+        // ===== ¿QUÉ ES? =====
         if (data["que-es"]) {
             const t = document.getElementById("titulo-que-es");
             const p = document.getElementById("texto-que-es");
@@ -29,39 +31,56 @@ export function loadWebContent() {
             if (p) p.textContent = data["que-es"].text;
         }
 
+        // ===== CARACTERÍSTICAS =====
         if (data.caracteristicas) {
-            document.getElementById("titulo-caracteristicas").textContent = data.caracteristicas.title;
-
+            const t = document.getElementById("titulo-caracteristicas");
             const ul = document.getElementById("lista-caracteristicas");
-            ul.innerHTML = "";
 
-            data.caracteristicas.items.forEach(item => {
-                const li = document.createElement("li");
-                li.textContent = item;
-                ul.appendChild(li);
-            });
+            if (t) t.textContent = data.caracteristicas.title;
+
+            if (ul) {
+                ul.innerHTML = "";
+                data.caracteristicas.items.forEach(item => {
+                    const li = document.createElement("li");
+                    li.textContent = item;
+                    ul.appendChild(li);
+                });
+            }
         }
 
+        // ===== CAPTURAS =====
         if (data.captures) {
-            document.getElementById("titulo-capturas").textContent = data.captures.title;
-            document.getElementById("texto-capturas").textContent = data.captures.text;
-            initCaptures(data.captures);
+            const t = document.getElementById("titulo-capturas");
+            const p = document.getElementById("texto-capturas");
+
+            if (t) t.textContent = data.captures.title;
+            if (p) p.textContent = data.captures.text;
+
+            // Solo inicializamos el carrusel si existen los nodos
+            if (t && p) {
+                initCaptures(data.captures);
+            }
         }
 
+        // ===== DESCARGAS =====
         if (data.descargas) {
-            document.getElementById("titulo-descargas").textContent = data.descargas.title;
-            document.getElementById("texto-descargas-top").textContent = data.descargas.textTop;
-
+            const t = document.getElementById("titulo-descargas");
+            const top = document.getElementById("texto-descargas-top");
+            const bottom = document.getElementById("texto-descargas-bottom");
             const ul = document.getElementById("lista-descargas");
-            ul.innerHTML = "";
 
-            data.descargas.items.forEach(item => {
-                const li = document.createElement("li");
-                li.textContent = item;
-                ul.appendChild(li);
-            });
+            if (t) t.textContent = data.descargas.title;
+            if (top) top.textContent = data.descargas.textTop;
+            if (bottom) bottom.textContent = data.descargas.textBottom;
 
-            document.getElementById("texto-descargas-bottom").textContent = data.descargas.textBottom;
+            if (ul) {
+                ul.innerHTML = "";
+                data.descargas.items.forEach(item => {
+                    const li = document.createElement("li");
+                    li.textContent = item;
+                    ul.appendChild(li);
+                });
+            }
         }
 
     })
