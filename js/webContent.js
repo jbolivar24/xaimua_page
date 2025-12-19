@@ -49,6 +49,7 @@ export function loadWebContent() {
         }
 
         // ===== CAPTURAS =====
+        // ===== CAPTURAS =====
         if (data.captures) {
             const t = document.getElementById("titulo-capturas");
             const p = document.getElementById("texto-capturas");
@@ -56,11 +57,10 @@ export function loadWebContent() {
             if (t) t.textContent = data.captures.title;
             if (p) p.textContent = data.captures.text;
 
-            // Solo inicializamos el carrusel si existen los nodos
-            if (t && p) {
-                initCaptures(data.captures);
-            }
+            // ✅ ahora solo inicializa, sin parámetros
+            initCaptures();
         }
+
 
         // ===== DESCARGAS =====
         if (data.descargas) {
