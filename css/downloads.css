@@ -73,13 +73,7 @@
 }
 
 /* 🌙 MODAL DE AVISO DESCARGA */
-
-/* 🌙 MODAL DE AVISO DESCARGA */
-/* ============================
-   ⭐ MODAL — FUNCIONANDO CORRECTO
-   ============================ */
-
-.modal {
+.download-modal {
     display: none;              /* OCULTO al inicio */
     position: fixed;
     inset: 0;
@@ -91,11 +85,11 @@
     overflow-y: auto;           /* El modal completo puede scrollear */
 }
 
-.modal.show {
+.download-modal.show {
     display: block !important;  /* Solo visible cuando JS agrega .show */
 }
 
-.modal-content {
+.download-modal-content {
     background: #ffffff;
     color: #333;
     padding: 22px;
@@ -111,7 +105,7 @@
 }
 
 
-.modal-icons {
+.download-modal-icons {
     display: flex;
     justify-content: center;
     gap: 25px;

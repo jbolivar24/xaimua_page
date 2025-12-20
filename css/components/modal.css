@@ -10,12 +10,10 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.65);
-
-  display: flex;
   align-items: center;
   justify-content: center;
-
   z-index: 9999;
+  display: flex !important;
 }
 
 .modal.hidden {
@@ -57,3 +55,27 @@
   background: #555;
   color: white;
 }
+
+/* ===== FORMULARIO MODAL COMPRA ===== */
+
+#buyForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#buyForm input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+
