@@ -97,34 +97,39 @@ document.addEventListener("DOMContentLoaded", () => {
     const headerHost = document.getElementById("header");
     const footerHost = document.getElementById("footer");
 
+    // 🌍 Detectar entorno correctamente
     const isGithub = window.location.pathname.includes("/xaimua_page/");
-    const isInHtml = window.location.pathname.includes("/html/");
-    const basePath = isGithub ? "/xaimua_page" : "";
-    const fromHtml = isInHtml ? ".." : ".";
+    const root = isGithub ? "/xaimua_page" : "";
 
     // -------- HEADER --------
     if (headerHost) {
-        fetch(`${basePath}${fromHtml}/html/header.html`)
+        fetch(`${root}/html/header.html`)
             .then(res => res.text())
             .then(html => {
                 headerHost.innerHTML = html;
 
-                // LOGO
+                // 🖼 LOGO
                 const logo = headerHost.querySelector("#logo-img");
                 if (logo) {
-                    logo.src = `${fromHtml}/img/logo.png`;
+                    logo.src = `${root}/img/logo.png`;
                 }
 
-                // LINKS data-link
+                // 🔗 Resolver data-link
                 headerHost.querySelectorAll("[data-link]").forEach(el => {
                     const target = el.dataset.link;
 
                     if (target.startsWith("index#")) {
                         const hash = target.split("#")[1];
-                        el.href = `${fromHtml}/index.html#${hash}`;
-                    } else {
-                        el.href = `${fromHtml}/html/${target}.html`;
+                        el.href = `${root}/index.html#${hash}`;
+                        return;
                     }
+
+                    if (target === "index") {
+                        el.href = `${root}/index.html`;
+                        return;
+                    }
+
+                    el.href = `${root}/html/${target}.html`;
                 });
 
                 configurarScrollYAnimaciones();
@@ -149,7 +154,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // -------- FOOTER --------
     if (footerHost) {
-        fetch(`${basePath}${fromHtml}/html/footer.html`)
+        fetch(`${root}/html/footer.html`)
             .then(res => res.text())
             .then(html => {
                 footerHost.innerHTML = html;
