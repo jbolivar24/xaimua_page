@@ -191,10 +191,21 @@ function shutdownBackend() {
         return;
     }
 
+    window.location.href =
+        "https://connections-promising-chemicals-bubble.trycloudflare.com";
+}
+
+/*
+function shutdownBackend() {
+
+    if (!confirm("¿Seguro que deseas detener el backend?\n\nSe cerrará inmediatamente.")) {
+        return;
+    }
+
     // Redirige al backend usando config
     window.location.href = API_BASE;
 }
-
+*/
 // =======================
 // EXPONER FUNCIONES AL HTML
 // =======================
