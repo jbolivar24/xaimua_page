@@ -1,5 +1,5 @@
 // js/config.js
-export const API_BASE = "https://connections-promising-chemicals-bubble.trycloudflare.com";
+export const API_BASE = "https://assumed-previous-bell-pam.trycloudflare.com";
 
 // js/config.js
 export const AppConfig = (() => {

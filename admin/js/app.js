@@ -184,17 +184,6 @@ document.getElementById("fileInput").addEventListener("change", async (ev) => {
 function openNotifyConfig() {
     alert("Aquí irá el configurador de notificaciones (si quieres, te lo hago igualito al de escritorio ❤️)");
 }
-
-function shutdownBackend() {
-
-    if (!confirm("¿Seguro que deseas detener el backend?\n\nSe cerrará inmediatamente.")) {
-        return;
-    }
-
-    window.location.href =
-        "https://connections-promising-chemicals-bubble.trycloudflare.com";
-}
-
 /*
 function shutdownBackend() {
 
@@ -202,10 +191,20 @@ function shutdownBackend() {
         return;
     }
 
-    // Redirige al backend usando config
-    window.location.href = API_BASE;
+    window.location.href =
+        "https://connections-promising-chemicals-bubble.trycloudflare.com/__dev/shutdown";
 }
 */
+function shutdownBackend() {
+
+    if (!confirm("¿Seguro que deseas detener el backend?\n\nSe cerrará inmediatamente.")) {
+        return;
+    }
+
+    // Redirige al backend usando config
+    window.location.href = API_BASE + "/__dev/shutdown";
+}
+
 // =======================
 // EXPONER FUNCIONES AL HTML
 // =======================
