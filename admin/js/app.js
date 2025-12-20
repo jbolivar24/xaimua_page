@@ -192,7 +192,7 @@ function shutdownBackend() {
     }
 
     window.location.href =
-        "https://undeservedly-hammerheaded-lindsay.ngrok-free.dev/__dev/shutdown";
+        "https://connections-promising-chemicals-bubble.trycloudflare.com";
 }
 
 // =======================

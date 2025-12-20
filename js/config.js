@@ -1,5 +1,5 @@
 // js/config.js
-export const API_BASE = "https://undeservedly-hammerheaded-lindsay.ngrok-free.dev";
+export const API_BASE = "https://connections-promising-chemicals-bubble.trycloudflare.com";
 
 // js/config.js
 export const AppConfig = (() => {
