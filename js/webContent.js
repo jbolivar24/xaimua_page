@@ -1,11 +1,7 @@
 // webContent.js
 
 // ================= BACKEND =================
-// GitHub Pages → backend remoto
-// Local → backend local
-const API_BASE = window.location.hostname.includes("github.io")
-    ? "https://undeservedly-hammerheaded-lindsay.ngrok-free.dev"
-    : "http://localhost:8080";
+import { API_BASE } from "./config.js";
 
 // ================= IMPORTS =================
 import { initCaptures } from "./captures.js";

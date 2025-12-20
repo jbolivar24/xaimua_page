@@ -1,6 +1,6 @@
 // producto.js
 
-const API_BASE = "https://undeservedly-hammerheaded-lindsay.ngrok-free.dev";
+import { API_BASE } from "./config.js";
 
 const REPO_BASE = window.location.hostname.includes("github.io")
     ? "/xaimua_page"
