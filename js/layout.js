@@ -105,14 +105,26 @@ function mostrarToast(texto) {
     setTimeout(() => toast.classList.remove("show"), 2500);
 }
 
+// ================= LOGO DINÁMICO ========================
+function setLogoPath() {
+    const logos = document.querySelectorAll("#logo-img");
+    if (!logos.length) return;
+
+    const base = window.location.hostname.includes("github.io")
+        ? "/xaimua_page"
+        : "";
+
+    logos.forEach(logo => {
+        logo.src = `${base}/img/logo.png`;
+    });
+}
+
 // ================= HEADER / FOOTER ======================
 document.addEventListener("DOMContentLoaded", () => {
     const headerHost = document.getElementById("header");
     const footerHost = document.getElementById("footer");
 
-    // Detectar nivel de carpeta
     let basePath = "";
-
     const path = window.location.pathname;
 
     if (path.includes("/admin/")) {
@@ -130,6 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(html => {
                 headerHost.innerHTML = html;
 
+                setLogoPath();              // 👈 CLAVE
                 configurarScrollYAnimaciones();
 
                 const menuToggle = document.getElementById("menuToggle");
@@ -156,6 +169,8 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(res => res.text())
             .then(html => {
                 footerHost.innerHTML = html;
+
+                setLogoPath();              // 👈 por si hay logo en footer
                 iniciarAnimacionContacto();
                 activarCorreo();
             })
