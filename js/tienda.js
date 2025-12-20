@@ -1,5 +1,4 @@
 // tienda.js
-
 import { API_BASE } from "./config.js";
 
 const REPO_BASE = window.location.hostname.includes("github.io")
