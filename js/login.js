@@ -1,3 +1,7 @@
+const basePath = window.location.pathname.includes("/xaimua_page/")
+    ? "/xaimua_page"
+    : "";
+
 document.addEventListener("DOMContentLoaded", () => {
     const btn = document.getElementById("loginBtn");
     const msg = document.getElementById("loginMessage");
@@ -13,10 +17,14 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Login provisiorio local
+        // 🔐 Login provisorio local
         if (user === "admin" && pass === "1") {
             localStorage.setItem("adminToken", "OK");
-            window.location.href = "admin/index.html";
+
+            // ✅ redirección compatible con Live Server y GitHub Pages
+            window.location.href =
+                `${window.location.origin}${basePath}/admin/index.html`;
+
             return;
         }
 
