@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Login provisiorio local
         if (user === "admin" && pass === "1") {
             localStorage.setItem("adminToken", "OK");
-            window.location.href = "/admin/index.html";
+            window.location.href = "admin/index.html";
             return;
         }
 
