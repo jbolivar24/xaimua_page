@@ -1,10 +1,8 @@
-console.log("💚 EL JS SE ESTÁ EJECUTANDO");
 
 if (!localStorage.getItem("adminToken")) {
     window.location.href = "../login.html";
 }
 
-//window.BASE_URL = "https://undeservedly-hammerheaded-lindsay.ngrok-free.dev/api/data";
 import { API_BASE } from "../../js/config.js";
 
 const BASE_URL = `${API_BASE}/api/data`;
@@ -197,4 +195,10 @@ function shutdownBackend() {
         "https://undeservedly-hammerheaded-lindsay.ngrok-free.dev/__dev/shutdown";
 }
 
-
+// =======================
+// EXPONER FUNCIONES AL HTML
+// =======================
+window.executeAction = executeAction;
+window.executeRestore = executeRestore;
+window.openNotifyConfig = openNotifyConfig;
+window.shutdownBackend = shutdownBackend;
