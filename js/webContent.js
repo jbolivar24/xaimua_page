@@ -49,7 +49,6 @@ export function loadWebContent() {
         }
 
         // ===== CAPTURAS =====
-        // ===== CAPTURAS =====
         if (data.captures) {
             const t = document.getElementById("titulo-capturas");
             const p = document.getElementById("texto-capturas");
@@ -60,7 +59,6 @@ export function loadWebContent() {
             // ✅ ahora solo inicializa, sin parámetros
             initCaptures();
         }
-
 
         // ===== DESCARGAS =====
         if (data.descargas) {

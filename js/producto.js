@@ -1,5 +1,12 @@
+// producto.js
+
 const API_BASE = "https://undeservedly-hammerheaded-lindsay.ngrok-free.dev";
 
+const REPO_BASE = window.location.hostname.includes("github.io")
+    ? "/xaimua_page"
+    : "";
+
+// ================= SHIPPING BADGE =================
 function renderShippingBadge(text) {
     const ship = (text || "").trim();
     const low = ship.toLowerCase();
@@ -17,11 +24,22 @@ function renderShippingBadge(text) {
     `;
 }
 
+// ================= UTIL: ruta local imagen =================
+function getLocalImagePath(imagePath) {
+    if (!imagePath) return `${REPO_BASE}/img/no-image.png`;
+
+    // Acepta:
+    // "router/img1_v4.png"
+    // "/img/router/img1_v4.png"
+    // "img/router/img1_v4.png"
+    const clean = imagePath.replace(/^\/?img\//, "");
+    return `${REPO_BASE}/img/${clean}`;
+}
+
+// ================= INIT =================
 document.addEventListener("DOMContentLoaded", async () => {
 
-    console.log("producto.js cargado");
-
-    // 1️⃣ Leer ID desde la URL
+    // 1️⃣ Leer ID desde URL
     const params = new URLSearchParams(window.location.search);
     const productId = parseInt(params.get("id"), 10);
 
@@ -31,7 +49,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-        // 2️⃣ Cargar producto por ID desde el backend
+        // 2️⃣ Cargar producto desde backend (DATA ONLY)
         const response = await fetch(
             `${API_BASE}/api/products/${productId}`,
             {
@@ -60,26 +78,29 @@ document.addEventListener("DOMContentLoaded", async () => {
         const cancelBtn = document.getElementById("cancelBuy");
         const form      = document.getElementById("buyForm");
 
-        // 4️⃣ Pintar datos del producto
+        // 4️⃣ Pintar datos
         document.getElementById("productName").textContent = product.name;
         document.getElementById("productDescription").textContent = product.description;
         document.getElementById("productShipping").innerHTML = renderShippingBadge(product.dataShip);
 
-        // Imagen principal
-        mainImage.src = API_BASE + product.images[0];
-
-        // Miniaturas
+        // 5️⃣ Imágenes (LOCAL)
         thumbsContainer.innerHTML = "";
 
-        product.images.forEach((imgPath, index) => {
+        const images = Array.isArray(product.images) ? product.images : [];
+
+        if (images.length > 0) {
+            mainImage.src = getLocalImagePath(images[0]);
+        }
+
+        images.forEach((imgPath, index) => {
             const thumb = document.createElement("img");
-            thumb.src = API_BASE + imgPath;
+            thumb.src = getLocalImagePath(imgPath);
             thumb.className = "product-thumb";
 
             if (index === 0) thumb.classList.add("active");
 
             thumb.addEventListener("click", () => {
-                mainImage.src = API_BASE + imgPath;
+                mainImage.src = getLocalImagePath(imgPath);
 
                 document
                     .querySelectorAll(".product-thumb")
@@ -91,12 +112,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             thumbsContainer.appendChild(thumb);
         });
 
-        // Precio inicial
+        // 6️⃣ Precio inicial
         const priceFormatted = `$${product.price.toLocaleString("es-CL")}`;
         priceEl.textContent = priceFormatted;
         totalEl.textContent = priceFormatted;
 
-        // 5️⃣ Recalcular total
+        // 7️⃣ Recalcular total
         function updateTotal() {
             let qty = parseInt(qtyInput.value, 10) || 1;
 
@@ -111,7 +132,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         qtyInput.addEventListener("input", updateTotal);
 
-        // 6️⃣ Modal compra
+        // 8️⃣ Modal compra
         buyBtn.addEventListener("click", () => {
             modal.classList.remove("hidden");
         });
@@ -120,7 +141,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             modal.classList.add("hidden");
         });
 
-        // 7️⃣ Submit (pasarela futura)
+        // 9️⃣ Submit (pasarela futura)
         form.addEventListener("submit", (e) => {
             e.preventDefault();
 

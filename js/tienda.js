@@ -1,5 +1,12 @@
+// tienda.js
+
 const API_BASE = "https://undeservedly-hammerheaded-lindsay.ngrok-free.dev";
 
+const REPO_BASE = window.location.hostname.includes("github.io")
+    ? "/xaimua_page"
+    : "";
+
+// ================= SHIPPING BADGE =================
 function renderShippingBadge(text) {
     const ship = (text || "").trim();
     const low = ship.toLowerCase();
@@ -17,6 +24,20 @@ function renderShippingBadge(text) {
     `;
 }
 
+// ================= UTIL: construir ruta local =================
+function getLocalImagePath(imagePath) {
+    if (!imagePath) return `${REPO_BASE}/img/no-image.png`;
+
+    // Acepta:
+    // "router/img1_v4.png"
+    // "/img/router/img1_v4.png"
+    // "img/router/img1_v4.png"
+    const clean = imagePath.replace(/^\/?img\//, "");
+
+    return `${REPO_BASE}/img/${clean}`;
+}
+
+// ================= INIT =================
 document.addEventListener("DOMContentLoaded", async () => {
 
     const grid = document.getElementById("productGrid");
@@ -24,7 +45,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
         const response = await fetch(
-            "https://undeservedly-hammerheaded-lindsay.ngrok-free.dev/api/products",
+            `${API_BASE}/api/products`,
             {
                 headers: {
                     "ngrok-skip-browser-warning": "true"
@@ -37,22 +58,21 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         const products = await response.json();
-
         grid.innerHTML = "";
 
         products.forEach(product => {
 
-            // ⛔ Saltar banners
-            if (product.name.toLowerCase() === "banner") {
-                return;
-            }
+            // ⛔ Saltar banners si existieran
+            if (product.name.toLowerCase() === "banner") return;
+
+            const imgSrc = getLocalImagePath(product.images?.[0]);
 
             const card = document.createElement("div");
             card.className = "product-card";
             card.style.cursor = "pointer";
 
             card.innerHTML = `
-                <img src="${API_BASE}${product.images[0]}" alt="${product.name}">
+                <img src="${imgSrc}" alt="${product.name}">
                 <h3>${product.name}</h3>
                 <p class="product-price">
                     $${product.price.toLocaleString("es-CL")}
@@ -63,7 +83,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             `;
 
             card.addEventListener("click", () => {
-                window.location.href = `producto.html?id=${product.id}`;
+                window.location.href = `${REPO_BASE}/html/producto.html?id=${product.id}`;
             });
 
             grid.appendChild(card);
