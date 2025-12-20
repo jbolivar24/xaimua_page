@@ -26,16 +26,12 @@ function configurarScrollYAnimaciones() {
                 href.startsWith("https://") ||
                 href.startsWith("mailto:") ||
                 href.startsWith("tel:")
-            ) {
-                return;
-            }
+            ) return;
 
             const hashIndex = href.indexOf("#");
             if (hashIndex === -1) return;
 
             const hash = href.slice(hashIndex);
-            if (!hash || hash === "#") return;
-
             const seccion = document.querySelector(hash);
             if (!seccion) return;
 
@@ -53,20 +49,18 @@ function configurarScrollYAnimaciones() {
     });
 }
 
-// ================= ANIMACIÓN CONTACTO FOOTER ============
+// ================= CONTACTO FOOTER ======================
 function iniciarAnimacionContacto() {
     const btnContacto = document.getElementById("btn-contacto");
     const tituloContacto = document.getElementById("titulo-contacto");
-
     if (!btnContacto || !tituloContacto) return;
 
     btnContacto.addEventListener("click", () => {
         setTimeout(() => {
             tituloContacto.classList.add("contacto-animado");
-            setTimeout(
-                () => tituloContacto.classList.remove("contacto-animado"),
-                700
-            );
+            setTimeout(() => {
+                tituloContacto.classList.remove("contacto-animado");
+            }, 700);
         }, 600);
     });
 }
@@ -76,8 +70,8 @@ function activarCorreo() {
     const link = document.getElementById("correo-xaimua");
     if (!link) return;
 
-    if (link.dataset.mailReady === "1") return;
-    link.dataset.mailReady = "1";
+    if (link.dataset.ready) return;
+    link.dataset.ready = "1";
 
     link.addEventListener("click", (e) => {
         const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -89,60 +83,50 @@ function activarCorreo() {
         const subject = encodeURIComponent("Consulta sobre Xaimua");
         const body = encodeURIComponent("Hola, necesito ayuda con:");
 
-        const url = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
-        window.open(url, "_blank", "noopener");
-    });
-}
-
-// ================= TOAST GENÉRICO =======================
-function mostrarToast(texto) {
-    const toast = document.getElementById("toast");
-    if (!toast) return;
-
-    toast.textContent = texto;
-    toast.classList.add("show");
-
-    setTimeout(() => toast.classList.remove("show"), 2500);
-}
-
-// ================= LOGO DINÁMICO ========================
-function setLogoPath() {
-    const logos = document.querySelectorAll("#logo-img");
-    if (!logos.length) return;
-
-    const base = window.location.hostname.includes("github.io")
-        ? "/xaimua_page"
-        : "";
-
-    logos.forEach(logo => {
-        logo.src = `${base}/img/logo.png`;
+        window.open(
+            `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`,
+            "_blank",
+            "noopener"
+        );
     });
 }
 
 // ================= HEADER / FOOTER ======================
 document.addEventListener("DOMContentLoaded", () => {
+
     const headerHost = document.getElementById("header");
     const footerHost = document.getElementById("footer");
 
-    let basePath = "";
-    const path = window.location.pathname;
+    const isGithub = window.location.pathname.includes("/xaimua_page/");
+    const isInHtml = window.location.pathname.includes("/html/");
+    const basePath = isGithub ? "/xaimua_page" : "";
+    const fromHtml = isInHtml ? ".." : ".";
 
-    if (path.includes("/admin/")) {
-        basePath = "../html/";
-    } else if (path.includes("/html/")) {
-        basePath = "";
-    } else {
-        basePath = "html/";
-    }
-
-    // HEADER
+    // -------- HEADER --------
     if (headerHost) {
-        fetch(basePath + "header.html")
+        fetch(`${basePath}${fromHtml}/html/header.html`)
             .then(res => res.text())
             .then(html => {
                 headerHost.innerHTML = html;
 
-                setLogoPath();              // 👈 CLAVE
+                // LOGO
+                const logo = headerHost.querySelector("#logo-img");
+                if (logo) {
+                    logo.src = `${fromHtml}/img/logo.png`;
+                }
+
+                // LINKS data-link
+                headerHost.querySelectorAll("[data-link]").forEach(el => {
+                    const target = el.dataset.link;
+
+                    if (target.startsWith("index#")) {
+                        const hash = target.split("#")[1];
+                        el.href = `${fromHtml}/index.html#${hash}`;
+                    } else {
+                        el.href = `${fromHtml}/html/${target}.html`;
+                    }
+                });
+
                 configurarScrollYAnimaciones();
 
                 const menuToggle = document.getElementById("menuToggle");
@@ -153,8 +137,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         menu.classList.toggle("show");
                     });
 
-                    document.querySelectorAll(".menu a").forEach(link => {
-                        link.addEventListener("click", () => {
+                    menu.querySelectorAll("a").forEach(a => {
+                        a.addEventListener("click", () => {
                             menu.classList.remove("show");
                         });
                     });
@@ -163,29 +147,15 @@ document.addEventListener("DOMContentLoaded", () => {
             .catch(err => console.error("Error cargando header:", err));
     }
 
-    // FOOTER
+    // -------- FOOTER --------
     if (footerHost) {
-        fetch(basePath + "footer.html")
+        fetch(`${basePath}${fromHtml}/html/footer.html`)
             .then(res => res.text())
             .then(html => {
                 footerHost.innerHTML = html;
-
-                setLogoPath();              // 👈 por si hay logo en footer
                 iniciarAnimacionContacto();
                 activarCorreo();
             })
             .catch(err => console.error("Error cargando footer:", err));
-    }
-});
-
-// ================= WHATSAPP: REINICIAR ANIMACIÓN ========
-document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible") {
-        const btn = document.querySelector(".btn-whatsapp");
-        if (!btn) return;
-
-        btn.style.animation = "none";
-        void btn.offsetWidth;
-        btn.style.animation = "";
     }
 });
