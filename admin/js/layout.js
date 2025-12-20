@@ -4,12 +4,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const footer = document.getElementById("footer");
 
     if (header) {
-        fetch("/xaimua_page/header.html")
-            .then(r => r.text())   // ← ESTA LÍNEA FALTABA
+        fetch("html/header.html")
+            .then(r => r.text())
             .then(html => {
                 header.innerHTML = html;
 
-                // Inyectar BASE_URL si existe
                 if (window.BASE_URL) {
                     const lbl = document.getElementById("server-label");
                     if (lbl) lbl.textContent = window.BASE_URL;

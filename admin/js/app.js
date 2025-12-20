@@ -4,7 +4,10 @@ if (!localStorage.getItem("adminToken")) {
     window.location.href = "../login.html";
 }
 
-window.BASE_URL = "https://undeservedly-hammerheaded-lindsay.ngrok-free.dev/api/data";
+//window.BASE_URL = "https://undeservedly-hammerheaded-lindsay.ngrok-free.dev/api/data";
+import { API_BASE } from "../../js/config.js";
+
+const BASE_URL = `${API_BASE}/api/data`;
 
 const clientInfoBox = document.getElementById("clientInfo");
 const logBox = document.getElementById("log");
@@ -94,9 +97,6 @@ function selectClientRow(row, clientData) {
     document.getElementById("actionBar").classList.remove("hidden");
 }
 
-// =======================
-// ENVIAR MENSAJE / ACCIÓN
-// =======================
 // =======================
 // ENVIAR MENSAJE / ACCIÓN (VERSIÓN PERFECTA)
 // =======================
