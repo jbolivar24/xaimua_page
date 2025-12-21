@@ -1,9 +1,6 @@
-// tienda.js
-import { API_BASE } from "./config.js";
+// tienda.js (DESDE BACKEND)
 
-const REPO_BASE = window.location.hostname.includes("github.io")
-    ? "/xaimua_page"
-    : "";
+import { API_BASE } from "./config.js";
 
 // ================= SHIPPING BADGE =================
 function renderShippingBadge(text) {
@@ -23,19 +20,6 @@ function renderShippingBadge(text) {
     `;
 }
 
-// ================= UTIL: construir ruta local =================
-function getLocalImagePath(imagePath) {
-    if (!imagePath) return `${REPO_BASE}/img/no-image.png`;
-
-    // Acepta:
-    // "router/img1_v4.png"
-    // "/img/router/img1_v4.png"
-    // "img/router/img1_v4.png"
-    const clean = imagePath.replace(/^\/?img\//, "");
-
-    return `${REPO_BASE}/img/${clean}`;
-}
-
 // ================= INIT =================
 document.addEventListener("DOMContentLoaded", async () => {
 
@@ -43,18 +27,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!grid) return;
 
     try {
-        const response = await fetch(
-            `${API_BASE}/api/products`,
-            {
-                headers: {
-                    "ngrok-skip-browser-warning": "true"
-                }
-            }
-        );
-
-        if (!response.ok) {
-            throw new Error("Backend no respondió");
-        }
+        const response = await fetch(`${API_BASE}/api/products`);
+        if (!response.ok) throw new Error("Backend no respondió");
 
         const products = await response.json();
         grid.innerHTML = "";
@@ -62,9 +36,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         products.forEach(product => {
 
             // ⛔ Saltar banners si existieran
-            if (product.name.toLowerCase() === "banner") return;
+            if (product.name?.toLowerCase() === "banner") return;
 
-            const imgSrc = getLocalImagePath(product.images?.[0]);
+            const imagePath = product.images?.[0];
+            const imgSrc = imagePath
+                ? `${API_BASE}${imagePath}`
+                : `${API_BASE}/img/no-image.png`;
 
             const card = document.createElement("div");
             card.className = "product-card";
@@ -82,7 +59,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             `;
 
             card.addEventListener("click", () => {
-                window.location.href = `${REPO_BASE}/html/producto.html?id=${product.id}`;
+                window.location.href = `producto.html?id=${product.id}`;
             });
 
             grid.appendChild(card);

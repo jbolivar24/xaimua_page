@@ -1,8 +1,6 @@
-// captures.js (LOCAL, SIN BACKEND)
+// captures.js (DESDE BACKEND)
 
-const REPO_BASE = window.location.hostname.includes("github.io")
-    ? "/xaimua_page"
-    : "";
+import { API_BASE } from "./config.js";
 
 // ===== CONFIGURACIÓN DE CAPTURAS =====
 // Si mañana agregas más imágenes, solo suma aquí
@@ -21,7 +19,7 @@ export function initCaptures() {
     requestAnimationFrame(() => {
         capturesImages.forEach(file => {
             const img = document.createElement("img");
-            img.src = `${REPO_BASE}/img/captures/${file}`;
+            img.src = `${API_BASE}/img/captures/${file}`;
             img.alt = "Captura Xaimua";
             img.loading = "lazy";
             img.decoding = "async";

@@ -1,10 +1,6 @@
-// producto.js
+// producto.js (DESDE BACKEND)
 
 import { API_BASE } from "./config.js";
-
-const REPO_BASE = window.location.hostname.includes("github.io")
-    ? "/xaimua_page"
-    : "";
 
 // ================= SHIPPING BADGE =================
 function renderShippingBadge(text) {
@@ -24,18 +20,6 @@ function renderShippingBadge(text) {
     `;
 }
 
-// ================= UTIL: ruta local imagen =================
-function getLocalImagePath(imagePath) {
-    if (!imagePath) return `${REPO_BASE}/img/no-image.png`;
-
-    // Acepta:
-    // "router/img1_v4.png"
-    // "/img/router/img1_v4.png"
-    // "img/router/img1_v4.png"
-    const clean = imagePath.replace(/^\/?img\//, "");
-    return `${REPO_BASE}/img/${clean}`;
-}
-
 // ================= INIT =================
 document.addEventListener("DOMContentLoaded", async () => {
 
@@ -49,19 +33,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-        // 2️⃣ Cargar producto desde backend (DATA ONLY)
-        const response = await fetch(
-            `${API_BASE}/api/products/${productId}`,
-            {
-                headers: {
-                    "ngrok-skip-browser-warning": "true"
-                }
-            }
-        );
-
-        if (!response.ok) {
-            throw new Error("Producto no encontrado");
-        }
+        // 2️⃣ Cargar producto desde backend
+        const response = await fetch(`${API_BASE}/api/products/${productId}`);
+        if (!response.ok) throw new Error("Producto no encontrado");
 
         const product = await response.json();
 
@@ -81,26 +55,31 @@ document.addEventListener("DOMContentLoaded", async () => {
         // 4️⃣ Pintar datos
         document.getElementById("productName").textContent = product.name;
         document.getElementById("productDescription").textContent = product.description;
-        document.getElementById("productShipping").innerHTML = renderShippingBadge(product.dataShip);
+        document.getElementById("productShipping").innerHTML =
+            renderShippingBadge(product.dataShip);
 
-        // 5️⃣ Imágenes (LOCAL)
+        // 5️⃣ Imágenes (DESDE BACKEND)
         thumbsContainer.innerHTML = "";
 
         const images = Array.isArray(product.images) ? product.images : [];
 
+        const fallbackImg = `${API_BASE}/img/no-image.png`;
+
         if (images.length > 0) {
-            mainImage.src = getLocalImagePath(images[0]);
+            mainImage.src = `${API_BASE}${images[0]}`;
+        } else {
+            mainImage.src = fallbackImg;
         }
 
         images.forEach((imgPath, index) => {
             const thumb = document.createElement("img");
-            thumb.src = getLocalImagePath(imgPath);
+            thumb.src = `${API_BASE}${imgPath}`;
             thumb.className = "product-thumb";
 
             if (index === 0) thumb.classList.add("active");
 
             thumb.addEventListener("click", () => {
-                mainImage.src = getLocalImagePath(imgPath);
+                mainImage.src = `${API_BASE}${imgPath}`;
 
                 document
                     .querySelectorAll(".product-thumb")
