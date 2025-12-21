@@ -6,6 +6,7 @@
   margin-bottom: 20px;
   margin-top: 110px; /* deja espacio para el header fijo */
   max-height: 420px;
+  position: relative;
 }
 
 .banner-track {
@@ -28,6 +29,24 @@
   display: block;
 }
 
+.banner-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+
+  background: rgba(0,0,0,0.4);
+  border: none;
+  color: white;
+  font-size: 28px;
+  padding: 8px 14px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.banner-btn.prev { left: 10px; }
+.banner-btn.next { right: 10px; }
+
 @media (max-width: 768px) {
   .banner {
     margin-top: 90px;
@@ -43,5 +62,9 @@
 @media (min-width: 769px) {
   .banner-item img {
     object-position: center right; /* si quieres, cámbialo a center */
+  }
+
+  .banner-btn {
+    display: none; /* en Android se usa swipe */
   }
 }
