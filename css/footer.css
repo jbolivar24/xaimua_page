@@ -33,9 +33,10 @@ footer {
 }
 
 .footer-logo {
-    width: 95px;
+    width: 70px; 
     height: auto;
     margin-bottom: 6px;
+    opacity: 0.9; 
 }
 
 .footer-col a,
@@ -70,7 +71,7 @@ footer {
     }
 
     .footer-logo {
-        width: 110px;
+        width: 80px;          /* 👈 apenas más que desktop */
         margin-bottom: 10px;
     }
 

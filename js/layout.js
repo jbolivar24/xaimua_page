@@ -109,9 +109,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 headerHost.innerHTML = html;
 
                 // 🖼 LOGO
-                const logo = headerHost.querySelector("#logo-img");
-                if (logo) {
-                    logo.src = `${root}/img/logo.png`;
+                const logoHeader = headerHost.querySelector("#logo-header");
+                if (logoHeader) {
+                    logoHeader.src = `${root}/img/logo.png`;
                 }
 
                 // 🔗 Resolver data-link
@@ -158,9 +158,16 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(res => res.text())
             .then(html => {
                 footerHost.innerHTML = html;
+
+                const logoFooter = footerHost.querySelector("#logo-footer");
+                if (logoFooter) {
+                    logoFooter.src = `${root}/img/logo.png`;
+                }
+
                 iniciarAnimacionContacto();
                 activarCorreo();
             })
             .catch(err => console.error("Error cargando footer:", err));
     }
+
 });
