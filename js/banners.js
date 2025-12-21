@@ -1,8 +1,6 @@
-// banners.js (LOCAL, SIN BACKEND)
+// banners.js (DESDE BACKEND)
 
-const REPO_BASE = window.location.hostname.includes("github.io")
-    ? "/xaimua_page"
-    : "";
+import { API_BASE } from "./config.js";
 
 let bannerIndex = 0;
 let bannerTimer = null;
@@ -44,7 +42,7 @@ export function initBanners() {
         div.className = "banner-item";
 
         const img = document.createElement("img");
-        img.src = `${REPO_BASE}/img/banners/${banner.image}`;
+        img.src = `${API_BASE}/img/banners/${banner.image}`;
         img.alt = "Banner Xaimua";
         img.loading = "lazy";
         img.decoding = "async";
@@ -71,13 +69,9 @@ function rotateBanner(total) {
 
 // ===== CLICK =====
 function handleBannerClick(banner) {
-    const base = window.location.hostname.includes("github.io")
-        ? "/xaimua_page/index.html"
-        : "/index.html";
-
     switch (banner.action) {
         case "ANCHOR":
-            window.location.href = `${base}#${banner.value}`;
+            window.location.hash = `#${banner.value}`;
             break;
 
         case "URL":
