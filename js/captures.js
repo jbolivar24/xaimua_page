@@ -7,18 +7,27 @@ export function initCaptures(images) {
 
     track.innerHTML = "";
 
+    // 🧠 normalizamos cantidad mínima
+    let baseImages = images;
+
+    if (images.length === 1) {
+        baseImages = [images[0], images[0], images[0]];
+    }
+
     // 🔁 dos ciclos completos
-    const loopImages = [...images, ...images];
+    const loopImages = [...baseImages, ...baseImages];
 
     let loaded = 0;
     const total = loopImages.length;
 
     loopImages.forEach(src => {
         const img = document.createElement("img");
-        img.src = src.startsWith("http")
-        ? src
-        : `${API_BASE}${src}`;
 
+        const resolvedSrc = src.startsWith("http")
+            ? src
+            : `${API_BASE.replace(/\/$/, "")}/${src.replace(/^\//, "")}`;
+
+        img.src = resolvedSrc;
         img.alt = "Capturas Xaimua";
         img.loading = "eager";
         img.decoding = "async";
@@ -28,6 +37,10 @@ export function initCaptures(images) {
             if (loaded === total) {
                 startCarousel(track);
             }
+        };
+
+        img.onerror = () => {
+            console.error("❌ No se pudo cargar imagen:", resolvedSrc);
         };
 
         track.appendChild(img);
