@@ -52,8 +52,10 @@ export function loadWebContent() {
             if (t) t.textContent = data.captures.title;
             if (p) p.textContent = data.captures.text;
 
-            // ✅ ahora solo inicializa, sin parámetros
-            initCaptures();
+            // ✅ PASAR LAS IMÁGENES DESDE BACKEND
+            if (Array.isArray(data.captures.images) && data.captures.images.length > 0) {
+                initCaptures(data.captures.images);
+            }
         }
 
         // ===== DESCARGAS =====

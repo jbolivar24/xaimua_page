@@ -1,32 +1,31 @@
 // captures.js
 import { API_BASE } from "./config.js";
 
-const capturesImages = [
-    "c1.png",
-    "c2.png"
-];
-
-export function initCaptures() {
+export function initCaptures(images) {
     const track = document.getElementById("capturesTrack");
-    if (!track || capturesImages.length === 0) return;
+    if (!track || !Array.isArray(images) || images.length === 0) return;
 
     track.innerHTML = "";
 
-    const loopImages = [...capturesImages, ...capturesImages];
+    // 🔁 dos ciclos completos
+    const loopImages = [...images, ...images];
+
     let loaded = 0;
     const total = loopImages.length;
 
-    loopImages.forEach(file => {
+    loopImages.forEach(src => {
         const img = document.createElement("img");
-        img.src = `${API_BASE}/img/captures/${file}`;
+        img.src = src.startsWith("http")
+        ? src
+        : `${API_BASE}${src}`;
+
         img.alt = "Capturas Xaimua";
-        img.loading = "lazy";
+        img.loading = "eager";
         img.decoding = "async";
 
         img.onload = () => {
             loaded++;
             if (loaded === total) {
-                // 👈 SOLO cuando todas cargaron
                 startCarousel(track);
             }
         };
@@ -37,8 +36,8 @@ export function initCaptures() {
 
 function startCarousel(track) {
     let x = 0;
-    let speed = 0.3;
     let paused = false;
+    const speed = 1.0;
 
     const singleCycleWidth = track.scrollWidth / 2;
 
@@ -61,4 +60,3 @@ function startCarousel(track) {
 
     requestAnimationFrame(animate);
 }
-
