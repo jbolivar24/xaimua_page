@@ -1,5 +1,5 @@
 // js/config.js
-export const API_BASE = "https://assumed-previous-bell-pam.trycloudflare.com";
+export const API_BASE = "https://api.xaimua.com";
 
 // js/config.js
 export const AppConfig = (() => {
