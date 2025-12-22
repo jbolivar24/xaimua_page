@@ -60,9 +60,11 @@ function buildCarousel() {
         div.className = "banner-item";
 
         const img = document.createElement("img");
-        img.src = banner.image.startsWith("http")
+        const resolvedSrc = banner.image.startsWith("http")
             ? banner.image
-            : `${API_BASE}/img/banners/${banner.image}`;
+            : `${API_BASE.replace(/\/$/, "")}/${banner.image.replace(/^\//, "")}`;
+
+        img.src = resolvedSrc;
 
         img.alt = "Banner Xaimua";
         img.loading = "eager";
