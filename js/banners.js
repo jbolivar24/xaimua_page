@@ -3,18 +3,11 @@ import { API_BASE } from "./config.js";
 
 let index = 1;
 let timer = null;
-let refreshTimer = null;
-
-// ⏱️ intervalo de actualización (milisegundos)
-const REFRESH_INTERVAL = 300000; // 5 minutos (ajusta a gusto)
-
-// ===== DATA VIVA =====
 let banners = [];
 
 // ===== INIT =====
 export function initBanners() {
     loadBanners();
-    startAutoRefresh();
 }
 
 // ===== FETCH DESDE BACKEND =====
@@ -28,10 +21,11 @@ async function loadBanners() {
 
         const data = await res.json();
 
-        // evita reconstruir si no hay cambios reales
-        if (JSON.stringify(data) === JSON.stringify(banners)) return;
+        if (!Array.isArray(data) || data.length === 0) return;
 
-        banners = data;
+        // ordenar por "order"
+        banners = data.sort((a, b) => a.order - b.order);
+
         buildCarousel();
 
     } catch (err) {
@@ -60,12 +54,14 @@ function buildCarousel() {
         div.className = "banner-item";
 
         const img = document.createElement("img");
+
+        // 🔁 cache busting + resolución correcta de URL
+        const cacheBuster = Date.now();
         const resolvedSrc = banner.image.startsWith("http")
             ? banner.image
             : `${API_BASE.replace(/\/$/, "")}/${banner.image.replace(/^\//, "")}`;
 
-        img.src = resolvedSrc;
-
+        img.src = `${resolvedSrc}?v=${cacheBuster}`;
         img.alt = "Banner Xaimua";
         img.loading = "eager";
 
@@ -97,13 +93,16 @@ function setupAutoplay(track, total) {
         index++;
         moveTo(track, index);
 
-        track.addEventListener("transitionend", () => {
-            if (index === total - 1) {
-                index = 1;
-                jumpTo(track, index);
-            }
-        }, { once: true });
-
+        track.addEventListener(
+            "transitionend",
+            () => {
+                if (index === total - 1) {
+                    index = 1;
+                    jumpTo(track, index);
+                }
+            },
+            { once: true }
+        );
     }, 5000);
 }
 
@@ -116,24 +115,32 @@ function setupButtons(track, total) {
         index--;
         moveTo(track, index);
 
-        track.addEventListener("transitionend", () => {
-            if (index === 0) {
-                index = total - 2;
-                jumpTo(track, index);
-            }
-        }, { once: true });
+        track.addEventListener(
+            "transitionend",
+            () => {
+                if (index === 0) {
+                    index = total - 2;
+                    jumpTo(track, index);
+                }
+            },
+            { once: true }
+        );
     };
 
     if (next) next.onclick = () => {
         index++;
         moveTo(track, index);
 
-        track.addEventListener("transitionend", () => {
-            if (index === total - 1) {
-                index = 1;
-                jumpTo(track, index);
-            }
-        }, { once: true });
+        track.addEventListener(
+            "transitionend",
+            () => {
+                if (index === total - 1) {
+                    index = 1;
+                    jumpTo(track, index);
+                }
+            },
+            { once: true }
+        );
     };
 }
 
@@ -157,45 +164,17 @@ function setupSwipe(track) {
 
 // ===== CLICK =====
 function handleBannerClick(banner) {
-    if (banner.action === "ANCHOR") {
-        window.location.hash = `#${banner.value}`;
+    switch (banner.action) {
+        case "ANCHOR":
+            window.location.hash = `#${banner.value}`;
+            break;
+
+        case "URL":
+            window.location.href = banner.value;
+            break;
+
+        case "PRODUCT":
+            window.location.href = `/producto.html?id=${banner.value}`;
+            break;
     }
-    if (banner.action === "URL") {
-        window.open(banner.value, "_blank");
-    }
-}
-
-// ===== AUTO REFRESH =====
-function startAutoRefresh() {
-    if (refreshTimer) clearInterval(refreshTimer);
-
-    refreshTimer = setInterval(() => {
-        loadBanners();
-    }, REFRESH_INTERVAL);
-
-    document.addEventListener("visibilitychange", () => {
-        if (document.hidden) {
-            clearInterval(timer);
-        } else {
-            setupAutoplay(
-                document.getElementById("bannerTrack"),
-                document.getElementById("bannerTrack")?.children.length || 0
-            );
-        }
-    });
-}
-
-document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-        // pestaña en background → pausamos timers
-        clearInterval(timer);
-    } else {
-        // pestaña vuelve a primer plano → reconstruimos TODO
-        forceRebuild();
-    }
-});
-
-function forceRebuild() {
-    if (!banners || banners.length === 0) return;
-    buildCarousel();
 }
