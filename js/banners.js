@@ -3,20 +3,48 @@ import { API_BASE } from "./config.js";
 
 let index = 1;
 let timer = null;
+let refreshTimer = null;
 
-// ===== CONFIGURACIÓN =====
-const banners = [
-    { image: "banner1_v3.png", action: "ANCHOR", value: "que-es" },
-    { image: "banner2_v3.png", action: "ANCHOR", value: "capturas" },
-    { image: "banner3_v3.png", action: "ANCHOR", value: "descargas" },
-    { image: "banner4_v3.png", action: "URL", value: "https://xaimua.com" }
-];
+// ⏱️ intervalo de actualización (milisegundos)
+const REFRESH_INTERVAL = 300000; // 5 minutos (ajusta a gusto)
+
+// ===== DATA VIVA =====
+let banners = [];
 
 // ===== INIT =====
 export function initBanners() {
+    loadBanners();
+    startAutoRefresh();
+}
+
+// ===== FETCH DESDE BACKEND =====
+async function loadBanners() {
+    try {
+        const res = await fetch(`${API_BASE}/api/banners`, {
+            headers: { "ngrok-skip-browser-warning": "true" }
+        });
+
+        if (!res.ok) return;
+
+        const data = await res.json();
+
+        // evita reconstruir si no hay cambios reales
+        if (JSON.stringify(data) === JSON.stringify(banners)) return;
+
+        banners = data;
+        buildCarousel();
+
+    } catch (err) {
+        console.error("Error cargando banners:", err);
+    }
+}
+
+// ===== RECONSTRUCCIÓN COMPLETA =====
+function buildCarousel() {
     const track = document.getElementById("bannerTrack");
     if (!track || banners.length === 0) return;
 
+    clearInterval(timer);
     track.innerHTML = "";
     index = 1;
 
@@ -32,7 +60,10 @@ export function initBanners() {
         div.className = "banner-item";
 
         const img = document.createElement("img");
-        img.src = `${API_BASE}/img/banners/${banner.image}`;
+        img.src = banner.image.startsWith("http")
+            ? banner.image
+            : `${API_BASE}/img/banners/${banner.image}`;
+
         img.alt = "Banner Xaimua";
         img.loading = "eager";
 
@@ -41,9 +72,7 @@ export function initBanners() {
         track.appendChild(div);
     });
 
-    // posición inicial (primer banner real)
     jumpTo(track, index);
-
     setupButtons(track, items.length);
     setupAutoplay(track, items.length);
     setupSwipe(track);
@@ -62,8 +91,6 @@ function jumpTo(track, i) {
 
 // ===== AUTOPLAY =====
 function setupAutoplay(track, total) {
-    if (timer) clearInterval(timer);
-
     timer = setInterval(() => {
         index++;
         moveTo(track, index);
@@ -134,4 +161,13 @@ function handleBannerClick(banner) {
     if (banner.action === "URL") {
         window.open(banner.value, "_blank");
     }
+}
+
+// ===== AUTO REFRESH =====
+function startAutoRefresh() {
+    if (refreshTimer) clearInterval(refreshTimer);
+
+    refreshTimer = setInterval(() => {
+        loadBanners();
+    }, REFRESH_INTERVAL);
 }
