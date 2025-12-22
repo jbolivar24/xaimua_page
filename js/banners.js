@@ -172,4 +172,30 @@ function startAutoRefresh() {
     refreshTimer = setInterval(() => {
         loadBanners();
     }, REFRESH_INTERVAL);
+
+    document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+            clearInterval(timer);
+        } else {
+            setupAutoplay(
+                document.getElementById("bannerTrack"),
+                document.getElementById("bannerTrack")?.children.length || 0
+            );
+        }
+    });
+}
+
+document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+        // pestaña en background → pausamos timers
+        clearInterval(timer);
+    } else {
+        // pestaña vuelve a primer plano → reconstruimos TODO
+        forceRebuild();
+    }
+});
+
+function forceRebuild() {
+    if (!banners || banners.length === 0) return;
+    buildCarousel();
 }
