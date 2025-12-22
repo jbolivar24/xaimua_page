@@ -50,9 +50,9 @@
 @media (max-width: 768px) {
   .banner-btn {
     display: none;
+    margin-top: 90px;
   }
 }
-
 
 @media (min-width: 769px) {
   .banner-item img {
