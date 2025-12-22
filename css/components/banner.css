@@ -48,23 +48,48 @@
 .banner-btn.next { right: 10px; }
 
 @media (max-width: 768px) {
-  .banner {
-    margin-top: 90px;
-    max-height: 220px;
-  }
-
-  .banner-item img {
-    height: 220px;
-    object-position: center;
+  .banner-btn {
+    display: none;
   }
 }
+
 
 @media (min-width: 769px) {
   .banner-item img {
     object-position: center right; /* si quieres, cámbialo a center */
   }
+}
 
-  .banner-btn {
-    display: none; /* en Android se usa swipe */
-  }
+.banner {
+    position: relative;
+    overflow: hidden;
+}
+
+.banner-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+
+    background: rgba(0,0,0,0.45);
+    color: white;
+    border: none;
+    font-size: 32px;
+    padding: 10px 16px;
+    cursor: pointer;
+    border-radius: 50%;
+
+    opacity: 0.85;
+}
+
+.banner-btn:hover {
+    opacity: 1;
+}
+
+.banner-btn.prev {
+    left: 12px;
+}
+
+.banner-btn.next {
+    right: 12px;
 }

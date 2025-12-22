@@ -4,6 +4,7 @@ let paused = false;
 let index = 1;
 let timer = null;
 let banners = [];
+let animating = false;
 
 // ===== INIT =====
 export function initBanners() {
@@ -78,6 +79,7 @@ function buildCarousel() {
 
 // ===== MOVIMIENTO =====
 function moveTo(track, i) {
+    animating = true;
     track.style.transition = "transform 0.6s ease-in-out";
     track.style.transform = `translateX(-${i * 100}%)`;
 }
@@ -90,8 +92,9 @@ function jumpTo(track, i) {
 // ===== AUTOPLAY =====
 function setupAutoplay(track, total) {
     timer = setInterval(() => {
-        if (paused) return;
+        if (paused || animating) return;
 
+        animating = true;
         index++;
         moveTo(track, index);
 
@@ -102,6 +105,7 @@ function setupAutoplay(track, total) {
                     index = 1;
                     jumpTo(track, index);
                 }
+                animating = false;
             },
             { once: true }
         );
@@ -114,6 +118,10 @@ function setupButtons(track, total) {
     const next = document.querySelector(".banner-btn.next");
 
     if (prev) prev.onclick = () => {
+        if (animating) return;
+
+        clearInterval(timer);
+        animating = true;
         index--;
         moveTo(track, index);
 
@@ -124,12 +132,18 @@ function setupButtons(track, total) {
                     index = total - 2;
                     jumpTo(track, index);
                 }
+                animating = false;
+                setupAutoplay(track, total);
             },
             { once: true }
         );
     };
 
     if (next) next.onclick = () => {
+        if (animating) return;
+
+        clearInterval(timer);
+        animating = true;
         index++;
         moveTo(track, index);
 
@@ -140,6 +154,8 @@ function setupButtons(track, total) {
                     index = 1;
                     jumpTo(track, index);
                 }
+                animating = false;
+                setupAutoplay(track, total);
             },
             { once: true }
         );
