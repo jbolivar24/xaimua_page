@@ -50,6 +50,9 @@
 @media (max-width: 768px) {
   .banner-btn {
     display: none;
+  }
+
+  .banner {
     margin-top: 60px;
   }
 }
