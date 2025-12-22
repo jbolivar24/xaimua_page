@@ -1,6 +1,6 @@
 // banners.js
 import { API_BASE } from "./config.js";
-
+let paused = false;
 let index = 1;
 let timer = null;
 let banners = [];
@@ -90,6 +90,8 @@ function jumpTo(track, i) {
 // ===== AUTOPLAY =====
 function setupAutoplay(track, total) {
     timer = setInterval(() => {
+        if (paused) return;
+
         index++;
         moveTo(track, index);
 
@@ -178,3 +180,7 @@ function handleBannerClick(banner) {
             break;
     }
 }
+
+document.addEventListener("visibilitychange", () => {
+    paused = document.hidden;
+});
