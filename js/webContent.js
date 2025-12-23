@@ -1,15 +1,9 @@
 // webContent.js
-
-// ================= BACKEND =================
 import { API_BASE } from "./config.js";
-
-// ================= IMPORTS =================
 import { initCaptures } from "./captures.js";
 
-// ================= LOAD CONTENT =============
 export function loadWebContent() {
-
-    fetch(`${API_BASE}/api/web/sections`, {
+    return fetch(`${API_BASE}/api/web/sections`, {
         headers: { "ngrok-skip-browser-warning": "true" }
     })
     .then(res => {
@@ -52,7 +46,6 @@ export function loadWebContent() {
             if (t) t.textContent = data.captures.title;
             if (p) p.textContent = data.captures.text;
 
-            // ✅ PASAR LAS IMÁGENES DESDE BACKEND
             if (Array.isArray(data.captures.images) && data.captures.images.length > 0) {
                 initCaptures(data.captures.images);
             }
@@ -79,8 +72,10 @@ export function loadWebContent() {
             }
         }
 
+        return true; // ✅ importantísimo
     })
     .catch(err => {
         console.error("Error cargando web content:", err);
+        return false;
     });
 }
