@@ -184,3 +184,8 @@
     display: none;
   }
 }
+
+/* 🔒 Evitar que el header pise el producto */
+.product-detail {
+  padding-top: 120px;
+}
