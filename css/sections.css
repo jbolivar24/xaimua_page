@@ -193,3 +193,14 @@ textarea {
     text-decoration: none;
 }
 
+/* ===== FIX SCROLL CON HEADER FIJO ===== */
+
+section[id] {
+    scroll-margin-top: 130px; /* desktop */
+}
+
+@media (max-width: 768px) {
+    section[id] {
+        scroll-margin-top: 95px; /* móvil */
+    }
+}

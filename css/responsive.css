@@ -40,9 +40,3 @@
     }
 }
 
-/* Ajuste de scroll en móviles */
-@media (max-width: 880px) {
-    [id] {
-        scroll-margin-top: -00px !important; 
-    }
-}
