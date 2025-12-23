@@ -59,7 +59,7 @@
 
 @media (min-width: 769px) {
   .banner-item img {
-    object-position: center right; /* si quieres, cámbialo a center */
+    object-position: center center; /* si quieres, cámbialo a center */
   }
 }
 

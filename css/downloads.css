@@ -3,7 +3,6 @@
     display: flex;
     gap: 20px;
     margin-top: 20px;
-    justify-content: flex-start;
     flex-wrap: wrap;
 }
 
@@ -31,15 +30,17 @@
 /* Contenedor para banners grandes de descarga */
 .descargas-contenedor {
     display: flex;
-    gap: 20px;
+    justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
+    gap: 20px;              /* espacio entre botones */
+    flex-wrap: wrap;        /* para móvil */
     margin-top: 20px;
 }
 
 /* Botones tipo banner (Google Play / Descarga directa) */
 .download-btn {
     display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     padding: 0;
@@ -138,7 +139,7 @@
 /* ============================================================
    📱 VERSIÓN MÓVIL – BOTONES DE DESCARGA MÁS PEQUEÑOS
    ============================================================ */
-@media (max-width: 880px) {
+@media (max-width: 768px) {
 
     /* Botones pequeños tipo acción */
     .dl-btn {
@@ -164,13 +165,6 @@
         height: 100% !important;
         width: auto;
     }
-}
-
-/* ============================================
-   🛠 FIX DEFINITIVO PARA MOVILES (ANDROID)
-   Evita que el modal se corte o se desplace.
-   ============================================ */
-@media (max-width: 880px) {
 
     .modal {
         align-items: flex-start !important; /* Evita que se empuje hacia abajo */
@@ -183,4 +177,9 @@
         max-height: calc(100vh - 60px) !important; /* Respira y no se corta */
         overflow-y: auto !important;
     }
+
+    .descargas-contenedor {
+        flex-direction: column;
+    }
 }
+
