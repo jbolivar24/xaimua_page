@@ -40,13 +40,23 @@
         <!-- IMÁGENES -->
         <div class="product-images">
 
-            <img
-                id="productMainImage"
-                class="product-main-image"
-                alt="Producto"
-            >
+            <!-- CONTENEDOR IMAGEN PRINCIPAL -->
+            <div class="product-main-wrapper">
+                <button class="main-btn prev">‹</button>
 
-            <div id="productThumbs" class="product-thumbs"></div>
+                <img
+                    id="productMainImage"
+                    class="product-main-image"
+                    alt="Producto"
+                >
+
+                <button class="main-btn next">›</button>
+            </div>
+
+            <!-- MINIATURAS (sin botones) -->
+            <div class="product-thumbs-wrapper">
+                <div class="product-thumbs" id="productThumbs"></div>
+            </div>
 
         </div>
 

@@ -48,14 +48,21 @@ document.addEventListener("DOMContentLoaded", async () => {
             card.style.cursor = "pointer";
 
             card.innerHTML = `
-                <img src="${imgSrc}" alt="${product.name}">
-                <h3>${product.name}</h3>
-                <p class="product-price">
-                    $${product.price.toLocaleString("es-CL")}
-                </p>
-                <p class="product-meta">
-                    ${renderShippingBadge(product.dataShip)}
-                </p>
+                <div class="product-image">
+                    <img src="${imgSrc}" alt="${product.name}">
+                </div>
+
+                <div class="product-info">
+                    <h3 class="product-name">${product.name}</h3>
+
+                    <p class="product-price">
+                        $${product.price.toLocaleString("es-CL")}
+                    </p>
+
+                    <div class="product-shipping">
+                        ${renderShippingBadge(product.dataShip)}
+                    </div>
+                </div>
             `;
 
             card.addEventListener("click", () => {

@@ -23,7 +23,7 @@ function renderShippingBadge(text) {
 // ================= INIT =================
 document.addEventListener("DOMContentLoaded", async () => {
 
-    // 1️⃣ Leer ID desde URL
+    // ===== ID PRODUCTO =====
     const params = new URLSearchParams(window.location.search);
     const productId = parseInt(params.get("id"), 10);
 
@@ -33,13 +33,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-        // 2️⃣ Cargar producto desde backend
+        // ===== FETCH PRODUCTO =====
         const response = await fetch(`${API_BASE}/api/products/${productId}`);
         if (!response.ok) throw new Error("Producto no encontrado");
 
         const product = await response.json();
 
-        // 3️⃣ Referencias DOM
+        // ===== DOM =====
         const qtyInput = document.getElementById("productQty");
         const priceEl  = document.getElementById("productPrice");
         const totalEl  = document.getElementById("productTotal");
@@ -47,59 +47,85 @@ document.addEventListener("DOMContentLoaded", async () => {
         const mainImage = document.getElementById("productMainImage");
         const thumbsContainer = document.getElementById("productThumbs");
 
+        const btnPrev = document.querySelector(".main-btn.prev");
+        const btnNext = document.querySelector(".main-btn.next");
+        const mainWrapper = document.querySelector(".product-main-wrapper");
+
         const buyBtn    = document.getElementById("buyProductBtn");
         const modal     = document.getElementById("buyModal");
         const cancelBtn = document.getElementById("cancelBuy");
         const form      = document.getElementById("buyForm");
 
-        // 4️⃣ Pintar datos
+        // ===== TEXTO =====
         document.getElementById("productName").textContent = product.name;
         document.getElementById("productDescription").textContent = product.description;
         document.getElementById("productShipping").innerHTML =
             renderShippingBadge(product.dataShip);
 
-        // 5️⃣ Imágenes (DESDE BACKEND)
+        // ===== IMÁGENES =====
         thumbsContainer.innerHTML = "";
 
-        const images = Array.isArray(product.images) ? product.images : [];
+        let images = Array.isArray(product.images) && product.images.length
+            ? product.images.map(p => `${API_BASE}${p}`)
+            : [`${API_BASE}/img/no-image.png`];
 
-        const fallbackImg = `${API_BASE}/img/no-image.png`;
+        let currentIndex = 0;
 
-        if (images.length > 0) {
-            mainImage.src = `${API_BASE}${images[0]}`;
-        } else {
-            mainImage.src = fallbackImg;
+        function showImage(index) {
+            currentIndex = (index + images.length) % images.length;
+            mainImage.src = images[currentIndex];
+
+            document.querySelectorAll(".product-thumb").forEach((t, i) => {
+                t.classList.toggle("active", i === currentIndex);
+            });
         }
 
-        images.forEach((imgPath, index) => {
+        images.forEach((src, index) => {
             const thumb = document.createElement("img");
-            thumb.src = `${API_BASE}${imgPath}`;
+            thumb.src = src;
             thumb.className = "product-thumb";
 
-            if (index === 0) thumb.classList.add("active");
-
             thumb.addEventListener("click", () => {
-                mainImage.src = `${API_BASE}${imgPath}`;
-
-                document
-                    .querySelectorAll(".product-thumb")
-                    .forEach(t => t.classList.remove("active"));
-
-                thumb.classList.add("active");
+                showImage(index);
             });
 
             thumbsContainer.appendChild(thumb);
         });
 
-        // 6️⃣ Precio inicial
+        showImage(0);
+
+        // ===== BOTONES ‹ › =====
+        btnPrev?.addEventListener("click", () => {
+            showImage(currentIndex - 1);
+        });
+
+        btnNext?.addEventListener("click", () => {
+            showImage(currentIndex + 1);
+        });
+
+        // ===== SWIPE ANDROID =====
+        let startX = 0;
+
+        mainWrapper?.addEventListener("touchstart", e => {
+            startX = e.touches[0].clientX;
+        });
+
+        mainWrapper?.addEventListener("touchend", e => {
+            const diff = e.changedTouches[0].clientX - startX;
+            if (Math.abs(diff) > 50) {
+                diff < 0
+                    ? showImage(currentIndex + 1)
+                    : showImage(currentIndex - 1);
+            }
+        });
+
+        // ===== PRECIO =====
         const priceFormatted = `$${product.price.toLocaleString("es-CL")}`;
         priceEl.textContent = priceFormatted;
         totalEl.textContent = priceFormatted;
 
-        // 7️⃣ Recalcular total
         function updateTotal() {
             let qty = parseInt(qtyInput.value, 10) || 1;
-
             if (qty < 1) {
                 qty = 1;
                 qtyInput.value = 1;
@@ -111,7 +137,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         qtyInput.addEventListener("input", updateTotal);
 
-        // 8️⃣ Modal compra
+        // ===== MODAL COMPRA =====
         buyBtn.addEventListener("click", () => {
             modal.classList.remove("hidden");
         });
@@ -120,7 +146,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             modal.classList.add("hidden");
         });
 
-        // 9️⃣ Submit (pasarela futura)
         form.addEventListener("submit", (e) => {
             e.preventDefault();
 

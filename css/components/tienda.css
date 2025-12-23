@@ -1,0 +1,106 @@
+/* ================= TIENDA ================= */
+
+.ship-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 6px 10px;
+  border-radius: 999px;
+
+  font-size: 12px;
+
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.ship-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* semántica */
+.ship-badge.free .ship-dot {
+  background: rgba(0, 255, 140, 0.75);
+}
+
+.ship-badge.paid .ship-dot {
+  background: rgba(255, 200, 0, 0.80);
+}
+
+.ship-badge.carrier .ship-dot {
+  background: rgba(0, 180, 255, 0.80);
+}
+
+/* ================= TIENDA ================= */
+
+/* Grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 28px;
+  margin-top: 30px;
+}
+
+/* Card */
+.product-card {
+  background: #2b2c2c;
+  border-radius: 18px;
+  padding: 16px;
+
+  display: flex;
+  flex-direction: column;
+
+  box-shadow: 0 8px 22px rgba(0,0,0,0.35);
+}
+
+/* Imagen */
+.product-image {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 12px;
+  margin-bottom: 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-image img {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+}
+
+/* Info */
+.product-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.product-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.25;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-price {
+  font-size: 19px;
+  font-weight: 700;
+  color: #4cd964;
+}
+
+.product-shipping {
+  margin-top: 6px;
+}
