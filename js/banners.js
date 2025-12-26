@@ -1,202 +1,191 @@
 // banners.js
-import { API_BASE } from "./config.js";
-let paused = false;
-let index = 1;
-let timer = null;
+import { API_BASE, buildPath } from "./config.js";
+
+
 let banners = [];
-let animating = false;
+let bannerTrack = null;
+let currentIndex = 0;
+let timer = null;
+let bannerCount = 0;
 
-// ===== INIT =====
-export function initBanners() {
-    loadBanners();
+const INTERVAL = 5000;
+const TRANSITION = "transform 0.6s ease";
+
+// swipe
+let startX = 0;
+let isSwiping = false;
+const SWIPE_THRESHOLD = 50; // px mínimos
+
+export async function initBanners() {
+  bannerTrack = document.getElementById("bannerTrack");
+  if (!bannerTrack) return;
+
+  try {
+    const res = await fetch(`${API_BASE}/api/banners`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    banners = await res.json();
+    if (!Array.isArray(banners) || banners.length === 0) return;
+
+    bannerCount = banners.length;
+    renderInfiniteBanners();
+    bindControls();
+    bindSwipe();        // 👈 NUEVO
+    startAuto();
+
+  } catch (err) {
+    console.error("Error cargando banners:", err);
+  }
 }
 
-// ===== FETCH DESDE BACKEND =====
-async function loadBanners() {
-    try {
-        const res = await fetch(`${API_BASE}/api/banners`, {
-            headers: { "ngrok-skip-browser-warning": "true" }
-        });
+// ================= RENDER =================
 
-        if (!res.ok) return;
+function renderInfiniteBanners() {
+  bannerTrack.innerHTML = "";
 
-        const data = await res.json();
+  // duplicamos para el loop infinito
+  [...banners, ...banners].forEach(b => {
+    const div = document.createElement("div");
+    div.className = "banner-item";
+    div.style.cursor = "pointer";
 
-        if (!Array.isArray(data) || data.length === 0) return;
+    div.innerHTML = `
+      <img src="${API_BASE}${b.image}" alt="banner">
+    `;
 
-        // ordenar por "order"
-        banners = data.sort((a, b) => a.order - b.order);
+    // 👉 acción al click
+    div.addEventListener("click", () => handleBannerAction(b));
 
-        buildCarousel();
+    bannerTrack.appendChild(div);
+  });
 
-    } catch (err) {
-        console.error("Error cargando banners:", err);
+  bannerTrack.style.transition = "none";
+  currentIndex = 0;
+  moveTo(currentIndex);
+
+  bannerTrack.offsetHeight; // reflow
+  bannerTrack.style.transition = TRANSITION;
+}
+
+// ================= MOVIMIENTO =================
+
+function moveTo(index) {
+  bannerTrack.style.transform = `translateX(-${index * 100}%)`;
+}
+
+function nextBanner() {
+  currentIndex++;
+  moveTo(currentIndex);
+
+  if (currentIndex === bannerCount) {
+    setTimeout(() => {
+      bannerTrack.style.transition = "none";
+      currentIndex = 0;
+      moveTo(currentIndex);
+
+      bannerTrack.offsetHeight;
+      bannerTrack.style.transition = TRANSITION;
+    }, 650);
+  }
+}
+
+function prevBanner() {
+  if (currentIndex === 0) {
+    bannerTrack.style.transition = "none";
+    currentIndex = bannerCount;
+    moveTo(currentIndex);
+
+    bannerTrack.offsetHeight;
+    bannerTrack.style.transition = TRANSITION;
+  }
+
+  currentIndex--;
+  moveTo(currentIndex);
+}
+
+// ================= AUTO =================
+
+function startAuto() {
+  if (timer) clearInterval(timer);
+  timer = setInterval(nextBanner, INTERVAL);
+}
+
+function resetAuto() {
+  startAuto();
+}
+
+// ================= CONTROLES =================
+
+function bindControls() {
+  const btnPrev = document.querySelector(".banner-btn.prev");
+  const btnNext = document.querySelector(".banner-btn.next");
+
+  btnPrev?.addEventListener("click", () => {
+    prevBanner();
+    resetAuto();
+  });
+
+  btnNext?.addEventListener("click", () => {
+    nextBanner();
+    resetAuto();
+  });
+}
+
+// ================= SWIPE =================
+
+function bindSwipe() {
+  bannerTrack.addEventListener("touchstart", e => {
+    startX = e.touches[0].clientX;
+    isSwiping = true;
+  }, { passive: true });
+
+  bannerTrack.addEventListener("touchmove", e => {
+    if (!isSwiping) return;
+    const diff = e.touches[0].clientX - startX;
+    if (Math.abs(diff) > 10) e.preventDefault();
+  }, { passive: false });
+
+  bannerTrack.addEventListener("touchend", e => {
+    if (!isSwiping) return;
+    isSwiping = false;
+
+    const endX = e.changedTouches[0].clientX;
+    const delta = endX - startX;
+
+    if (Math.abs(delta) < SWIPE_THRESHOLD) return;
+
+    if (delta < 0) {
+      nextBanner();   // swipe izquierda
+    } else {
+      prevBanner();   // swipe derecha
     }
+
+    resetAuto();
+  });
 }
 
-// ===== RECONSTRUCCIÓN COMPLETA =====
-function buildCarousel() {
-    const track = document.getElementById("bannerTrack");
-    if (!track || banners.length === 0) return;
+function handleBannerAction(banner) {
+  const { action, value } = banner;
 
-    clearInterval(timer);
-    track.innerHTML = "";
-    index = 1;
+  if (!action || !value) return;
 
-    // 👯‍♂️ [último] + reales + [primero]
-    const items = [
-        banners[banners.length - 1],
-        ...banners,
-        banners[0]
-    ];
+  switch (action) {
 
-    items.forEach(banner => {
-        const div = document.createElement("div");
-        div.className = "banner-item";
+    case "PRODUCT":
+        window.location.href = buildPath(`/html/producto.html?id=${encodeURIComponent(value)}`);
+        break;
 
-        const img = document.createElement("img");
+    case "ANCHOR":
+        // ejemplo: /#ayuda
+        window.location.href = `/#${encodeURIComponent(value)}`;
+        break;
 
-        // 🔁 cache busting + resolución correcta de URL
-        const cacheBuster = Date.now();
-        const resolvedSrc = banner.image.startsWith("http")
-            ? banner.image
-            : `${API_BASE.replace(/\/$/, "")}/${banner.image.replace(/^\//, "")}`;
+    case "URL":
+        // puede ser relativa o absoluta
+        window.location.href = value;
+        break;
 
-        img.src = `${resolvedSrc}?v=${cacheBuster}`;
-        img.alt = "Banner Xaimua";
-        img.loading = "eager";
-
-        div.appendChild(img);
-        div.addEventListener("click", () => handleBannerClick(banner));
-        track.appendChild(div);
-    });
-
-    jumpTo(track, index);
-    setupButtons(track, items.length);
-    setupAutoplay(track, items.length);
-    setupSwipe(track);
+    default:
+      console.warn("Acción de banner desconocida:", action);
+  }
 }
-
-// ===== MOVIMIENTO =====
-function moveTo(track, i) {
-    animating = true;
-    track.style.transition = "transform 0.6s ease-in-out";
-    track.style.transform = `translateX(-${i * 100}%)`;
-}
-
-function jumpTo(track, i) {
-    track.style.transition = "none";
-    track.style.transform = `translateX(-${i * 100}%)`;
-}
-
-// ===== AUTOPLAY =====
-function setupAutoplay(track, total) {
-    timer = setInterval(() => {
-        if (paused || animating) return;
-
-        animating = true;
-        index++;
-        moveTo(track, index);
-
-        track.addEventListener(
-            "transitionend",
-            () => {
-                if (index === total - 1) {
-                    index = 1;
-                    jumpTo(track, index);
-                }
-                animating = false;
-            },
-            { once: true }
-        );
-    }, 5000);
-}
-
-// ===== BOTONES =====
-function setupButtons(track, total) {
-    const prev = document.querySelector(".banner-btn.prev");
-    const next = document.querySelector(".banner-btn.next");
-
-    if (prev) prev.onclick = () => {
-        if (animating) return;
-
-        clearInterval(timer);
-        animating = true;
-        index--;
-        moveTo(track, index);
-
-        track.addEventListener(
-            "transitionend",
-            () => {
-                if (index === 0) {
-                    index = total - 2;
-                    jumpTo(track, index);
-                }
-                animating = false;
-                setupAutoplay(track, total);
-            },
-            { once: true }
-        );
-    };
-
-    if (next) next.onclick = () => {
-        if (animating) return;
-
-        clearInterval(timer);
-        animating = true;
-        index++;
-        moveTo(track, index);
-
-        track.addEventListener(
-            "transitionend",
-            () => {
-                if (index === total - 1) {
-                    index = 1;
-                    jumpTo(track, index);
-                }
-                animating = false;
-                setupAutoplay(track, total);
-            },
-            { once: true }
-        );
-    };
-}
-
-// ===== SWIPE ANDROID =====
-function setupSwipe(track) {
-    let startX = 0;
-
-    track.addEventListener("touchstart", e => {
-        startX = e.touches[0].clientX;
-    });
-
-    track.addEventListener("touchend", e => {
-        const diff = e.changedTouches[0].clientX - startX;
-        if (Math.abs(diff) > 50) {
-            diff < 0
-                ? document.querySelector(".banner-btn.next")?.click()
-                : document.querySelector(".banner-btn.prev")?.click();
-        }
-    });
-}
-
-// ===== CLICK =====
-function handleBannerClick(banner) {
-    switch (banner.action) {
-        case "ANCHOR":
-            window.location.hash = `#${banner.value}`;
-            break;
-
-        case "URL":
-            window.location.href = banner.value;
-            break;
-
-        case "PRODUCT":
-            window.location.href = `/producto.html?id=${banner.value}`;
-            break;
-    }
-}
-
-document.addEventListener("visibilitychange", () => {
-    paused = document.hidden;
-});

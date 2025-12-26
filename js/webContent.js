@@ -4,7 +4,7 @@ import { initCaptures } from "./captures.js";
 
 export function loadWebContent() {
     return fetch(`${API_BASE}/api/web/sections`, {
-        headers: { "ngrok-skip-browser-warning": "true" }
+        
     })
     .then(res => {
         if (!res.ok) throw new Error("Error cargando contenido web");

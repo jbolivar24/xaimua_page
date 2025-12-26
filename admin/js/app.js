@@ -1,9 +1,13 @@
+// admin/js/app.js
+import { API_BASE, buildPath } from "../../js/config.js";
 
-if (!localStorage.getItem("adminToken")) {
-    window.location.href = "../login.html";
+const token =
+  localStorage.getItem("adminToken") ||
+  localStorage.getItem("xaToken");
+
+if (!token) {
+  window.location.href = buildPath("/html/login.html");
 }
-
-import { API_BASE } from "../../js/config.js";
 
 const BASE_URL = `${API_BASE}/api/data`;
 
@@ -12,203 +16,173 @@ const logBox = document.getElementById("log");
 
 let selectedClient = null;
 
-// LOG
 function log(msg) {
-    logBox.textContent += msg + "\n";
-    logBox.scrollTop = logBox.scrollHeight;
+  logBox.textContent += msg + "\n";
+  logBox.scrollTop = logBox.scrollHeight;
 }
 
-// FORMATEO DE TIMESTAMPS
 function formatTimestamp(t) {
-    if (!t || t === "0" || t === "") return "-";
-    const n = Number(t);
-    if (isNaN(n)) return t;
-    return new Date(n).toLocaleString();
+  if (!t || t === "0" || t === "") return "-";
+  const n = Number(t);
+  if (isNaN(n)) return t;
+  return new Date(n).toLocaleString();
 }
 
-// =======================
-// CARGAR TABLA COMPLETA
-// =======================
+async function fetchAuth(url, options = {}) {
+  const headers = {
+    ...(options.headers || {}),
+    Authorization: token
+  };
+
+  const res = await fetch(url, { ...options, headers });
+
+  // si token venció o no es válido → botamos al login
+  if (res.status === 401 || res.status === 403) {
+    localStorage.removeItem("adminToken");
+    localStorage.removeItem("xaToken");
+    localStorage.removeItem("xaRole");
+    window.location.href = buildPath("/html/login.html");
+    throw new Error("Unauthorized");
+  }
+
+  return res;
+}
+
 async function loadClients() {
-    try {
-        const res = await fetch(`${BASE_URL}/devices`, {
-            mode: "cors",
-            headers: {
-                "ngrok-skip-browser-warning": "true"
-            }
-        });
+  try {
+    const res = await fetchAuth(`${BASE_URL}/devices`);
+    const arr = await res.json();
 
-        const arr = await res.json();
-
-        const tbody = document.querySelector("#clientsTable tbody");
-        tbody.innerHTML = "";
-
-        arr.forEach(c => {
-            const tr = document.createElement("tr");
-
-            tr.innerHTML = `
-                <td>${c.clientId ?? "-"}</td>
-                <td>${c.deviceId ?? "-"}</td>
-                <td style="color:${c.status === "online" ? "green" : "red"};">
-                    ${c.status ?? "-"}
-                </td>
-                <td>${formatTimestamp(c.lastSeen)}</td>
-                <td>${formatTimestamp(c.timestamp)}</td>
-                <td>${c.ip ?? "-"}</td>
-                <td>${c.salesToday ?? "-"}</td>
-                <td>${c.lastPaymentDate ?? "-"}</td>
-                <td>${formatTimestamp(c.firstShiftStart)}</td>
-                <td>${c.linkedClients ?? "-"}</td>
-                <td>${c.state ?? "-"}</td>
-                <td>${c.shiftClosures ?? "-"}</td>
-                <td>${c.androidVersion ?? "-"}</td>
-            `;
-
-            tr.addEventListener("click", () => selectClientRow(tr, c));
-
-            tbody.appendChild(tr);
-        });
-
-        log("✅ Lista de clientes actualizada.");
-
-    } catch (e) {
-        log("❌ Error cargando clientes: " + e);
+    if (!Array.isArray(arr)) {
+      log("❌ Backend no devolvió un array de clientes.");
+      console.warn("Respuesta:", arr);
+      return;
     }
+
+    const tbody = document.querySelector("#clientsTable tbody");
+    tbody.innerHTML = "";
+
+    arr.forEach(c => {
+      const tr = document.createElement("tr");
+
+      tr.innerHTML = `
+        <td>${c.clientId ?? "-"}</td>
+        <td>${c.deviceId ?? "-"}</td>
+        <td style="color:${c.status === "online" ? "green" : "red"};">
+          ${c.status ?? "-"}
+        </td>
+        <td>${formatTimestamp(c.lastSeen)}</td>
+        <td>${formatTimestamp(c.timestamp)}</td>
+        <td>${c.ip ?? "-"}</td>
+        <td>${c.salesToday ?? "-"}</td>
+        <td>${c.lastPaymentDate ?? "-"}</td>
+        <td>${formatTimestamp(c.firstShiftStart)}</td>
+        <td>${c.linkedClients ?? "-"}</td>
+        <td>${c.state ?? "-"}</td>
+        <td>${c.shiftClosures ?? "-"}</td>
+        <td>${c.androidVersion ?? "-"}</td>
+      `;
+
+      tr.addEventListener("click", () => selectClientRow(tr, c));
+      tbody.appendChild(tr);
+    });
+
+    log("✅ Lista de clientes actualizada.");
+
+  } catch (e) {
+    if (e.message !== "Unauthorized") log("❌ Error cargando clientes: " + e);
+  }
 }
 
-loadClients();
-
-// =======================
-// SELECCIONAR FILA
-// =======================
 function selectClientRow(row, clientData) {
-    document.querySelectorAll("#clientsTable tbody tr")
-        .forEach(r => r.classList.remove("selected"));
+  document.querySelectorAll("#clientsTable tbody tr")
+    .forEach(r => r.classList.remove("selected"));
 
-    row.classList.add("selected");
-    selectedClient = clientData;
+  row.classList.add("selected");
+  selectedClient = clientData;
 
-    // Mostrar JSON completo
-    clientInfoBox.textContent = JSON.stringify(clientData, null, 2);
-
-    // Mostrar barra de acciones
-    document.getElementById("actionBar").classList.remove("hidden");
+  clientInfoBox.textContent = JSON.stringify(clientData, null, 2);
+  document.getElementById("actionBar").classList.remove("hidden");
 }
 
-// =======================
-// ENVIAR MENSAJE / ACCIÓN (VERSIÓN PERFECTA)
-// =======================
 async function sendMessage(text) {
-    try {
-        if (!selectedClient) {
-            alert("Selecciona un cliente primero.");
-            return;
-        }
+  try {
+    if (!selectedClient) return alert("Selecciona un cliente primero.");
 
-        const toId = selectedClient.deviceId;
-
-        if (!toId || toId.trim() === "") {
-            log("❌ No se puede enviar: el cliente no tiene deviceId válido.");
-            return;
-        }
-
-        const params = new URLSearchParams();
-        params.append("text", text);
-        params.append("to", toId);
-
-        const res = await fetch(`${BASE_URL}/message`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: params
-        });
-
-        if (!res.ok) {
-            log(`⚠️ Error HTTP ${res.status}`);
-            return;
-        }
-
-        let msg = "";
-        try {
-            msg = await res.text(); // por si el backend devuelve string plano
-        } catch (_) {}
-
-        log(`✅ Acción ejecutada (${text}) → ${msg}`);
-
-    } catch (e) {
-        log("❌ Error enviando mensaje: " + e);
+    const toId = selectedClient.deviceId;
+    if (!toId || toId.trim() === "") {
+      log("❌ No se puede enviar: deviceId inválido.");
+      return;
     }
+
+    const params = new URLSearchParams();
+    params.append("text", text);
+    params.append("to", toId);
+
+    const res = await fetchAuth(`${BASE_URL}/message`, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: params
+    });
+
+    const msg = await res.text().catch(() => "");
+    log(`✅ Acción ejecutada (${text}) → ${msg}`);
+
+  } catch (e) {
+    if (e.message !== "Unauthorized") log("❌ Error enviando mensaje: " + e);
+  }
 }
 
 function executeAction(cmd) {
-    if (!selectedClient) {
-        alert("Selecciona un cliente.");
-        return;
-    }
-    sendMessage(cmd);
+  if (!selectedClient) return alert("Selecciona un cliente.");
+  sendMessage(cmd);
 }
 
-// =======================
-// RESTAURAR BACKUP
-// =======================
 function executeRestore() {
-    if (!selectedClient) return alert("Selecciona un cliente.");
-    document.getElementById("fileInput").click();
+  if (!selectedClient) return alert("Selecciona un cliente.");
+  document.getElementById("fileInput").click();
 }
 
 document.getElementById("fileInput").addEventListener("change", async (ev) => {
-    const file = ev.target.files[0];
-    if (!file) return;
+  const file = ev.target.files[0];
+  if (!file) return;
 
-    const form = new FormData();
-    form.append("file", file);
-    form.append("deviceId", selectedClient.deviceId);
-    form.append("timestamp", Date.now());
+  const form = new FormData();
+  form.append("file", file);
+  form.append("deviceId", selectedClient.deviceId);
+  form.append("timestamp", Date.now());
 
-    try {
-        const res = await fetch(`${BASE_URL}/restore`, {
-            method: "POST",
-            body: form
-        });
+  try {
+    const res = await fetchAuth(`${BASE_URL}/restore`, {
+      method: "POST",
+      body: form
+    });
 
-        log(res.ok ? "📦 Respaldo enviado." : "⚠️ Error HTTP " + res.status);
-    } catch (e) {
-        log("❌ Error enviando backup: " + e);
-    }
+    log(res.ok ? "📦 Respaldo enviado." : "⚠️ Error HTTP " + res.status);
+
+  } catch (e) {
+    if (e.message !== "Unauthorized") log("❌ Error enviando backup: " + e);
+  }
 });
 
-// =======================
-// NOTIFY CONFIG (pendiente de UI final)
-// =======================
 function openNotifyConfig() {
-    alert("Aquí irá el configurador de notificaciones (si quieres, te lo hago igualito al de escritorio ❤️)");
-}
-/*
-function shutdownBackend() {
-
-    if (!confirm("¿Seguro que deseas detener el backend?\n\nSe cerrará inmediatamente.")) {
-        return;
-    }
-
-    window.location.href =
-        "https://connections-promising-chemicals-bubble.trycloudflare.com/__dev/shutdown";
-}
-*/
-function shutdownBackend() {
-
-    if (!confirm("¿Seguro que deseas detener el backend?\n\nSe cerrará inmediatamente.")) {
-        return;
-    }
-
-    // Redirige al backend usando config
-    window.location.href = API_BASE + "/__dev/shutdown";
+  alert("Aquí irá el configurador de notificaciones ❤️");
 }
 
-// =======================
-// EXPONER FUNCIONES AL HTML
-// =======================
+// OJO: si tu endpoint /__dev/shutdown también está protegido,
+// esto debería ser un fetch con Authorization, no window.location.
+async function shutdownBackend() {
+  if (!confirm("¿Seguro que deseas detener el backend?\n\nSe cerrará inmediatamente.")) return;
+
+  try {
+    const res = await fetchAuth(`${API_BASE}/__dev/shutdown`, { method: "POST" });
+    log(res.ok ? "🛑 Backend detenido." : "⚠️ No se pudo detener: HTTP " + res.status);
+  } catch (e) {}
+}
+
 window.executeAction = executeAction;
 window.executeRestore = executeRestore;
 window.openNotifyConfig = openNotifyConfig;
 window.shutdownBackend = shutdownBackend;
+
+loadClients();

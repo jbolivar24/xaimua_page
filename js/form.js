@@ -1,5 +1,5 @@
 // form.js
-import { API_BASE, AppConfig } from "./config.js";
+import { API_BASE } from "./config.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("form-xaimua");
@@ -63,9 +63,9 @@ document.addEventListener("DOMContentLoaded", () => {
       showToast("Mensaje enviado ✔");
       form.reset();
 
-      // ✅ Volver al INICIO del INDEX (landing)
+      // ✅ Volver al inicio del index (landing)
       setTimeout(() => {
-        window.location.href = AppConfig.link("#inicio");
+        window.location.href = "/#inicio";
       }, 650);
 
     } catch (err) {

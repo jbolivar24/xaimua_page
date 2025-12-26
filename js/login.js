@@ -1,33 +1,82 @@
-const basePath = window.location.pathname.includes("/xaimua_page/")
-    ? "/xaimua_page"
-    : "";
+// js/login.js
+import { API_BASE, ROUTES, buildPath } from "./config.js";
 
-document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.getElementById("loginBtn");
-    const msg = document.getElementById("loginMessage");
+const usernameEl = document.getElementById("username");
+const passwordEl = document.getElementById("password");
+const loginBtn = document.getElementById("loginBtn");
+const msgEl = document.getElementById("loginMessage");
 
-    if (!btn || !msg) return;
+function setMsg(text, isError = true) {
+  msgEl.textContent = text || "";
+  msgEl.style.color = isError ? "#ff6b6b" : "#7CFFB2";
+}
 
-    btn.addEventListener("click", () => {
-        const user = document.getElementById("username").value.trim();
-        const pass = document.getElementById("password").value.trim();
+function saveTokenByRole(role, token) {
+  // token general
+  localStorage.setItem("xaToken", token);
+  localStorage.setItem("xaRole", role);
 
-        if (user === "" || pass === "") {
-            msg.textContent = "Completa todos los campos.";
-            return;
-        }
+  // token por rol (por comodidad)
+  if (role === "ADMIN") localStorage.setItem("adminToken", token);
+  if (role === "VENDEDOR") localStorage.setItem("vendedorToken", token);
+  if (role === "USUARIO") localStorage.setItem("userToken", token);
+}
 
-        // 🔐 Login provisorio local
-        if (user === "admin" && pass === "1") {
-            localStorage.setItem("adminToken", "OK");
+async function doLogin() {
+  const username = (usernameEl.value || "").trim();
+  const password = (passwordEl.value || "").trim();
 
-            // ✅ redirección compatible con Live Server y GitHub Pages
-            window.location.href =
-                `${window.location.origin}${basePath}/admin/index.html`;
+  if (!username || !password) {
+    setMsg("Completa usuario y contraseña.");
+    return;
+  }
 
-            return;
-        }
+  loginBtn.disabled = true;
+  setMsg("");
 
-        msg.textContent = "Credenciales inválidas.";
+  try {
+    const res = await fetch(`${API_BASE}/api/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password })
     });
+
+    const data = await res.json().catch(() => null);
+
+    if (!res.ok) {
+      setMsg(data?.message || "Credenciales inválidas");
+      return;
+    }
+
+    // si backend avisa que debe crear contraseña
+    if (data?.redirect === "/crear-password") {
+      // puedes guardar username temporal si quieres
+      localStorage.setItem("pendingUser", username);
+      window.location.href = buildPath(ROUTES["/crear-password"] || "/html/crear-password.html");
+      return;
+    }
+
+    if (!data?.token) {
+      setMsg(data?.message || "No se recibió token.");
+      return;
+    }
+
+    saveTokenByRole(data.role, data.token);
+
+    const target = ROUTES[data.redirect] || ROUTES["/login"];
+    window.location.href = buildPath(target);
+
+  } catch (e) {
+    setMsg("Error conectando con el backend.");
+    console.error(e);
+  } finally {
+    loginBtn.disabled = false;
+  }
+}
+
+loginBtn.addEventListener("click", doLogin);
+
+// Enter para loguear
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") doLogin();
 });
