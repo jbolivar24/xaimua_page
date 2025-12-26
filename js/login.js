@@ -48,12 +48,10 @@ async function doLogin() {
       return;
     }
 
-    // si backend avisa que debe crear contraseña
-    if (data?.redirect === "/crear-password") {
-      // puedes guardar username temporal si quieres
-      localStorage.setItem("pendingUser", username);
-      window.location.href = buildPath(ROUTES["/crear-password"] || "/html/crear-password.html");
-      return;
+    // si backend indica redirección (ej: crear contraseña)
+    if (data?.redirect) {
+    window.location.href = buildPath(data.redirect);
+    return;
     }
 
     if (!data?.token) {
