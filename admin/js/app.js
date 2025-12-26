@@ -175,7 +175,7 @@ async function shutdownBackend() {
   if (!confirm("¿Seguro que deseas detener el backend?\n\nSe cerrará inmediatamente.")) return;
 
   try {
-    const res = await fetchAuth(`${API_BASE}/__dev/shutdown`, { method: "POST" });
+    const res = await fetchAuth(`${API_BASE}/api/__dev/shutdown`, { method: "POST" });
     log(res.ok ? "🛑 Backend detenido." : "⚠️ No se pudo detener: HTTP " + res.status);
   } catch (e) {}
 }
