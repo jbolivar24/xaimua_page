@@ -1,6 +1,6 @@
 // js/config.js
 
-const isLocal = true;//["localhost", "127.0.0.1"].includes(window.location.hostname);
+const isLocal = false;//["localhost", "127.0.0.1"].includes(window.location.hostname);
 
 // Backend base
 export const API_BASE = isLocal
