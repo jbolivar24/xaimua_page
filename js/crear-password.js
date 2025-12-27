@@ -86,6 +86,11 @@ btn.addEventListener("click", async (e) => {
   }
 
   try {
+    console.log({
+    token,
+    password
+  });
+
     const res = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
