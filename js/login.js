@@ -3,8 +3,8 @@ import { API_BASE, ROUTES, buildPath } from "./config.js";
 
 const usernameEl = document.getElementById("username");
 const passwordEl = document.getElementById("password");
-const loginBtn = document.getElementById("loginBtn");
-const msgEl = document.getElementById("loginMessage");
+const loginBtn   = document.getElementById("loginBtn");
+const msgEl      = document.getElementById("loginMessage");
 
 function setMsg(text, isError = true) {
   msgEl.textContent = text || "";
@@ -16,18 +16,18 @@ function saveTokenByRole(role, token) {
   localStorage.setItem("xaToken", token);
   localStorage.setItem("xaRole", role);
 
-  // token por rol (por comodidad)
-  if (role === "ADMIN") localStorage.setItem("adminToken", token);
-  if (role === "VENDEDOR") localStorage.setItem("vendedorToken", token);
-  if (role === "USUARIO") localStorage.setItem("userToken", token);
+  // token por rol
+  if (role === "ADMIN")     localStorage.setItem("adminToken", token);
+  if (role === "VENDEDOR")  localStorage.setItem("vendedorToken", token);
+  if (role === "USUARIO")   localStorage.setItem("userToken", token);
 }
 
 async function doLogin() {
   const username = (usernameEl.value || "").trim();
   const password = (passwordEl.value || "").trim();
 
-  if (!username || !password) {
-    setMsg("Completa usuario y contraseña.");
+  if (!username) {
+    setMsg("Ingresa tu usuario.");
     return;
   }
 
@@ -48,25 +48,23 @@ async function doLogin() {
       return;
     }
 
-    // si backend indica redirección (ej: crear contraseña)
-    if (data?.redirect) {
-    window.location.href = buildPath(data.redirect);
-    return;
+    // 🔐 GUARDAR TOKEN PRIMERO (CLAVE)
+    if (data?.token && data?.role) {
+      saveTokenByRole(data.role, data.token);
     }
 
-    if (!data?.token) {
-      setMsg(data?.message || "No se recibió token.");
+    // 🔁 redirecciones (crear contraseña / admin / usuario)
+    if (data?.redirect) {
+      const target = ROUTES[data.redirect] || data.redirect;
+      window.location.href = buildPath(target);
       return;
     }
 
-    saveTokenByRole(data.role, data.token);
+    setMsg("Login exitoso", false);
 
-    const target = ROUTES[data.redirect] || ROUTES["/login"];
-    window.location.href = buildPath(target);
-
-  } catch (e) {
+  } catch (err) {
+    console.error(err);
     setMsg("Error conectando con el backend.");
-    console.error(e);
   } finally {
     loginBtn.disabled = false;
   }
