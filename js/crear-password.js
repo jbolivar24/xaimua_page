@@ -1,87 +1,111 @@
-import { API_BASE } from "./config.js";
+// ================= CONFIG =================
+const API_BASE = "https://api.xaimua.com";
 
-document.addEventListener("DOMContentLoaded", () => {
+// ================= ELEMENTOS =================
+const pass1El = document.getElementById("password");
+const pass2El = document.getElementById("password2");
+const btn = document.getElementById("createPasswordBtn");
+const msgEl = document.getElementById("msg");
 
-  const form = document.getElementById("createPasswordForm");
-  const msg  = document.getElementById("msg");
-  const btn  = form?.querySelector("button[type='submit']");
+// ================= HELPERS =================
+function showMsg(text, ok = false) {
+  msgEl.textContent = text;
+  msgEl.style.color = ok ? "#7CFFB2" : "#ff6b6b";
+}
 
-  // ================================
-  // 1️⃣ LEER USERNAME DESDE LA URL
-  // ================================
-  const params   = new URLSearchParams(window.location.search);
-  const username = params.get("u");
+function disableForm(disabled = true) {
+  pass1El.disabled = disabled;
+  pass2El.disabled = disabled;
+  btn.disabled = disabled;
+}
 
-  if (!username) {
-    msg.textContent = "Usuario inválido o inexistente.";
-    msg.classList.add("error");
-    if (btn) btn.disabled = true;
+// ================= DETECTAR MODO =================
+const params = new URLSearchParams(window.location.search);
+const username = params.get("u");
+const token = params.get("token");
+
+let mode = null;
+
+if (token) {
+  mode = "RESET";
+} else if (username) {
+  mode = "CREATE";
+} else {
+  showMsg("Enlace inválido o vencido.");
+  disableForm(true);
+  throw new Error("No mode detected");
+}
+
+// ================= AJUSTAR TEXTOS =================
+const titleEl = document.querySelector(".form-card h2");
+const subtitleEl = document.querySelector(".form-card .muted");
+
+if (mode === "RESET") {
+  titleEl.textContent = "Recuperar contraseña";
+  subtitleEl.textContent = "Crea una nueva contraseña para tu cuenta";
+} else {
+  titleEl.textContent = "Crear contraseña";
+  subtitleEl.textContent = "Establece una contraseña para tu cuenta";
+}
+
+// ================= SUBMIT =================
+btn.addEventListener("click", async (e) => {
+  e.preventDefault();
+
+  const pass1 = pass1El.value.trim();
+  const pass2 = pass2El.value.trim();
+
+  if (!pass1 || !pass2) {
+    showMsg("Debes completar ambos campos.");
     return;
   }
 
-  // ================================
-  // 2️⃣ SUBMIT DEL FORM
-  // ================================
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const pass1 = document.getElementById("password").value.trim();
-    const pass2 = document.getElementById("password2").value.trim();
-
-    if (pass1.length < 6) {
-      showError("La contraseña debe tener al menos 6 caracteres.");
-      return;
-    }
-
-    if (pass1 !== pass2) {
-      showError("Las contraseñas no coinciden.");
-      return;
-    }
-
-    try {
-      btn.disabled = true;
-      btn.textContent = "Guardando...";
-
-      const res = await fetch(`${API_BASE}/api/auth/create-password`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username,
-          password: pass1
-        })
-      });
-
-      const data = await res.json().catch(() => ({}));
-
-      if (!res.ok) {
-        throw new Error(data.message || "Error al crear la contraseña");
-      }
-
-      // ✅ ÉXITO
-      msg.textContent = "Contraseña creada correctamente. Redirigiendo al login…";
-      msg.classList.remove("error");
-      msg.classList.add("success");
-
-      setTimeout(() => {
-        window.location.href = "../html/login.html";
-      }, 1500);
-
-    } catch (err) {
-      console.error("❌ Error creando contraseña:", err);
-      showError("No se pudo crear la contraseña.");
-    } finally {
-      btn.disabled = false;
-      btn.textContent = "Guardar contraseña";
-    }
-  });
-
-  // ================================
-  // Helpers
-  // ================================
-  function showError(text) {
-    msg.textContent = text;
-    msg.classList.remove("success");
-    msg.classList.add("error");
+  if (pass1 !== pass2) {
+    showMsg("Las contraseñas no coinciden.");
+    return;
   }
 
+  disableForm(true);
+  showMsg("Procesando...", true);
+
+  let endpoint;
+  let payload;
+
+  if (mode === "RESET") {
+    endpoint = `${API_BASE}/api/auth/reset-password`;
+    payload = {
+      token,
+      password: pass1
+    };
+  } else {
+    endpoint = `${API_BASE}/api/auth/create-password`;
+    payload = {
+      username,
+      password: pass1
+    };
+  }
+
+  try {
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Error al procesar la solicitud");
+    }
+
+    showMsg("Contraseña guardada correctamente. Redirigiendo...", true);
+
+    setTimeout(() => {
+      window.location.href = "/xaimua_page/html/login.html";
+    }, 2000);
+
+  } catch (err) {
+    showMsg(err.message || "Ocurrió un error.");
+    disableForm(false);
+  }
 });
