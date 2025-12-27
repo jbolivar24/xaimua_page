@@ -5,6 +5,10 @@ const usernameEl = document.getElementById("username");
 const passwordEl = document.getElementById("password");
 const loginBtn   = document.getElementById("loginBtn");
 const msgEl      = document.getElementById("loginMessage");
+const forgotBtn    = document.getElementById("forgotBtn");
+const forgotModal  = document.getElementById("forgotModal");
+const cancelForgot = document.getElementById("cancelForgot");
+const confirmForgot = document.getElementById("confirmForgot");
 
 function setMsg(text, isError = true) {
   msgEl.textContent = text || "";
@@ -76,3 +80,56 @@ loginBtn.addEventListener("click", doLogin);
 document.addEventListener("keydown", (e) => {
   if (e.key === "Enter") doLogin();
 });
+
+forgotBtn.addEventListener("click", () => {
+    const username = (usernameEl.value || "").trim();
+
+    if (!username) {
+        setMsg("Debes ingresar tu RUT para recuperar la contraseña.");
+        usernameEl.focus();
+        return;
+    }
+
+    // abrir modal
+    forgotModal.classList.remove("hidden");
+});
+
+cancelForgot.addEventListener("click", () => {
+    forgotModal.classList.add("hidden");
+});
+
+confirmForgot.addEventListener("click", async () => {
+    forgotModal.classList.add("hidden");
+
+    setMsg("Enviando correo...", false);
+
+    // 👇 luego aquí va el fetch real al backend
+    // por ahora solo simulamos
+    confirmForgot.addEventListener("click", async () => {
+        forgotModal.classList.add("hidden");
+
+        const rut = usernameEl.value.trim();
+        setMsg("Enviando correo...", false);
+
+        try {
+            const res = await fetch(`${API_BASE}/api/auth/forgot-password`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ rut })
+            });
+
+            const data = await res.json().catch(() => null);
+
+            setMsg(
+                data?.message || 
+                "Si el usuario existe, recibirás un correo con instrucciones.",
+                false
+            );
+
+        } catch (err) {
+            console.error(err);
+            setMsg("No fue posible enviar la solicitud. Intenta más tarde.");
+        }
+    });
+});
+

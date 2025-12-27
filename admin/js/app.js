@@ -1,5 +1,30 @@
 // admin/js/app.js
 import { API_BASE, buildPath } from "../../js/config.js";
+import { logout } from "../../js/auth.js";
+
+/* ===============================
+   IDLE TIMEOUT (2 minutos)
+   =============================== */
+
+const IDLE_LIMIT = 2 * 60 * 1000; // 2 minutos
+let idleTimer = null;
+
+function resetIdleTimer() {
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(() => {
+    console.warn("⏰ Inactividad → logout");
+    logout();
+  }, IDLE_LIMIT);
+}
+
+// Eventos que cuentan como actividad real del usuario
+["mousemove", "mousedown", "keydown", "scroll", "touchstart"].forEach(evt => {
+  document.addEventListener(evt, resetIdleTimer, { passive: true });
+});
+
+// Inicializar al cargar la página
+resetIdleTimer();
+
 
 const token =
   localStorage.getItem("adminToken") ||
