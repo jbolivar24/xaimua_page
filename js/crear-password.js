@@ -2,115 +2,88 @@
 const API_BASE = "https://api.xaimua.com";
 
 // ================= ELEMENTOS =================
-const pass1El = document.getElementById("password");
-const pass2El = document.getElementById("password2");
-const btn = document.getElementById("createPasswordBtn");
-const msgEl = document.getElementById("msg");
+const pass1El = document.getElementById("newPassword");
+const pass2El = document.getElementById("confirmPassword");
+const saveBtn = document.getElementById("savePasswordBtn");
+const msgEl = document.getElementById("passwordMessage");
 
 // ================= HELPERS =================
-function showMsg(text, ok = false) {
-  msgEl.textContent = text;
-  msgEl.style.color = ok ? "#7CFFB2" : "#ff6b6b";
+function setMsg(text, isError = true) {
+    msgEl.textContent = text || "";
+    msgEl.style.color = isError ? "#ff6b6b" : "#7CFFB2";
 }
 
-function disableForm(disabled = true) {
-  pass1El.disabled = disabled;
-  pass2El.disabled = disabled;
-  btn.disabled = disabled;
-}
-
-// ================= DETECTAR MODO =================
+// ================= TOKEN =================
 const params = new URLSearchParams(window.location.search);
-const username = params.get("u");
 const token = params.get("token");
 
-let mode = null;
-
-if (token) {
-  mode = "RESET";
-} else if (username) {
-  mode = "CREATE";
-} else {
-  showMsg("Enlace inválido o vencido.");
-  disableForm(true);
-  throw new Error("No mode detected");
+if (!token) {
+    setMsg("Token inválido o inexistente");
+    saveBtn.disabled = true;
 }
 
-// ================= AJUSTAR TEXTOS =================
-const titleEl = document.querySelector(".form-card h2");
-const subtitleEl = document.querySelector(".form-card .muted");
+// ================= EVENTO PRINCIPAL =================
+saveBtn.addEventListener("click", async () => {
 
-if (mode === "RESET") {
-  titleEl.textContent = "Recuperar contraseña";
-  subtitleEl.textContent = "Crea una nueva contraseña para tu cuenta";
-} else {
-  titleEl.textContent = "Crear contraseña";
-  subtitleEl.textContent = "Establece una contraseña para tu cuenta";
-}
+    const pass1 = pass1El.value.trim();
+    const pass2 = pass2El.value.trim();
 
-// ================= SUBMIT =================
-btn.addEventListener("click", async (e) => {
-  e.preventDefault();
-
-  const pass1 = pass1El.value.trim();
-  const pass2 = pass2El.value.trim();
-
-  if (!pass1 || !pass2) {
-    showMsg("Debes completar ambos campos.");
-    return;
-  }
-
-  if (pass1 !== pass2) {
-    showMsg("Las contraseñas no coinciden.");
-    return;
-  }
-
-  disableForm(true);
-  showMsg("Procesando...", true);
-
-  let endpoint;
-  let payload;
-
-  if (mode === "RESET") {
-    endpoint = `${API_BASE}/api/auth/reset-password`;
-    payload = {
-      token,
-      password: pass1
-    };
-  } else {
-    endpoint = `${API_BASE}/api/auth/create-password`;
-    payload = {
-      username,
-      password: pass1
-    };
-  }
-
-  try {
-    console.log({
-    token,
-    password
-  });
-
-    const res = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.message || "Error al procesar la solicitud");
+    // ===== VALIDACIONES =====
+    if (!pass1 || !pass2) {
+        setMsg("Debes completar ambos campos");
+        return;
     }
 
-    showMsg("Contraseña guardada correctamente. Redirigiendo...", true);
+    if (pass1.length < 4) {
+        setMsg("La contraseña debe tener al menos 4 caracteres");
+        return;
+    }
 
-    setTimeout(() => {
-      window.location.href = "/xaimua_page/html/login.html";
-    }, 2000);
+    if (pass1 !== pass2) {
+        setMsg("Las contraseñas no coinciden");
+        return;
+    }
 
-  } catch (err) {
-    showMsg(err.message || "Ocurrió un error.");
-    disableForm(false);
-  }
+    saveBtn.disabled = true;
+    setMsg("Guardando contraseña...", false);
+
+    // ===== PAYLOAD CORRECTO =====
+    const payload = {
+        token: token,
+        password: pass1
+    };
+
+    // DEBUG (puedes borrar luego)
+    console.log("RESET PASSWORD PAYLOAD:", payload);
+
+    try {
+        const res = await fetch(`${API_BASE}/api/auth/reset-password`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await res.json().catch(() => null);
+
+        if (!res.ok) {
+            setMsg(
+                data?.message || "Token inválido o vencido"
+            );
+            saveBtn.disabled = false;
+            return;
+        }
+
+        // ===== ÉXITO =====
+        setMsg("Contraseña actualizada correctamente", false);
+
+        setTimeout(() => {
+            window.location.href =
+                "https://jbolivar24.github.io/xaimua_page/html/login.html";
+        }, 1500);
+
+    } catch (err) {
+        console.error(err);
+        setMsg("Error al procesar la solicitud");
+        saveBtn.disabled = false;
+    }
 });
