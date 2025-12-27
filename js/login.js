@@ -99,37 +99,38 @@ cancelForgot.addEventListener("click", () => {
 });
 
 confirmForgot.addEventListener("click", async () => {
-    forgotModal.classList.add("hidden");
+    const rut = (usernameEl.value || "").trim();
 
+    if (!rut) {
+        setMsg("Debes ingresar tu RUT.", true);
+        return;
+    }
+
+    confirmForgot.disabled = true;
+    forgotModal.classList.add("hidden");
     setMsg("Enviando correo...", false);
 
-    // 👇 luego aquí va el fetch real al backend
-    // por ahora solo simulamos
-    confirmForgot.addEventListener("click", async () => {
-        forgotModal.classList.add("hidden");
+    try {
+        const res = await fetch(`${API_BASE}/api/auth/forgot-password`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ rut })
+        });
 
-        const rut = usernameEl.value.trim();
-        setMsg("Enviando correo...", false);
+        const data = await res.json().catch(() => null);
 
-        try {
-            const res = await fetch(`${API_BASE}/api/auth/forgot-password`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ rut })
-            });
+        setMsg(
+            data?.message ||
+            "Si el usuario existe, recibirás un correo con instrucciones.",
+            false
+        );
 
-            const data = await res.json().catch(() => null);
-
-            setMsg(
-                data?.message || 
-                "Si el usuario existe, recibirás un correo con instrucciones.",
-                false
-            );
-
-        } catch (err) {
-            console.error(err);
-            setMsg("No fue posible enviar la solicitud. Intenta más tarde.");
-        }
-    });
+    } catch (err) {
+        console.error(err);
+        setMsg("No fue posible enviar la solicitud. Intenta más tarde.");
+    } finally {
+        confirmForgot.disabled = false;
+    }
 });
+
 
