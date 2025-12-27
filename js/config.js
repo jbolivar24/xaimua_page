@@ -26,3 +26,4 @@ export function buildPath(path) {
   if (path.startsWith(REPO_BASE)) return path;
   return `${REPO_BASE}${path}`;
 }
+//https://api.xaimua.com/api/banners
