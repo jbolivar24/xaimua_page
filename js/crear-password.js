@@ -17,8 +17,6 @@ function setMsg(text, isError = true) {
 const params = new URLSearchParams(window.location.search);
 const RESET_TOKEN = params.get("token");
 
-console.log("🔐 Token recibido desde la URL:", RESET_TOKEN);
-
 if (!RESET_TOKEN) {
     setMsg("Token inválido o inexistente");
     saveBtn.disabled = true;
@@ -58,8 +56,6 @@ saveBtn.addEventListener("click", async () => {
         token: RESET_TOKEN,
         password: pass1
     };
-
-    console.log("📤 Enviando payload:", payload);
 
     try {
         const res = await fetch(`${API_BASE}/api/auth/reset-password`, {
