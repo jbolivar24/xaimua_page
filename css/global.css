@@ -5,7 +5,7 @@ html, body {
     max-width: 100%;
     overflow-x: hidden;
     background: #3D403D;
-    color: white;
+    color: rgb(27, 26, 26);
     font-family: Arial, sans-serif;
     scroll-behavior: smooth;
 }
