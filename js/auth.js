@@ -1,8 +1,22 @@
 // js/auth.js
 import { API_BASE, buildPath } from "./config.js";
 
+/**
+ * Devuelve el token activo (admin / usuario / vendedor)
+ */
+export function getActiveToken() {
+  return localStorage.getItem("xaToken");
+}
+
+export function getActiveRole() {
+  return localStorage.getItem("xaRole");
+}
+
+/**
+ * Logout universal
+ */
 export async function logout() {
-  const token = localStorage.getItem("adminToken");
+  const token = getActiveToken();
 
   if (token) {
     try {
@@ -11,7 +25,6 @@ export async function logout() {
         headers: { "Authorization": token }
       });
     } catch (e) {
-      // si el backend no responde, igual salimos
       console.warn("Logout backend no respondió", e);
     }
   }
