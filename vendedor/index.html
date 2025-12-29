@@ -1,0 +1,42 @@
+<!-- Favicons -->
+<link rel="icon" type="image/x-icon" href="/xaimua_page/img/favicon/favicon.ico">
+<link rel="icon" type="image/png" sizes="96x96" href="/xaimua_page/img/favicon/favicon-96x96.png">
+<link rel="icon" type="image/svg+xml" href="/xaimua_page/img/favicon/favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="/xaimua_page/img/favicon/apple-touch-icon.png">
+
+<!-- PWA -->
+<link rel="manifest" href="/xaimua_page/site.webmanifest">
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Xaimua · vendedor</title>
+
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/vendedor.css">
+    <script type="module" src="../js/vendedor.js" defer></script>
+    <script type="module" src="../js/guard-vendedor.js"></script>
+</head>
+<body>
+
+<header id="header"></header>
+
+<main class="vendedor-section">
+    <div class="vendedor-card">
+        <h2>Bienvenido</h2>
+        <p class="muted">Este es tu panel de vendedor</p>
+
+        <div class="info">
+            <div><strong>vendedor:</strong> <span id="userRut">—</span></div>
+            <div><strong>Estado:</strong> <span id="userStatus">Activo</span></div>
+        </div>
+
+        <button id="logoutBtn">Cerrar sesión</button>
+    </div>
+</main>
+
+<footer id="footer"></footer>
+
+</body>
+</html>
