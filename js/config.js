@@ -1,6 +1,11 @@
 // js/config.js
 
-const isLocal = false;//["localhost", "127.0.0.1"].includes(window.location.hostname);
+const isLocal = true;//["localhost", "127.0.0.1"].includes(window.location.hostname);
+
+// Base del frontend
+export const FRONT_BASE = isLocal
+    ? "http://localhost:5500"        // ajusta el puerto si usas otro
+    : "https://jbolivar24.github.io/xaimua_page";
 
 // Backend base
 export const API_BASE = isLocal

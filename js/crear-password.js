@@ -1,11 +1,11 @@
 // ================= CONFIG =================
-const API_BASE = "https://api.xaimua.com";
+import { API_BASE, FRONT_BASE } from "./config.js";
 
 // ================= ELEMENTOS =================
 const pass1El = document.getElementById("newPassword");
 const pass2El = document.getElementById("confirmPassword");
 const saveBtn = document.getElementById("savePasswordBtn");
-const msgEl = document.getElementById("passwordMessage");
+const msgEl = document.getElementById("msg");
 
 // ================= HELPERS =================
 function setMsg(text, isError = true) {
@@ -77,8 +77,7 @@ saveBtn.addEventListener("click", async () => {
         setMsg("Contraseña actualizada correctamente", false);
 
         setTimeout(() => {
-            window.location.href =
-                "https://jbolivar24.github.io/xaimua_page/html/login.html";
+            window.location.href = `${FRONT_BASE}/html/login.html`;
         }, 1500);
 
     } catch (err) {
