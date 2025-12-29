@@ -1,6 +1,6 @@
 // js/guard-vendedor.js
-import { getActiveToken, getActiveRole } from "../js/auth.js";
-import { buildPath } from "../js/config.js";
+import { getActiveToken, getActiveRole } from "../../js/auth.js";
+import { buildPath } from "../../js/config.js";
 
 const token = getActiveToken();
 const role  = getActiveRole();

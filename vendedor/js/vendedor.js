@@ -1,4 +1,4 @@
-import { API_BASE, FRONT_BASE } from "../js/config.js";
+import { API_BASE, FRONT_BASE } from "../../js/config.js";
 
 // 🔐 token guardado al login
 const token = localStorage.getItem("authToken");
