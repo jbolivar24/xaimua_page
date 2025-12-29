@@ -27,11 +27,13 @@ function saveTokenByRole(role, token) {
 }
 
 async function doLogin() {
-  const username = (usernameEl.value || "").trim();
+  const rawUsername = (usernameEl.value || "").trim();
+  const username = normalizeRut(rawUsername);
+
   const password = (passwordEl.value || "").trim();
 
   if (!username) {
-    setMsg("Ingresa tu usuario.");
+    setMsg("RUT inválido.");
     return;
   }
 
@@ -99,10 +101,11 @@ cancelForgot.addEventListener("click", () => {
 });
 
 confirmForgot.addEventListener("click", async () => {
-    const rut = (usernameEl.value || "").trim();
+    const rawRut = (usernameEl.value || "").trim();
+    const rut = normalizeRut(rawRut);
 
     if (!rut) {
-        setMsg("Debes ingresar tu RUT.", true);
+        setMsg("Debes ingresar un RUT válido.", true);
         return;
     }
 
@@ -133,4 +136,29 @@ confirmForgot.addEventListener("click", async () => {
     }
 });
 
+function normalizeRut(input) {
+    if (!input) return null;
 
+    // 1. Quitar puntos, espacios y guiones
+    let clean = input
+        .toString()
+        .trim()
+        .toUpperCase()
+        .replace(/[^0-9K]/g, "");
+
+    // 2. Debe tener al menos 2 caracteres (cuerpo + DV)
+    if (clean.length < 2) return null;
+
+    // 3. Separar cuerpo y dígito verificador
+    const body = clean.slice(0, -1);
+    const dv   = clean.slice(-1);
+
+    // 4. Validar cuerpo numérico
+    if (!/^\d+$/.test(body)) return null;
+
+    // 5. Validar DV
+    if (!/^[0-9K]$/.test(dv)) return null;
+
+    // 6. Formato final estándar
+    return `${body}-${dv}`;
+}
