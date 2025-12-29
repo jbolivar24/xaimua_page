@@ -1,34 +1,75 @@
-// js/auth.js
-import { API_BASE, buildPath } from "./config.js";
+// /js/auth.js
+import { API_BASE, ROUTES, buildPath } from "./config.js";
 
-/**
- * Devuelve el token activo (admin / usuario / vendedor)
- */
+export function getRole() {
+  return localStorage.getItem("xaRole") || "";
+}
+
+export function getTokenForRole(role) {
+  if (role === "ADMIN") return localStorage.getItem("adminToken");
+  if (role === "VENDEDOR") return localStorage.getItem("vendedorToken");
+  if (role === "USUARIO") return localStorage.getItem("userToken");
+  return null;
+}
+
+export function getAnyToken() {
+  return (
+    localStorage.getItem("xaToken") ||
+    localStorage.getItem("adminToken") ||
+    localStorage.getItem("vendedorToken") ||
+    localStorage.getItem("userToken") ||
+    ""
+  );
+}
+
 export function getActiveToken() {
-  return localStorage.getItem("xaToken");
+  const role = getRole();
+  return getTokenForRole(role) || localStorage.getItem("xaToken") || "";
 }
 
-export function getActiveRole() {
-  return localStorage.getItem("xaRole");
+export function clearSession() {
+  localStorage.removeItem("xaToken");
+  localStorage.removeItem("xaRole");
+  localStorage.removeItem("adminToken");
+  localStorage.removeItem("vendedorToken");
+  localStorage.removeItem("userToken");
+  // si luego guardas username, bórralo aquí también:
+  localStorage.removeItem("xaUser");
 }
 
-/**
- * Logout universal
- */
 export async function logout() {
-  const token = getActiveToken();
+  const token = getAnyToken();
 
-  if (token) {
-    try {
+  try {
+    if (token) {
       await fetch(`${API_BASE}/api/auth/logout`, {
         method: "POST",
-        headers: { "Authorization": token }
+        headers: { Authorization: token }
       });
-    } catch (e) {
-      console.warn("Logout backend no respondió", e);
     }
+  } catch (e) {
+    // da igual si falla, igual limpiamos
+    console.warn("logout error:", e);
+  } finally {
+    clearSession();
+    window.location.href = buildPath(ROUTES["/login"]);
+  }
+}
+
+// Guard genérico por rol
+export function requireRole(expectedRole) {
+  const role = getRole();
+  const token =
+    (expectedRole === "USUARIO" && (localStorage.getItem("userToken") || localStorage.getItem("xaToken"))) ||
+    (expectedRole === "VENDEDOR" && (localStorage.getItem("vendedorToken") || localStorage.getItem("xaToken"))) ||
+    (expectedRole === "ADMIN" && (localStorage.getItem("adminToken") || localStorage.getItem("xaToken"))) ||
+    "";
+
+  if (!token || (role && role !== expectedRole)) {
+    // Si no hay token, o si hay role pero no coincide => pa' login
+    window.location.href = buildPath(ROUTES["/login"]);
+    return false;
   }
 
-  localStorage.clear();
-  window.location.href = buildPath("/html/login.html");
+  return true;
 }
