@@ -1,25 +1,27 @@
-<!-- Favicons -->
-<link rel="icon" type="image/x-icon" href="/xaimua_page/img/favicon/favicon.ico">
-<link rel="icon" type="image/png" sizes="96x96" href="/xaimua_page/img/favicon/favicon-96x96.png">
-<link rel="icon" type="image/svg+xml" href="/xaimua_page/img/favicon/favicon.svg">
-<link rel="apple-touch-icon" sizes="180x180" href="/xaimua_page/img/favicon/apple-touch-icon.png">
-
-<!-- PWA -->
-<link rel="manifest" href="/xaimua_page/site.webmanifest">
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
     <title>Xaimua · Usuario</title>
 
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/xaimua_page/img/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="96x96" href="/xaimua_page/img/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/svg+xml" href="/xaimua_page/img/favicon/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="/xaimua_page/img/favicon/apple-touch-icon.png">
+
+    <!-- PWA -->
+    <link rel="manifest" href="/xaimua_page/site.webmanifest">
+
+    <!-- Estilos -->
     <link rel="stylesheet" href="/xaimua_page/css/global.css">
     <link rel="stylesheet" href="/xaimua_page/usuario/css/usuario.css">
 
+    <!-- Guard y lógica -->
     <script type="module" src="/xaimua_page/usuario/js/guard-usuario.js"></script>
     <script type="module" src="/xaimua_page/usuario/js/usuario.js"></script>
-
 </head>
+
 <body>
 
 <header id="header"></header>
@@ -30,8 +32,14 @@
         <p class="muted">Este es tu panel de usuario</p>
 
         <div class="info">
-            <div><strong>Usuario:</strong> <span id="userRut">—</span></div>
-            <div><strong>Estado:</strong> <span id="userStatus">Activo</span></div>
+            <div>
+                <strong>Usuario:</strong>
+                <span id="userRut">—</span>
+            </div>
+            <div>
+                <strong>Estado:</strong>
+                <span id="userStatus">Activo</span>
+            </div>
         </div>
 
         <button id="logoutBtn">Cerrar sesión</button>
