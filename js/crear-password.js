@@ -13,21 +13,24 @@ function setMsg(text, isError = true) {
     msgEl.style.color = isError ? "#ff6b6b" : "#7CFFB2";
 }
 
-// ================= TOKEN =================
-
-// ===== DEBUG TOKEN =====
+// ================= TOKEN (SE GUARDA UNA SOLA VEZ) =================
 const params = new URLSearchParams(window.location.search);
-const token = params.get("token");
+const RESET_TOKEN = params.get("token");
 
-console.log("🔐 Token recibido desde la URL:", token);
+console.log("🔐 Token recibido desde la URL:", RESET_TOKEN);
 
-if (!token) {
+if (!RESET_TOKEN) {
     setMsg("Token inválido o inexistente");
     saveBtn.disabled = true;
 }
 
-// ================= EVENTO PRINCIPAL =================
+// ================= EVENTO =================
 saveBtn.addEventListener("click", async () => {
+
+    if (!RESET_TOKEN) {
+        setMsg("Token inválido o inexistente");
+        return;
+    }
 
     const pass1 = pass1El.value.trim();
     const pass2 = pass2El.value.trim();
@@ -51,14 +54,12 @@ saveBtn.addEventListener("click", async () => {
     saveBtn.disabled = true;
     setMsg("Guardando contraseña...", false);
 
-    // ===== PAYLOAD CORRECTO =====
     const payload = {
-        token: token,
+        token: RESET_TOKEN,
         password: pass1
     };
 
-    // DEBUG (puedes borrar luego)
-    console.log("RESET PASSWORD PAYLOAD:", payload);
+    console.log("📤 Enviando payload:", payload);
 
     try {
         const res = await fetch(`${API_BASE}/api/auth/reset-password`, {
@@ -70,9 +71,7 @@ saveBtn.addEventListener("click", async () => {
         const data = await res.json().catch(() => null);
 
         if (!res.ok) {
-            setMsg(
-                data?.message || "Token inválido o vencido"
-            );
+            setMsg(data?.message || "Token inválido o vencido");
             saveBtn.disabled = false;
             return;
         }
