@@ -14,8 +14,12 @@ function setMsg(text, isError = true) {
 }
 
 // ================= TOKEN =================
+
+// ===== DEBUG TOKEN =====
 const params = new URLSearchParams(window.location.search);
 const token = params.get("token");
+
+console.log("🔐 Token recibido desde la URL:", token);
 
 if (!token) {
     setMsg("Token inválido o inexistente");
