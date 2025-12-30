@@ -1,50 +1,41 @@
-.usuario-section {
-    min-height: calc(100vh - 160px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* ===== HEADER USUARIO ===== */
+
+.app-header {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
-.usuario-card {
-    width: 100%;
-    max-width: 420px;
-    padding: 32px;
+.header-inner {
+  max-width: 1100px;
+  margin: auto;
+  padding: 14px 20px;
 
-    background: rgba(255,255,255,0.06);
-    border-radius: 18px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.35);
-    backdrop-filter: blur(6px);
-
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.usuario-card h2 {
-    margin: 0;
+.header-logo img {
+  height: 34px;
+  user-select: none;
 }
 
-.usuario-card .muted {
-    font-size: 0.9rem;
-    opacity: 0.8;
+/* ===== LOGOUT ===== */
+
+.logout-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.25);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+
+  transition: all 0.25s ease;
 }
 
-.usuario-card .info {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    font-size: 14px;
-}
-
-.usuario-card button {
-    margin-top: 14px;
-    padding: 14px;
-    border-radius: 14px;
-    border: none;
-    cursor: pointer;
-
-    background: linear-gradient(135deg, #00bcd4, #00a0b8);
-    color: #000;
-    font-weight: 600;
+.logout-btn:hover {
+  background: rgba(255,255,255,0.12);
 }

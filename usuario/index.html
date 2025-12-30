@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8" />
     <title>Xaimua · Usuario</title>
@@ -21,32 +22,39 @@
     <script type="module" src="/xaimua_page/usuario/js/guard-usuario.js"></script>
     <script type="module" src="/xaimua_page/usuario/js/usuario.js"></script>
 </head>
+    <body>
+        <header class="app-header">
+            <div class="header-inner">
+                <div class="header-logo">
+                <img src="/xaimua_page/img/logo/xaimua-logo.svg" alt="Xaimua">
+                </div>
 
-<body>
-
-<header id="header"></header>
-
-<main class="usuario-section">
-    <div class="usuario-card">
-        <h2>Bienvenido</h2>
-        <p class="muted">Este es tu panel de usuario</p>
-
-        <div class="info">
-            <div>
-                <strong>Usuario:</strong>
-                <span id="userRut">—</span>
+                <button class="logout-btn" onclick="logout()">
+                    Cerrar sesión
+                </button>
             </div>
-            <div>
-                <strong>Estado:</strong>
-                <span id="userStatus">Activo</span>
+        </header>
+
+        <main class="usuario-section">
+            <div class="usuario-card">
+                <h2>Bienvenido</h2>
+                <p class="muted">Este es tu panel de usuario</p>
+
+                <div class="info">
+                    <div>
+                        <strong>Usuario:</strong>
+                        <span id="userRut">—</span>
+                    </div>
+                    <div>
+                        <strong>Estado:</strong>
+                        <span id="userStatus">Activo</span>
+                    </div>
+                </div>
+
+                <button id="logoutBtn">Cerrar sesión</button>
             </div>
-        </div>
+        </main>
 
-        <button id="logoutBtn">Cerrar sesión</button>
-    </div>
-</main>
-
-<footer id="footer"></footer>
-
-</body>
+        <footer id="footer"></footer>
+    </body>
 </html>
