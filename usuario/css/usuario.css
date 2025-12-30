@@ -186,20 +186,36 @@
 
 /* ===== TABLA ===== */
 
+/* ✅ Contenedor con scroll vertical + horizontal (no infinita) */
 .table-container {
+  max-height: 360px;   /* desktop */
+  overflow-y: auto;
   overflow-x: auto;
+  border-radius: 12px;
 }
 
+/* ✅ tabla estable + en móvil habrá scroll horizontal si no cabe */
 table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
+  min-width: 780px;  /* fuerza scroll horizontal en pantallas chicas */
 }
 
 th, td {
   padding: 10px;
   border-bottom: 1px solid rgba(255,255,255,0.1);
   text-align: left;
+  white-space: nowrap; /* evita que se rompa feo en móvil */
+}
+
+/* ✅ header pegado mientras scrolleas */
+thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: rgba(20,20,20,0.95);
+  backdrop-filter: blur(4px);
 }
 
 thead {
@@ -248,9 +264,14 @@ thead {
     width: 100%;
   }
 
-  /* tabla más compacta */
+  /* tabla más compacta + contenedor más bajo en móvil */
+  .table-container {
+    max-height: 240px; /* móvil */
+  }
+
   table {
     font-size: 13px;
+    min-width: 720px;
   }
 
   th, td {
