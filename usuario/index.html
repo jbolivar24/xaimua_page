@@ -41,34 +41,67 @@
     <!-- ===== CONTENIDO ===== -->
     <main class="usuario-section">
 
-        <section class="settings-panel">
+        <section class="panel">
 
-            <h2>Configuración</h2>
-            <p class="muted">Personaliza el comportamiento de tu aplicación</p>
+            <!-- ================= RESTAURACIÓN ================= -->
+            <div class="panel-block">
+            <h3>Restaurar respaldo</h3>
+            <p class="muted">
+                Restaurar los datos almacenados en el servidor.
+                La aplicación sincronizará la información cuando vuelva a conectarse.
+            </p>
 
-            <!-- ===== GRUPO ===== -->
-            <div class="settings-group">
-            <h3>General</h3>
-
-            <label class="setting-item">
-                <span>Sonido activado</span>
-                <input type="checkbox" id="prefSound">
-            </label>
-
-            <label class="setting-item">
-                <span>Tema oscuro</span>
-                <input type="checkbox" id="prefDarkTheme">
-            </label>
+            <button class="primary-btn danger" id="restoreBackupBtn">
+                Restaurar respaldo
+            </button>
             </div>
 
-            <!-- ===== GRUPO ===== -->
-            <div class="settings-group">
-            <h3>Impresión</h3>
+            <!-- ================= SUSCRIPCIÓN ================= -->
+            <div class="panel-block">
+            <h3>Suscripción</h3>
+            <p class="muted">
+                Gestiona el pago de tu suscripción para mantener activo el servicio.
+            </p>
 
-            <label class="setting-item">
-                <span>Imprimir automáticamente</span>
-                <input type="checkbox" id="prefAutoPrint">
-            </label>
+            <button class="primary-btn" id="paySubscriptionBtn">
+                Pagar suscripción
+            </button>
+            </div>
+
+            <!-- ================= CONSULTA DE DATOS ================= -->
+            <div class="panel-block">
+            <h3>Consulta de datos</h3>
+
+            <div class="date-range">
+                <label>
+                Desde
+                <input type="date" id="fromDate">
+                </label>
+
+                <label>
+                Hasta
+                <input type="date" id="toDate">
+                </label>
+
+                <button class="primary-btn" id="loadDataBtn">
+                Consultar
+                </button>
+            </div>
+
+            <div class="table-container">
+                <table id="dataTable">
+                <thead>
+                    <tr>
+                    <th>Fecha</th>
+                    <th>Documento</th>
+                    <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- datos dinámicos -->
+                </tbody>
+                </table>
+            </div>
             </div>
 
         </section>

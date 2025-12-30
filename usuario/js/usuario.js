@@ -70,32 +70,57 @@ document.addEventListener("DOMContentLoaded", () => {
   setupInactivityWatcher();
 });
 
-// ================= PREFERENCES (TEMP) =================
+// ================= RESTAURAR RESPALDO =================
 
-const prefs = {
-  sound: false,
-  darkTheme: true,
-  autoPrint: false
-};
+document.getElementById("restoreBackupBtn")
+  ?.addEventListener("click", async () => {
 
-function loadPreferences() {
-  document.getElementById("prefSound").checked = prefs.sound;
-  document.getElementById("prefDarkTheme").checked = prefs.darkTheme;
-  document.getElementById("prefAutoPrint").checked = prefs.autoPrint;
-}
+    const ok = confirm(
+      "¿Estás seguro de restaurar el respaldo?\n\n" +
+      "La aplicación sincronizará los datos cuando se conecte."
+    );
 
-function bindPreferences() {
-  document.getElementById("prefSound")
-    .addEventListener("change", e => prefs.sound = e.target.checked);
+    if (!ok) return;
 
-  document.getElementById("prefDarkTheme")
-    .addEventListener("change", e => prefs.darkTheme = e.target.checked);
+    // TODO: llamar endpoint backend
+    // POST /api/restore-request
+    alert("Solicitud de restauración enviada al servidor.");
+  });
 
-  document.getElementById("prefAutoPrint")
-    .addEventListener("change", e => prefs.autoPrint = e.target.checked);
-}
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadPreferences();
-  bindPreferences();
-});
+// ================= PAGO SUSCRIPCIÓN =================
+
+document.getElementById("paySubscriptionBtn")
+  ?.addEventListener("click", () => {
+
+    // TODO: redirigir a Transbank / MercadoPago
+    alert("Redirigiendo a plataforma de pago...");
+  });
+
+
+// ================= CONSULTA DE DATOS =================
+
+document.getElementById("loadDataBtn")
+  ?.addEventListener("click", () => {
+
+    const from = document.getElementById("fromDate").value;
+    const to = document.getElementById("toDate").value;
+
+    if (!from || !to) {
+      alert("Selecciona un rango de fechas.");
+      return;
+    }
+
+    // TODO: llamar backend con rango
+    // GET /api/data?from=...&to=...
+
+    // Mock visual
+    const tbody = document.querySelector("#dataTable tbody");
+    tbody.innerHTML = `
+      <tr>
+        <td>${from}</td>
+        <td>Boleta</td>
+        <td>$12.500</td>
+      </tr>
+    `;
+  });

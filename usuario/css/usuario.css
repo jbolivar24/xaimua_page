@@ -113,53 +113,95 @@
     box-shadow: 0 6px 16px rgba(0,0,0,0.25);
 }
 
-/* ===== SETTINGS ===== */
+/* ================= PANEL USUARIO ================= */
 
-.settings-panel {
+.panel {
   width: 100%;
-  max-width: 720px;
+  max-width: 900px;
   margin: auto;
   padding: 32px;
+
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 28px;
 }
 
-.settings-panel h2 {
-  margin: 0;
-}
-
-.settings-panel .muted {
-  opacity: 0.75;
-  font-size: 0.9rem;
-}
-
-.settings-group {
+.panel-block {
   background: rgba(255,255,255,0.06);
-  border-radius: 16px;
-  padding: 20px;
+  border-radius: 18px;
+  padding: 24px;
 
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
-.settings-group h3 {
-  margin: 0 0 10px 0;
-  font-size: 1rem;
-  opacity: 0.9;
+.panel-block h3 {
+  margin: 0;
 }
 
-.setting-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+.panel-block .muted {
+  font-size: 0.9rem;
+  opacity: 0.75;
+}
 
+/* ===== BOTONES ===== */
+
+.primary-btn {
+  align-self: flex-start;
+  padding: 12px 18px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+
+  background: linear-gradient(135deg, #00bcd4, #00a0b8);
+  color: #000;
+  font-weight: 600;
+}
+
+.primary-btn.danger {
+  background: linear-gradient(135deg, #ff6b6b, #ff4c4c);
+}
+
+/* ===== RANGO FECHAS ===== */
+
+.date-range {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: flex-end;
+}
+
+.date-range label {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+}
+
+.date-range input {
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+}
+
+/* ===== TABLA ===== */
+
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
   font-size: 14px;
 }
 
-.setting-item input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  text-align: left;
+}
+
+thead {
+  opacity: 0.85;
 }
