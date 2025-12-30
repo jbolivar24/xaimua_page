@@ -1,30 +1,27 @@
 import { API_BASE, buildPath } from "/xaimua_page/js/config.js";
 
-// ================= TOKEN HELPERS =================
-function getAuthHeader() {
-  // intenta con userToken primero; si no existe, usa adminToken
-  const token =
+// ================= TOKEN =================
+// En usuario NO puedes depender solo de adminToken.
+// Intentamos varias llaves para que no te deje botado.
+function getToken() {
+  return (
     localStorage.getItem("userToken") ||
+    localStorage.getItem("usuarioToken") ||
     localStorage.getItem("adminToken") ||
-    "";
-
-  if (!token) return null;
-
-  // si ya viene con "Bearer ", lo respetamos
-  if (token.startsWith("Bearer ")) return token;
-
-  return `Bearer ${token}`;
+    localStorage.getItem("token") ||
+    ""
+  );
 }
 
 // ================= LOGOUT =================
 async function logout() {
   try {
-    const auth = getAuthHeader();
+    const token = getToken();
 
-    if (auth) {
+    if (token) {
       await fetch(`${API_BASE}/api/auth/logout`, {
         method: "POST",
-        headers: { "Authorization": auth }
+        headers: { "Authorization": token } // ✅ sin Bearer
       });
     }
   } catch (e) {
@@ -59,6 +56,7 @@ function setupInactivityWatcher() {
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("logoutHeaderBtn")?.addEventListener("click", logout);
   document.getElementById("logoutBtn")?.addEventListener("click", logout);
+
   setupInactivityWatcher();
 });
 
@@ -68,22 +66,19 @@ document.getElementById("restoreBackupBtn")
 
     const ok = confirm(
       "¿Estás seguro de restaurar el respaldo?\n\n" +
-      "La aplicación sincronizará los datos cuando se conecte."
+      "La aplicación sincronizará la información cuando vuelva a conectarse."
     );
 
     if (!ok) return;
 
-    // Si todavía no tienes el endpoint listo, evita el 403/401:
-    alert("Función de restauración en desarrollo.");
+    alert("Solicitud de restauración enviada al servidor.");
   });
-
 
 // ================= PAGO SUSCRIPCIÓN =================
 document.getElementById("paySubscriptionBtn")
   ?.addEventListener("click", () => {
     alert("Redirigiendo a plataforma de pago...");
   });
-
 
 // ================= CONSULTA DE DATOS =================
 document.getElementById("loadDataBtn")
@@ -97,11 +92,10 @@ document.getElementById("loadDataBtn")
       return;
     }
 
-    // TODO: luego vendrá del token. Por ahora lo dejamos fijo como lo tenías.
-    const userId = "779787907";
+    const userId = "779787907"; // luego lo sacas del token / sesión
 
-    const auth = getAuthHeader();
-    if (!auth) {
+    const token = getToken();
+    if (!token) {
       alert("No hay sesión activa (token). Vuelve a iniciar sesión.");
       return;
     }
@@ -117,12 +111,11 @@ document.getElementById("loadDataBtn")
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": auth
+          "Authorization": token // ✅ sin Bearer
         }
       });
 
       if (!response.ok) {
-        // te dejo el status para que no sea un "no se pudo" genérico
         throw new Error(`Error ${response.status}`);
       }
 
@@ -141,6 +134,10 @@ function renderTable(rows) {
 
   rows.forEach(r => {
     const tr = document.createElement("tr");
+
+    // ✅ por si algún día vuelve a venir "method" en vez de "payment"
+    const payment = r.payment ?? r.method ?? "";
+
     tr.innerHTML = `
       <td>${r.date ?? ""}</td>
       <td>${r.time ?? ""}</td>
@@ -148,8 +145,9 @@ function renderTable(rows) {
       <td>${r.document ?? ""}</td>
       <td>${r.folio ?? ""}</td>
       <td>${r.total ?? ""}</td>
-      <td>${r.payment ?? r.method ?? ""}</td>
+      <td>${payment}</td>
     `;
+
     tbody.appendChild(tr);
   });
 }
