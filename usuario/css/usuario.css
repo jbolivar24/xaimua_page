@@ -278,3 +278,35 @@ thead {
     padding: 8px 6px;
   }
 }
+
+@media (max-width: 768px) {
+
+  /* 1) Que el contenido suba y arranque cerca del header */
+  .usuario-section{
+    padding-top: 16px;
+    padding-bottom: 24px;
+  }
+
+  /* 2) Reduce el espacio muerto del header en móvil */
+  .header-logo img{
+    height: 52px; /* antes 70px */
+  }
+
+  .header-inner{
+    padding: 10px 14px;
+  }
+
+  /* 3) Panel: que ocupe ancho completo y no quede “hundido” */
+  .panel{
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 12px 12px;
+  }
+
+  /* 4) Bloques un poco más compactos */
+  .panel-block{
+    padding: 14px;
+    gap: 10px;
+  }
+}
