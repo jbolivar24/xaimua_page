@@ -205,3 +205,55 @@ th, td {
 thead {
   opacity: 0.85;
 }
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+
+  /* la sección ya no fuerza altura */
+  .usuario-section {
+    min-height: auto;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  /* el panel sube y respira menos */
+  .panel {
+    padding: 16px;
+    margin-top: 12px;
+    gap: 20px;
+  }
+
+  .panel-block {
+    padding: 16px;
+  }
+
+  /* botones ocupan ancho completo */
+  .primary-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* rango de fechas en columna */
+  .date-range {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .date-range label {
+    width: 100%;
+  }
+
+  .date-range input {
+    width: 100%;
+  }
+
+  /* tabla más compacta */
+  table {
+    font-size: 13px;
+  }
+
+  th, td {
+    padding: 8px 6px;
+  }
+}
