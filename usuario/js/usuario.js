@@ -1,45 +1,29 @@
-import { API_BASE, buildPath } from "../../js/config.js";
+import { API_BASE, buildPath } from "/xaimua_page/js/config.js";
 
-// elementos
-const usernameEl = document.getElementById("usernameValue");
-const statusEl   = document.getElementById("statusValue");
-const logoutBtn  = document.getElementById("logoutBtn");
+// ================= LOGOUT =================
+async function logout() {
+  try {
+    const token = localStorage.getItem("adminToken");
+
+    if (token) {
+      await fetch(`${API_BASE}/api/auth/logout`, {
+        method: "POST",
+        headers: {
+          "Authorization": token
+        }
+      });
+    }
+  } catch (e) {
+    console.warn("Error cerrando sesión", e);
+  } finally {
+    localStorage.clear();
+    window.location.href = buildPath("/html/login.html");
+  }
+}
+
+// ================= INACTIVIDAD =================
 const SESSION_TIMEOUT = 5 * 60 * 1000; // 5 minutos
 let inactivityTimer = null;
-
-// datos desde localStorage
-const token = localStorage.getItem("userToken") || localStorage.getItem("xaToken");
-const role  = localStorage.getItem("xaRole");
-const user  = localStorage.getItem("xaUser");
-
-document.addEventListener("DOMContentLoaded", () => {
-  setupInactivityWatcher();
-});
-
-// pintar datos (defensivo)
-if (usernameEl) {
-    usernameEl.textContent = user || "Usuario";
-}
-
-if (statusEl) {
-    statusEl.textContent = "Activo";
-}
-
-async function logout() {
-
-  clearInactivityTimer();
-  const token = localStorage.getItem("adminToken");
-
-  if (token) {
-    await fetch(`${API_BASE}/api/auth/logout`, {
-      method: "POST",
-      headers: { "Authorization": token }
-    });
-  }
-
-  localStorage.clear();
-  window.location.href = buildPath("/html/login.html");
-}
 
 function resetInactivityTimer() {
   if (inactivityTimer) {
@@ -65,13 +49,23 @@ function setupInactivityWatcher() {
     document.addEventListener(event, resetInactivityTimer, true);
   });
 
-  // arranca el conteo apenas entra
   resetInactivityTimer();
 }
 
-function clearInactivityTimer() {
-  if (inactivityTimer) {
-    clearTimeout(inactivityTimer);
-    inactivityTimer = null;
+// ================= INIT =================
+document.addEventListener("DOMContentLoaded", () => {
+
+  // botón logout del header
+  const logoutHeaderBtn = document.getElementById("logoutHeaderBtn");
+  if (logoutHeaderBtn) {
+    logoutHeaderBtn.addEventListener("click", logout);
   }
-}
+
+  // botón logout interno (si lo dejas)
+  const logoutBtn = document.getElementById("logoutBtn");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", logout);
+  }
+
+  setupInactivityWatcher();
+});
