@@ -101,7 +101,7 @@ document.getElementById("paySubscriptionBtn")
 // ================= CONSULTA DE DATOS =================
 
 document.getElementById("loadDataBtn")
-  ?.addEventListener("click", () => {
+  ?.addEventListener("click", async () => {
 
     const from = document.getElementById("fromDate").value;
     const to = document.getElementById("toDate").value;
@@ -111,19 +111,37 @@ document.getElementById("loadDataBtn")
       return;
     }
 
-    // TODO: llamar backend con rango
-    // GET /api/data?from=...&to=...
+    const userId = "779787907"; // luego vendrá del token
 
-    // Mock visual
-    const tbody = document.querySelector("#dataTable tbody");
-    tbody.innerHTML = `
-      <tr>
-        <td>${from}</td>
-        <td>Boleta</td>
-        <td>$12.500</td>
-      </tr>
-    `;
+    try {
+      const url =
+        `${API_BASE}/api/history` +
+        `?userId=${encodeURIComponent(userId)}` +
+        `&from=${encodeURIComponent(from)}` +
+        `&to=${encodeURIComponent(to)}`;
+
+      const token = localStorage.getItem("adminToken");
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}`);
+      }
+
+      const rows = await response.json();
+      renderTable(rows);
+
+    } catch (err) {
+      console.error(err);
+      alert("No se pudieron cargar los datos.");
+    }
   });
+
 
   function renderTable(rows) {
   const tbody = document.querySelector("#dataTable tbody");
