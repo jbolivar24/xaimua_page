@@ -1,16 +1,30 @@
 import { API_BASE, buildPath } from "/xaimua_page/js/config.js";
 
+// ================= TOKEN HELPERS =================
+function getAuthHeader() {
+  // intenta con userToken primero; si no existe, usa adminToken
+  const token =
+    localStorage.getItem("userToken") ||
+    localStorage.getItem("adminToken") ||
+    "";
+
+  if (!token) return null;
+
+  // si ya viene con "Bearer ", lo respetamos
+  if (token.startsWith("Bearer ")) return token;
+
+  return `Bearer ${token}`;
+}
+
 // ================= LOGOUT =================
 async function logout() {
   try {
-    const token = localStorage.getItem("adminToken");
+    const auth = getAuthHeader();
 
-    if (token) {
+    if (auth) {
       await fetch(`${API_BASE}/api/auth/logout`, {
         method: "POST",
-        headers: {
-          "Authorization": token
-        }
+        headers: { "Authorization": auth }
       });
     }
   } catch (e) {
@@ -26,9 +40,7 @@ const SESSION_TIMEOUT = 5 * 60 * 1000; // 5 minutos
 let inactivityTimer = null;
 
 function resetInactivityTimer() {
-  if (inactivityTimer) {
-    clearTimeout(inactivityTimer);
-  }
+  if (inactivityTimer) clearTimeout(inactivityTimer);
 
   inactivityTimer = setTimeout(() => {
     console.warn("Sesión cerrada por inactividad");
@@ -37,41 +49,20 @@ function resetInactivityTimer() {
 }
 
 function setupInactivityWatcher() {
-  const events = [
-    "mousemove",
-    "mousedown",
-    "keydown",
-    "scroll",
-    "touchstart"
-  ];
-
-  events.forEach(event => {
-    document.addEventListener(event, resetInactivityTimer, true);
+  ["mousemove", "mousedown", "keydown", "scroll", "touchstart"].forEach(ev => {
+    document.addEventListener(ev, resetInactivityTimer, true);
   });
-
   resetInactivityTimer();
 }
 
 // ================= INIT =================
 document.addEventListener("DOMContentLoaded", () => {
-
-  // botón logout del header
-  const logoutHeaderBtn = document.getElementById("logoutHeaderBtn");
-  if (logoutHeaderBtn) {
-    logoutHeaderBtn.addEventListener("click", logout);
-  }
-
-  // botón logout interno (si lo dejas)
-  const logoutBtn = document.getElementById("logoutBtn");
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", logout);
-  }
-
+  document.getElementById("logoutHeaderBtn")?.addEventListener("click", logout);
+  document.getElementById("logoutBtn")?.addEventListener("click", logout);
   setupInactivityWatcher();
 });
 
 // ================= RESTAURAR RESPALDO =================
-
 document.getElementById("restoreBackupBtn")
   ?.addEventListener("click", async () => {
 
@@ -82,24 +73,19 @@ document.getElementById("restoreBackupBtn")
 
     if (!ok) return;
 
-    // TODO: llamar endpoint backend
-    // POST /api/restore-request
-    alert("Solicitud de restauración enviada al servidor.");
+    // Si todavía no tienes el endpoint listo, evita el 403/401:
+    alert("Función de restauración en desarrollo.");
   });
 
 
 // ================= PAGO SUSCRIPCIÓN =================
-
 document.getElementById("paySubscriptionBtn")
   ?.addEventListener("click", () => {
-
-    // TODO: redirigir a Transbank / MercadoPago
     alert("Redirigiendo a plataforma de pago...");
   });
 
 
 // ================= CONSULTA DE DATOS =================
-
 document.getElementById("loadDataBtn")
   ?.addEventListener("click", async () => {
 
@@ -111,7 +97,14 @@ document.getElementById("loadDataBtn")
       return;
     }
 
-    const userId = "779787907"; // luego vendrá del token
+    // TODO: luego vendrá del token. Por ahora lo dejamos fijo como lo tenías.
+    const userId = "779787907";
+
+    const auth = getAuthHeader();
+    if (!auth) {
+      alert("No hay sesión activa (token). Vuelve a iniciar sesión.");
+      return;
+    }
 
     try {
       const url =
@@ -120,16 +113,16 @@ document.getElementById("loadDataBtn")
         `&from=${encodeURIComponent(from)}` +
         `&to=${encodeURIComponent(to)}`;
 
-      const token = localStorage.getItem("adminToken");
       const response = await fetch(url, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": token
+          "Authorization": auth
         }
       });
 
       if (!response.ok) {
+        // te dejo el status para que no sea un "no se pudo" genérico
         throw new Error(`Error ${response.status}`);
       }
 
@@ -138,28 +131,25 @@ document.getElementById("loadDataBtn")
 
     } catch (err) {
       console.error(err);
-      alert("No se pudieron cargar los datos.");
+      alert(`No se pudieron cargar los datos. (${err.message})`);
     }
   });
 
-
-  function renderTable(rows) {
+function renderTable(rows) {
   const tbody = document.querySelector("#dataTable tbody");
   tbody.innerHTML = "";
 
   rows.forEach(r => {
     const tr = document.createElement("tr");
-
     tr.innerHTML = `
-      <td>${r.date}</td>
-      <td>${r.time}</td>
-      <td>${r.type}</td>
-      <td>${r.document}</td>
-      <td>${r.folio}</td>
-      <td>${r.total}</td>
-      <td>${r.payment}</td>
+      <td>${r.date ?? ""}</td>
+      <td>${r.time ?? ""}</td>
+      <td>${r.type ?? ""}</td>
+      <td>${r.document ?? ""}</td>
+      <td>${r.folio ?? ""}</td>
+      <td>${r.total ?? ""}</td>
+      <td>${r.payment ?? r.method ?? ""}</td>
     `;
-
     tbody.appendChild(tr);
   });
 }
