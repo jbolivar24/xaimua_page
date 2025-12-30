@@ -1,5 +1,4 @@
-import { API_BASE, buildPath } from "../../js/config.js";
-console.log("usuario.js cargado");
+import { API_BASE, buildPath } from "/xaimua_page/js/config.js";
 
 /**
  * En tu proyecto estás guardando tokens con nombres distintos según pantalla.
@@ -132,43 +131,59 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Consulta de datos
   const loadDataBtn = document.getElementById("loadDataBtn");
-    loadDataBtn?.addEventListener("click", async () => {
-    const from = document.getElementById("fromDate").value;
-    const to = document.getElementById("toDate").value;
+  loadDataBtn?.addEventListener("click", async () => {
+    const from = document.getElementById("fromDate")?.value;
+    const to = document.getElementById("toDate")?.value;
 
     if (!from || !to) {
-      alert("Selecciona un rango de fechas");
+      alert("Selecciona un rango de fechas.");
       return;
     }
 
     const token = getAnyToken();
+    if (!token) {
+      alert("Sesión no encontrada. Inicia sesión de nuevo.");
+      logout();
+      return;
+    }
+
     const userId = getUserIdFallback();
+
+    const url =
+      `${API_BASE}/api/history` +
+      `?userId=${encodeURIComponent(userId)}` +
+      `&from=${encodeURIComponent(from)}` +
+      `&to=${encodeURIComponent(to)}`;
 
     try {
       loadDataBtn.disabled = true;
       loadDataBtn.textContent = "Cargando...";
 
-      const res = await fetch(
-        `${API_BASE}/api/history?userId=${userId}&from=${from}&to=${to}`,
-        {
-          headers: { Authorization: token }
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Authorization": token
         }
-      );
+      });
 
-      if (!res.ok) throw new Error(res.status);
-
-      const rows = await res.json();
-
-      if (!rows.length) {
-        alert("Sin resultados en el rango seleccionado.");
-        renderTable([]);
+      if (response.status === 401 || response.status === 403) {
+        // tu filtro devuelve 401/403 cuando token falta o muere
+        alert("Tu sesión expiró o el token no es válido. Inicia sesión otra vez.");
+        logout();
         return;
       }
 
+      if (!response.ok) {
+        const text = await response.text().catch(() => "");
+        console.error("Error HTTP:", response.status, text);
+        throw new Error(`Error ${response.status}`);
+      }
+
+      const rows = await response.json();
       renderTable(rows);
 
-    } catch (e) {
-      console.error(e);
+    } catch (err) {
+      console.error(err);
       alert("No se pudieron cargar los datos.");
     } finally {
       loadDataBtn.disabled = false;

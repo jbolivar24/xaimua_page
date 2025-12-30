@@ -2,104 +2,115 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Xaimua · Usuario</title>
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="/xaimua_page/img/favicon/favicon.ico">
+  <link rel="icon" type="image/png" sizes="96x96" href="/xaimua_page/img/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/svg+xml" href="/xaimua_page/img/favicon/favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/xaimua_page/img/favicon/apple-touch-icon.png">
+
+  <!-- PWA -->
+  <link rel="manifest" href="/xaimua_page/site.webmanifest">
 
   <!-- Estilos -->
   <link rel="stylesheet" href="/xaimua_page/css/global.css">
   <link rel="stylesheet" href="/xaimua_page/usuario/css/usuario.css">
 
-  <!-- Lógica -->
+  <!-- Guard y lógica -->
+  <script type="module" src="/xaimua_page/usuario/js/guard-usuario.js"></script>
   <script type="module" src="/xaimua_page/usuario/js/usuario.js"></script>
 </head>
 
 <body>
 
-<header class="app-header">
-  <div class="header-inner">
-    <div class="header-logo">
-      <img src="/xaimua_page/img/logo.png" alt="Xaimua">
-    </div>
-
-    <button class="logout-btn" id="logoutHeaderBtn">
-      Cerrar sesión
-    </button>
-  </div>
-</header>
-
-<main class="usuario-section">
-
-  <!-- ================= RESTAURAR RESPALDO ================= -->
-  <section class="usuario-card">
-    <h3>Restaurar respaldo</h3>
-    <p class="muted">
-      Restaurar los datos almacenados en el servidor.
-      La aplicación sincronizará la información cuando vuelva a conectarse.
-    </p>
-
-    <button class="danger-btn" id="restoreBackupBtn">
-      Restaurar respaldo
-    </button>
-  </section>
-
-  <!-- ================= SUSCRIPCIÓN ================= -->
-  <section class="usuario-card">
-    <h3>Suscripción</h3>
-    <p class="muted">
-      Gestiona el pago de tu suscripción para mantener activo el servicio.
-    </p>
-
-    <button class="primary-btn" id="paySubscriptionBtn">
-      Pagar suscripción
-    </button>
-  </section>
-
-  <!-- ================= CONSULTA DE DATOS ================= -->
-  <section class="usuario-card">
-    <h3>Consulta de datos</h3>
-
-    <div class="filters">
-      <div class="filter-item">
-        <label for="fromDate">Desde</label>
-        <input type="date" id="fromDate">
+  <!-- ===== HEADER ===== -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <!-- Usa el logo que sí existe en tu repo -->
+        <img src="/xaimua_page/img/logo.png" alt="Xaimua">
       </div>
 
-      <div class="filter-item">
-        <label for="toDate">Hasta</label>
-        <input type="date" id="toDate">
-      </div>
-
-      <button class="primary-btn" id="loadDataBtn">
-        Consultar
+      <button class="logout-btn" id="logoutHeaderBtn" type="button">
+        Cerrar sesión
       </button>
     </div>
+  </header>
 
-    <!-- 👇 CONTENEDOR SCROLL (aquí trabajaremos el CSS luego) -->
-    <div class="data-table-wrapper">
-      <table id="dataTable">
-        <thead>
-          <tr>
-            <th>Fecha</th>
-            <th>Hora</th>
-            <th>Tipo</th>
-            <th>Documento</th>
-            <th>Folio</th>
-            <th>Total</th>
-            <th>Medio de pago</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td colspan="7" class="empty">
-              Sin resultados
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <!-- ===== CONTENIDO ===== -->
+  <main class="usuario-section">
+    <section class="panel">
 
-  </section>
+      <!-- ================= RESTAURACIÓN ================= -->
+      <div class="panel-block">
+        <h3>Restaurar respaldo</h3>
+        <p class="muted">
+          Restaurar los datos almacenados en el servidor.
+          La aplicación sincronizará la información cuando vuelva a conectarse.
+        </p>
 
-</main>
+        <button class="primary-btn danger" id="restoreBackupBtn" type="button">
+          Restaurar respaldo
+        </button>
+      </div>
 
+      <!-- ================= SUSCRIPCIÓN ================= -->
+      <div class="panel-block">
+        <h3>Suscripción</h3>
+        <p class="muted">
+          Gestiona el pago de tu suscripción para mantener activo el servicio.
+        </p>
+
+        <button class="primary-btn" id="paySubscriptionBtn" type="button">
+          Pagar suscripción
+        </button>
+      </div>
+
+      <!-- ================= CONSULTA DE DATOS ================= -->
+      <div class="panel-block">
+        <h3>Consulta de datos</h3>
+
+        <div class="date-range">
+          <label>
+            Desde
+            <input type="date" id="fromDate">
+          </label>
+
+          <label>
+            Hasta
+            <input type="date" id="toDate">
+          </label>
+
+          <button class="primary-btn" id="loadDataBtn" type="button">
+            Consultar
+          </button>
+        </div>
+
+        <div class="table-container">
+          <table id="dataTable">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Tipo</th>
+                <th>Documento</th>
+                <th>Folio</th>
+                <th>Total</th>
+                <th>Medio de pago</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- filas dinámicas -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer id="footer"></footer>
 </body>
 </html>
