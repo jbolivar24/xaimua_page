@@ -1,4 +1,4 @@
-import { API_BASE, buildPath } from "/xaimua_page/js/config.js";
+import { API_BASE, buildPath } from "../../js/config.js";
 
 /**
  * En tu proyecto estás guardando tokens con nombres distintos según pantalla.
