@@ -25,31 +25,6 @@ if (statusEl) {
     statusEl.textContent = "Activo";
 }
 
-// cerrar sesión
-if (logoutBtn) {
-    logoutBtn.addEventListener("click", async () => {
-        try {
-            if (token) {
-                clearInactivityTimer();
-                await fetch(`${API_BASE}/api/auth/logout`, {
-                    method: "POST",
-                    headers: {
-                        "Authorization": token
-                    }
-                });
-            }
-        } catch (e) {
-            console.warn("Error cerrando sesión", e);
-        }
-
-        // limpiar todo
-        localStorage.clear();
-
-        // volver a login
-        window.location.href = buildPath("/html/login.html");
-    });
-}
-
 async function logout() {
 
   clearInactivityTimer();
