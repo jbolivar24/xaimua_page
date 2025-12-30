@@ -22,37 +22,43 @@
     <script type="module" src="/xaimua_page/usuario/js/guard-usuario.js"></script>
     <script type="module" src="/xaimua_page/usuario/js/usuario.js"></script>
 </head>
-    <body>
-        <header class="app-header">
-            <div class="header-inner">
-                <div class="header-logo">
+
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="app-header">
+        <div class="header-inner">
+            <div class="header-logo">
                 <img src="/xaimua_page/img/logo/logo.png" alt="Xaimua">
-                </div>
-
-                <button class="logout-btn" id="logoutHeaderBtn">
-                    Cerrar sesión
-                </button>
             </div>
-        </header>
 
-        <main class="usuario-section">
-            <div class="usuario-card">
-                <h2>Bienvenido</h2>
-                <p class="muted">Este es tu panel de usuario</p>
+            <button class="logout-btn" id="logoutHeaderBtn">
+                Cerrar sesión
+            </button>
+        </div>
+    </header>
 
-                <div class="info">
-                    <div>
-                        <strong>Usuario:</strong>
-                        <span id="userRut">—</span>
-                    </div>
-                    <div>
-                        <strong>Estado:</strong>
-                        <span id="userStatus">Activo</span>
-                    </div>
+    <!-- ===== CONTENIDO ===== -->
+    <main class="usuario-section">
+        <div class="usuario-card">
+            <h2>Bienvenido</h2>
+            <p class="muted">Este es tu panel de usuario</p>
+
+            <div class="info">
+                <div>
+                    <strong>Usuario:</strong>
+                    <span id="userRut">—</span>
+                </div>
+                <div>
+                    <strong>Estado:</strong>
+                    <span id="userStatus">Activo</span>
                 </div>
             </div>
-        </main>
+        </div>
+    </main>
 
-        <footer id="footer"></footer>
-    </body>
+    <!-- ===== FOOTER ===== -->
+    <footer id="footer"></footer>
+
+</body>
 </html>
