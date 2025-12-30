@@ -1,4 +1,5 @@
 import { API_BASE, buildPath } from "../../js/config.js";
+console.log("usuario.js cargado");
 
 /**
  * En tu proyecto estás guardando tokens con nombres distintos según pantalla.
