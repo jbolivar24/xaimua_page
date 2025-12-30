@@ -124,3 +124,24 @@ document.getElementById("loadDataBtn")
       </tr>
     `;
   });
+
+  function renderTable(rows) {
+  const tbody = document.querySelector("#dataTable tbody");
+  tbody.innerHTML = "";
+
+  rows.forEach(r => {
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td>${r.date}</td>
+      <td>${r.time}</td>
+      <td>${r.type}</td>
+      <td>${r.document}</td>
+      <td>${r.folio}</td>
+      <td>${r.total}</td>
+      <td>${r.payment}</td>
+    `;
+
+    tbody.appendChild(tr);
+  });
+}
