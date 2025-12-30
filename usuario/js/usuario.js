@@ -69,3 +69,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
   setupInactivityWatcher();
 });
+
+// ================= PREFERENCES (TEMP) =================
+
+const prefs = {
+  sound: false,
+  darkTheme: true,
+  autoPrint: false
+};
+
+function loadPreferences() {
+  document.getElementById("prefSound").checked = prefs.sound;
+  document.getElementById("prefDarkTheme").checked = prefs.darkTheme;
+  document.getElementById("prefAutoPrint").checked = prefs.autoPrint;
+}
+
+function bindPreferences() {
+  document.getElementById("prefSound")
+    .addEventListener("change", e => prefs.sound = e.target.checked);
+
+  document.getElementById("prefDarkTheme")
+    .addEventListener("change", e => prefs.darkTheme = e.target.checked);
+
+  document.getElementById("prefAutoPrint")
+    .addEventListener("change", e => prefs.autoPrint = e.target.checked);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadPreferences();
+  bindPreferences();
+});
