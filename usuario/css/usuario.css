@@ -71,6 +71,7 @@
 .header-logo img {
   height: 34px;
   user-select: none;
+  display: block;
 }
 
 /* ===== LOGOUT ===== */
