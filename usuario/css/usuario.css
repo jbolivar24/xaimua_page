@@ -1,154 +1,10 @@
-/* ================= RESET LOCAL ================= */
-
-.usuario-section {
-  min-height: calc(100vh - 72px);
-  padding: 24px 16px 40px;
-  max-width: 900px;
-  margin: auto;
-
-  display: flex;
-  flex-direction: column;   /* 👈 CLAVE: columna, no fila */
-  gap: 20px;
-}
-
-/* ================= TARJETAS ================= */
-
-.usuario-card {
-  width: 100%;
-  background: rgba(255,255,255,0.06);
-  border-radius: 18px;
-  padding: 22px;
-  box-shadow: 0 16px 36px rgba(0,0,0,0.35);
-  backdrop-filter: blur(6px);
-
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.usuario-card h3 {
-  margin: 0;
-  font-size: 18px;
-}
-
-.usuario-card .muted {
-  font-size: 14px;
-  opacity: 0.8;
-  line-height: 1.4;
-}
-
-/* ================= BOTONES ================= */
-
-.primary-btn {
-  align-self: flex-start;
-  padding: 12px 18px;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
-
-  background: linear-gradient(135deg, #00bcd4, #00a0b8);
-  color: #000;
-  font-weight: 600;
-}
-
-.danger-btn {
-  align-self: flex-start;
-  padding: 12px 18px;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
-
-  background: linear-gradient(135deg, #ff6b6b, #e53935);
-  color: #000;
-  font-weight: 600;
-}
-
-/* ================= FILTROS ================= */
-
-.filters {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  align-items: flex-end;
-}
-
-.filter-item {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.filter-item label {
-  font-size: 13px;
-  opacity: 0.85;
-}
-
-.filter-item input {
-  padding: 8px 10px;
-  border-radius: 8px;
-  border: none;
-  outline: none;
-  font-size: 14px;
-}
-
-/* ================= TABLA ================= */
-
-.data-table-wrapper {
-  margin-top: 12px;
-  max-height: 360px;
-  overflow-y: auto;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.08);
-}
-
-/* Scroll discreto */
-.data-table-wrapper::-webkit-scrollbar {
-  width: 8px;
-}
-.data-table-wrapper::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.25);
-  border-radius: 8px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-}
-
-thead {
-  background: rgba(0,0,0,0.25);
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
-
-th, td {
-  padding: 10px 8px;
-  text-align: left;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-
-th {
-  font-weight: 600;
-  font-size: 13px;
-}
-
-tbody tr:hover {
-  background: rgba(255,255,255,0.05);
-}
-
-td.empty {
-  text-align: center;
-  opacity: 0.6;
-  padding: 24px;
-}
-
-/* ================= HEADER ================= */
+/* ============================== */
+/* ===== HEADER DE USUARIO ====== */
+/* ============================== */
 
 .app-header {
   width: 100%;
-  background: rgba(0,0,0,0.35);
+  background: rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(6px);
   border-bottom: 1px solid rgba(255,255,255,0.08);
 }
@@ -156,54 +12,199 @@ td.empty {
 .header-inner {
   max-width: 1100px;
   margin: auto;
-  padding: 12px 16px;
+  padding: 14px 20px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 14px;
 }
 
 .header-logo img {
-  height: 34px;
+  height: 64px;
+  width: auto;
   display: block;
 }
 
+/* ===== LOGOUT (HEADER) ===== */
+
 .logout-btn {
-  background: linear-gradient(135deg, #00bcd4, #00a0b8);
+  padding: 12px 18px;
+  border-radius: 14px;
   border: none;
-  color: #000;
-  padding: 8px 14px;
-  border-radius: 10px;
-  font-size: 14px;
   cursor: pointer;
+
+  background: linear-gradient(135deg, #00bcd4, #00a0b8);
+  color: #000;
+  font-weight: 600;
+  font-size: 14px;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.logout-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+}
+
+/* ============================== */
+/* ===== SECCIÓN USUARIO ======== */
+/* ============================== */
+
+.usuario-section {
+  /* en móvil NO queremos centrar verticalmente */
+  min-height: calc(100vh - 120px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+  padding: 22px 12px 40px;
+}
+
+.panel {
+  width: 100%;
+  max-width: 900px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.panel-block {
+  background: rgba(255,255,255,0.06);
+  border-radius: 18px;
+  padding: 18px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.panel-block h3 {
+  margin: 0;
+}
+
+.panel-block .muted {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.75;
+}
+
+/* ===== BOTONES ===== */
+
+.primary-btn {
+  align-self: flex-start;
+  padding: 12px 18px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+
+  background: linear-gradient(135deg, #00bcd4, #00a0b8);
+  color: #000;
   font-weight: 600;
 }
 
-/* ================= MOBILE ================= */
+.primary-btn.danger {
+  background: linear-gradient(135deg, #ff6b6b, #ff4c4c);
+}
 
-@media (max-width: 600px) {
+.primary-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 
-  .usuario-section {
-    padding: 16px 12px 32px;
-    gap: 16px;
+/* ===== RANGO FECHAS ===== */
+
+.date-range {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.date-range label {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  gap: 6px;
+  min-width: 160px;
+}
+
+.date-range input {
+  padding: 10px 10px;
+  border-radius: 10px;
+  border: none;
+}
+
+/* ===== TABLA ===== */
+
+.table-container {
+  overflow-x: auto;
+  border-radius: 14px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  min-width: 720px; /* fuerza scroll horizontal en móvil sin romper */
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  text-align: left;
+  white-space: nowrap;
+}
+
+thead {
+  opacity: 0.85;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+  .header-logo img {
+    height: 52px;
   }
 
-  .filters {
+  .usuario-section {
+    padding-top: 14px;
+  }
+
+  .panel {
+    gap: 14px;
+  }
+
+  .panel-block {
+    padding: 14px;
+  }
+
+  .primary-btn,
+  .logout-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .date-range {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .primary-btn,
-  .danger-btn {
+  .date-range label {
+    min-width: auto;
     width: 100%;
-    align-self: stretch;
   }
 
-  .data-table-wrapper {
-    max-height: 300px;
+  .date-range input {
+    width: 100%;
   }
 
   table {
     font-size: 13px;
+  }
+
+  th, td {
+    padding: 8px 6px;
   }
 }
