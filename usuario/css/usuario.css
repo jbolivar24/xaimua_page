@@ -188,7 +188,7 @@
 
 /* ✅ Contenedor con scroll vertical + horizontal (no infinita) */
 .table-container {
-  max-height: 360px;   /* desktop */
+  max-height: 520px;   /* desktop */
   overflow-y: auto;
   overflow-x: auto;
   border-radius: 12px;
@@ -266,7 +266,7 @@ thead {
 
   /* tabla más compacta + contenedor más bajo en móvil */
   .table-container {
-    max-height: 240px; /* móvil */
+    max-height: 340px; /* móvil */
   }
 
   table {

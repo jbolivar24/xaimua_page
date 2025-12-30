@@ -120,6 +120,9 @@ document.getElementById("loadDataBtn")
       }
 
       const rows = await response.json();
+
+      console.log("Filas:", rows.length, "Bytes aprox:", new Blob([JSON.stringify(rows)]).size);
+
       renderTable(rows);
 
     } catch (err) {
