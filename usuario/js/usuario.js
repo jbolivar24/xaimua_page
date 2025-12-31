@@ -1,8 +1,6 @@
 import { API_BASE, buildPath } from "/xaimua_page/js/config.js";
 
 // ================= TOKEN =================
-// En usuario NO puedes depender solo de adminToken.
-// Intentamos varias llaves para que no te deje botado.
 function getToken() {
   return (
     localStorage.getItem("userToken") ||
@@ -58,6 +56,16 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("logoutBtn")?.addEventListener("click", logout);
 
   setupInactivityWatcher();
+
+  // ✅ opcional: deja el selector en "hoy" por defecto
+  const fromEl = document.getElementById("fromDate");
+  if (fromEl && !fromEl.value) {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const dd = String(today.getDate()).padStart(2, "0");
+    fromEl.value = `${yyyy}-${mm}-${dd}`;
+  }
 });
 
 // ================= RESTAURAR RESPALDO =================
@@ -80,15 +88,14 @@ document.getElementById("paySubscriptionBtn")
     alert("Redirigiendo a plataforma de pago...");
   });
 
-// ================= CONSULTA DE DATOS =================
+// ================= CONSULTA DE DATOS (1 DÍA) =================
 document.getElementById("loadDataBtn")
   ?.addEventListener("click", async () => {
 
-    const from = document.getElementById("fromDate").value;
-    const to = document.getElementById("toDate").value;
+    const day = document.getElementById("fromDate")?.value;
 
-    if (!from || !to) {
-      alert("Selecciona un rango de fechas.");
+    if (!day) {
+      alert("Selecciona un día.");
       return;
     }
 
@@ -101,19 +108,40 @@ document.getElementById("loadDataBtn")
     }
 
     try {
-      const url =
-        `${API_BASE}/api/history` +
+      // ✅ 1) intentamos endpoint por día
+      let url =
+        `${API_BASE}/api/history/day` +
         `?userId=${encodeURIComponent(userId)}` +
-        `&from=${encodeURIComponent(from)}` +
-        `&to=${encodeURIComponent(to)}`;
+        `&day=${encodeURIComponent(day)}`;
 
-      const response = await fetch(url, {
+      let response = await fetch(url, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": token // ✅ sin Bearer
+          "Authorization": token
         }
       });
+
+      // ✅ 2) fallback: si /day no existe, usamos rango con from=to
+      if (response.status === 404) {
+
+        const fallbackUrl = `${API_BASE}/api/history?userId=${encodeURIComponent(userId)}&from=${encodeURIComponent(day)}&to=${encodeURIComponent(day)}`;
+        console.warn("⚠️ FALLBACK ACTIVADO (RANGE):", fallbackUrl);
+
+        url =
+          `${API_BASE}/api/history` +
+          `?userId=${encodeURIComponent(userId)}` +
+          `&from=${encodeURIComponent(day)}` +
+          `&to=${encodeURIComponent(day)}`;
+
+        response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": token
+          }
+        });
+      }
 
       if (!response.ok) {
         throw new Error(`Error ${response.status}`);
@@ -121,7 +149,10 @@ document.getElementById("loadDataBtn")
 
       const rows = await response.json();
 
-      console.log("Filas:", rows.length, "Bytes aprox:", new Blob([JSON.stringify(rows)]).size);
+      console.log(
+        "Filas:", rows.length,
+        "Bytes aprox:", new Blob([JSON.stringify(rows)]).size
+      );
 
       renderTable(rows);
 
@@ -138,7 +169,6 @@ function renderTable(rows) {
   rows.forEach(r => {
     const tr = document.createElement("tr");
 
-    // ✅ por si algún día vuelve a venir "method" en vez de "payment"
     const payment = r.payment ?? r.method ?? "";
 
     tr.innerHTML = `

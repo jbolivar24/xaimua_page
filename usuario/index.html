@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -19,7 +18,6 @@
     <!-- Estilos -->
     <link rel="stylesheet" href="/xaimua_page/css/global.css?v=1">
     <link rel="stylesheet" href="/xaimua_page/usuario/css/usuario.css?v=1">
-
 
     <!-- Guard y lógica -->
     <script type="module" src="/xaimua_page/usuario/js/guard-usuario.js"></script>
@@ -48,67 +46,62 @@
 
             <!-- ================= RESTAURACIÓN ================= -->
             <div class="panel-block">
-            <h3>Restaurar respaldo</h3>
-            <p class="muted">
-                Restaurar los datos almacenados en el servidor.
-                La aplicación sincronizará la información cuando vuelva a conectarse.
-            </p>
+                <h3>Restaurar respaldo</h3>
+                <p class="muted">
+                    Restaurar los datos almacenados en el servidor.
+                    La aplicación sincronizará la información cuando vuelva a conectarse.
+                </p>
 
-            <button class="primary-btn danger" id="restoreBackupBtn">
-                Restaurar respaldo
-            </button>
+                <button class="primary-btn danger" id="restoreBackupBtn">
+                    Restaurar respaldo
+                </button>
             </div>
 
             <!-- ================= SUSCRIPCIÓN ================= -->
             <div class="panel-block">
-            <h3>Suscripción</h3>
-            <p class="muted">
-                Gestiona el pago de tu suscripción para mantener activo el servicio.
-            </p>
+                <h3>Suscripción</h3>
+                <p class="muted">
+                    Gestiona el pago de tu suscripción para mantener activo el servicio.
+                </p>
 
-            <button class="primary-btn" id="paySubscriptionBtn">
-                Pagar suscripción
-            </button>
+                <button class="primary-btn" id="paySubscriptionBtn">
+                    Pagar suscripción
+                </button>
             </div>
 
             <!-- ================= CONSULTA DE DATOS ================= -->
             <div class="panel-block">
-            <h3>Consulta de datos</h3>
+                <h3>Consulta de datos</h3>
 
-            <div class="date-range">
-                <label>
-                Desde
-                <input type="date" id="fromDate">
-                </label>
+                <div class="date-range">
+                    <label>
+                        Día
+                        <input type="date" id="fromDate">
+                    </label>
 
-                <label>
-                Hasta
-                <input type="date" id="toDate">
-                </label>
+                    <button class="primary-btn" id="loadDataBtn">
+                        Consultar
+                    </button>
+                </div>
 
-                <button class="primary-btn" id="loadDataBtn">
-                Consultar
-                </button>
-            </div>
-
-            <div class="table-container">
-                <table id="dataTable">
-                    <thead>
-                        <tr>
-                        <th>Fecha</th>
-                        <th>Hora</th>
-                        <th>Tipo</th>
-                        <th>Documento</th>
-                        <th>Folio</th>
-                        <th>Total</th>
-                        <th>Medio de pago</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- filas dinámicas -->
-                    </tbody>
-                </table>
-            </div>
+                <div class="table-container">
+                    <table id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Tipo</th>
+                                <th>Documento</th>
+                                <th>Folio</th>
+                                <th>Total</th>
+                                <th>Medio de pago</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- filas dinámicas -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
         </section>
