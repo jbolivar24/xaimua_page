@@ -1,7 +1,7 @@
 // js/login.js
 import { API_BASE, ROUTES, buildPath } from "./config.js";
 
-const usernameEl = document.getElementById("username");
+const usernameEl = document.getElementById("rut");
 const passwordEl = document.getElementById("password");
 const loginBtn   = document.getElementById("loginBtn");
 const msgEl      = document.getElementById("loginMessage");
