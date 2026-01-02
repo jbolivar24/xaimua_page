@@ -1,5 +1,7 @@
 import { API_BASE, buildPath } from "/xaimua_page/js/config.js";
 
+let currentRows = [];
+
 // ================= TOKEN =================
 function getToken() {
   return (
@@ -149,6 +151,8 @@ document.getElementById("loadDataBtn")
 
       const rows = await response.json();
 
+      currentRows = rows;
+
       console.log(
         "Filas:", rows.length,
         "Bytes aprox:", new Blob([JSON.stringify(rows)]).size
@@ -184,3 +188,83 @@ function renderTable(rows) {
     tbody.appendChild(tr);
   });
 }
+
+// ================= EXPORTAR CSV =================
+document.getElementById("exportCsvBtn")
+  ?.addEventListener("click", () => {
+
+    if (!currentRows || currentRows.length === 0) {
+      alert("No hay datos para exportar.");
+      return;
+    }
+
+    const headers = [
+      "Fecha",
+      "Hora",
+      "Tipo",
+      "Documento",
+      "Folio",
+      "Total",
+      "Medio de pago"
+    ];
+
+    const escape = v =>
+      `"${String(v ?? "").replace(/"/g, '""')}"`;
+
+    const lines = [
+      headers.join(";"),
+      ...currentRows.map(r => [
+        escape(r.date),
+        escape(r.time),
+        escape(r.type),
+        escape(r.document),
+        escape(r.folio),
+        escape(r.total),
+        escape(r.payment ?? r.method)
+      ].join(";"))
+    ];
+
+    const csv = lines.join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "historial.csv";
+    a.click();
+
+    URL.revokeObjectURL(url);
+  });
+// ================= EXPORTAR PDF =================
+document.getElementById("exportPdfBtn")
+  ?.addEventListener("click", () => {
+
+    if (!currentRows || currentRows.length === 0) {
+      alert("No hay datos para exportar.");
+      return;
+    }
+
+    const tableHtml = document.getElementById("dataTable").outerHTML;
+
+    const win = window.open("", "_blank");
+    win.document.write(`
+      <html>
+        <head>
+          <title>Historial</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 20px; }
+            table { width: 100%; border-collapse: collapse; font-size: 12px; }
+            th, td { border: 1px solid #000; padding: 6px; }
+            th { background: #eee; }
+          </style>
+        </head>
+        <body>
+          <h3>Historial de ventas</h3>
+          ${tableHtml}
+        </body>
+      </html>
+    `);
+    win.document.close();
+    win.focus();
+    win.print();
+  });
