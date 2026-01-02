@@ -15,7 +15,15 @@ function setMsg(text, isError = true) {
 
 // ================= TOKEN (SE GUARDA UNA SOLA VEZ) =================
 const params = new URLSearchParams(window.location.search);
-const RESET_TOKEN = params.get("token");
+
+// 1) si viene por URL (reset por correo) úsalo
+// 2) si no, usa el token de sesión guardado por login
+const RESET_TOKEN =
+  params.get("token") ||
+  localStorage.getItem("xaToken") ||
+  localStorage.getItem("userToken") ||
+  localStorage.getItem("adminToken") ||
+  localStorage.getItem("vendedorToken");
 
 if (!RESET_TOKEN) {
     setMsg("Token inválido o inexistente");
