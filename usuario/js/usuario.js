@@ -244,27 +244,34 @@ document.getElementById("exportPdfBtn")
       return;
     }
 
-    const tableHtml = document.getElementById("dataTable").outerHTML;
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF("l", "pt", "a4"); // horizontal
 
-    const win = window.open("", "_blank");
-    win.document.write(`
-      <html>
-        <head>
-          <title>Historial</title>
-          <style>
-            body { font-family: Arial, sans-serif; padding: 20px; }
-            table { width: 100%; border-collapse: collapse; font-size: 12px; }
-            th, td { border: 1px solid #000; padding: 6px; }
-            th { background: #eee; }
-          </style>
-        </head>
-        <body>
-          <h3>Historial de ventas</h3>
-          ${tableHtml}
-        </body>
-      </html>
-    `);
-    win.document.close();
-    win.focus();
-    win.print();
+    doc.setFontSize(14);
+    doc.text("Historial de ventas", 40, 40);
+
+    const headers = [
+      ["Fecha", "Hora", "Tipo", "Documento", "Folio", "Total", "Medio de pago"]
+    ];
+
+    const body = currentRows.map(r => ([
+      r.date ?? "",
+      r.time ?? "",
+      r.type ?? "",
+      r.document ?? "",
+      r.folio ?? "",
+      r.total ?? "",
+      r.payment ?? r.method ?? ""
+    ]));
+
+    doc.autoTable({
+      head: headers,
+      body: body,
+      startY: 60,
+      styles: { fontSize: 8 },
+      headStyles: { fillColor: [220, 220, 220] }
+    });
+
+    doc.save("historial.pdf"); // ⬅️ descarga directa
   });
+
