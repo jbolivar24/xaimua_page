@@ -98,7 +98,7 @@ async function loadClients() {
         </td>
         <td>${formatTimestamp(c.lastSeen)}</td>
         <td>${formatTimestamp(c.timestamp)}</td>
-        <td>${c.ip ?? "-"}</td>
+        <td>${c.ipAddress ?? "-"}</td>
         <td>${c.salesToday ?? "-"}</td>
         <td>${c.lastPaymentDate ?? "-"}</td>
         <td>${formatTimestamp(c.firstShiftStart)}</td>
