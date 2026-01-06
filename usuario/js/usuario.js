@@ -123,8 +123,6 @@ document.getElementById("loadDataBtn")
       return;
     }
 
-   
-
     const token = getToken();
     if (!token) {
       alert("No hay sesión activa (token). Vuelve a iniciar sesión.");
