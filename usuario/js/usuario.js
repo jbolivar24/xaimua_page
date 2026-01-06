@@ -131,7 +131,6 @@ document.getElementById("loadDataBtn")
 
     try {
       // ✅ 1) intentamos endpoint por día
-      // ✅ 1) intentamos endpoint por día
       let url =
         `${API_BASE}/api/history/day` +
         `?day=${encodeURIComponent(day)}`;
