@@ -131,9 +131,10 @@ document.getElementById("loadDataBtn")
 
     try {
       // ✅ 1) intentamos endpoint por día
+      // ✅ 1) intentamos endpoint por día
       let url =
         `${API_BASE}/api/history/day` +
-        `&day=${encodeURIComponent(day)}`;
+        `?day=${encodeURIComponent(day)}`;
 
       let response = await fetch(url, {
         method: "GET",
@@ -143,18 +144,17 @@ document.getElementById("loadDataBtn")
         }
       });
 
-      // ✅ 2) fallback: si /day no existe, usamos rango con from=to
+      // ✅ 2) fallback: rango from=to
       if (response.status === 404) {
 
-        const fallbackUrl = `${API_BASE}/api/history?userId=${encodeURIComponent(userId)}&from=${encodeURIComponent(day)}&to=${encodeURIComponent(day)}`;
-        console.warn("⚠️ FALLBACK ACTIVADO (RANGE):", fallbackUrl);
-
-        url =
+        const fallbackUrl =
           `${API_BASE}/api/history` +
-          `&from=${encodeURIComponent(day)}` +
+          `?from=${encodeURIComponent(day)}` +
           `&to=${encodeURIComponent(day)}`;
 
-        response = await fetch(url, {
+        console.warn("⚠️ FALLBACK ACTIVADO (RANGE):", fallbackUrl);
+
+        response = await fetch(fallbackUrl, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
