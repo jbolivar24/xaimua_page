@@ -195,14 +195,24 @@
 .date-range label {
   display: flex;
   flex-direction: column;
-  font-size: 13px;
-  min-width: 220px; /* ✅ para que el input no se achique raro */
+  gap: 6px; /* 👈 separa el texto del input */
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+
+  color: rgba(255,255,255,0.75);
+  min-width: 220px;
 }
 
 .date-range input {
-  padding: 8px;
-  border-radius: 8px;
-  border: none;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,188,212,0.35);
+
+  background: rgba(0,0,0,0.25);
+  color: #fff;
+  font-size: 14px;
 }
 
 /* ===== TABLA ===== */
