@@ -123,7 +123,7 @@ document.getElementById("loadDataBtn")
       return;
     }
 
-    const userId = "779787907"; // luego lo sacas del token / sesión
+   
 
     const token = getToken();
     if (!token) {
@@ -135,7 +135,6 @@ document.getElementById("loadDataBtn")
       // ✅ 1) intentamos endpoint por día
       let url =
         `${API_BASE}/api/history/day` +
-        `?userId=${encodeURIComponent(userId)}` +
         `&day=${encodeURIComponent(day)}`;
 
       let response = await fetch(url, {
@@ -154,7 +153,6 @@ document.getElementById("loadDataBtn")
 
         url =
           `${API_BASE}/api/history` +
-          `?userId=${encodeURIComponent(userId)}` +
           `&from=${encodeURIComponent(day)}` +
           `&to=${encodeURIComponent(day)}`;
 
