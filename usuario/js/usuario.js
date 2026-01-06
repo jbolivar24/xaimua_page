@@ -159,6 +159,7 @@ document.getElementById("loadDataBtn")
       );
 
       renderTable(rows);
+      updateTotal(rows);
 
     } catch (err) {
       console.error(err);
@@ -275,3 +276,19 @@ document.getElementById("exportPdfBtn")
     doc.save("historial.pdf"); // ⬅️ descarga directa
   });
 
+function updateTotal(rows) {
+  const totalEl = document.getElementById("totalAmount");
+  if (!totalEl) return;
+
+  const total = rows.reduce((acc, r) => {
+    const val = String(r.total ?? "0")
+      .replace(/\./g, "")
+      .replace(",", ".")
+      .replace(/[^\d.]/g, "");
+
+    return acc + (parseFloat(val) || 0);
+  }, 0);
+
+  totalEl.textContent = `$${total.toLocaleString("es-CL")}`;
+}
+// Llama a updateTotal cada vez que se renderiza la tabla

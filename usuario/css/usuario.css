@@ -158,6 +158,31 @@
   background: linear-gradient(135deg, #ff6b6b, #ff4c4c);
 }
 
+/* ===== TOTAL RESUMEN ===== */
+
+.total-summary {
+  margin-top: 12px;
+  padding: 14px 18px;
+  border-radius: 14px;
+
+  background: rgba(0, 188, 212, 0.15);
+  border: 1px solid rgba(0, 188, 212, 0.35);
+
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total-summary span {
+  font-size: 18px;
+  font-weight: 700;
+  color: #00e5ff;
+}
+
 /* ===== SELECTOR DÍA ===== */
 
 .date-range {
