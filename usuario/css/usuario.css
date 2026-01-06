@@ -81,10 +81,15 @@
     justify-content: space-between;
 }
 
+.header-logo a {
+  display: inline-block;
+}
+
 .header-logo img {
     height: 70px;
     width: auto;
     display: block;
+    cursor: pointer;
 }
 
 /* ============================== */
@@ -260,7 +265,14 @@ thead { opacity: 0.85; }
     padding-bottom: 24px;
   }
 
-  .header-logo img { height: 52px; }
+  .header-logo a {
+    display: inline-block;
+  }
+
+  .header-logo img { 
+    height: 52px; 
+    cursor: pointer;
+  }
   .header-inner { padding: 10px 14px; }
 
   .panel {

@@ -153,6 +153,14 @@ document.getElementById("loadDataBtn")
 
       currentRows = rows;
 
+      if (!rows || rows.length === 0) {
+        renderTable([]);
+        updateTotal([]);
+
+        alert("No hay ventas registradas para el día seleccionado.");
+        return;
+      }
+
       console.log(
         "Filas:", rows.length,
         "Bytes aprox:", new Blob([JSON.stringify(rows)]).size
