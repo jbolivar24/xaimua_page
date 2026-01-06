@@ -78,10 +78,32 @@ document.getElementById("restoreBackupBtn")
       "¿Estás seguro de restaurar el respaldo?\n\n" +
       "La aplicación sincronizará la información cuando vuelva a conectarse."
     );
-
     if (!ok) return;
 
-    alert("Solicitud de restauración enviada al servidor.");
+    const token = getToken();
+    if (!token) {
+      alert("Sesión inválida. Vuelve a iniciar sesión.");
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/api/restore/request`, {
+        method: "POST",
+        headers: {
+          "Authorization": token
+        }
+      });
+
+      if (!res.ok) {
+        throw new Error(`Error ${res.status}`);
+      }
+
+      alert("Solicitud de restauración enviada correctamente.");
+
+    } catch (e) {
+      console.error(e);
+      alert("No se pudo solicitar la restauración.");
+    }
   });
 
 // ================= PAGO SUSCRIPCIÓN =================
