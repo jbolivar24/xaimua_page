@@ -316,6 +316,15 @@ function updateTotal(rows) {
 
   totalEl.textContent = `$${total.toLocaleString("es-CL")}`;
 }
+
+function fmt(ts) {
+  if (!ts || ts <= 0) return "—";
+  return new Date(ts).toLocaleString("es-CL", {
+    dateStyle: "short",
+    timeStyle: "short"
+  });
+}
+
 // Llama a updateTotal cada vez que se renderiza la tabla
 async function loadLastBackupInfo() {
   const token = getToken();
@@ -327,6 +336,13 @@ async function loadLastBackupInfo() {
     });
 
     if (!res.ok) return;
+
+    const lastUpdateEl =
+    document.querySelector("#lastBackupInfo span");
+
+    if (lastUpdateEl && data.serverTime) {
+      lastUpdateEl.textContent = fmt(data.serverTime);
+    }
 
     const data = await res.json();
     console.log("Backup info:", data);
