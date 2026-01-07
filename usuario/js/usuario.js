@@ -332,8 +332,7 @@ async function loadLastBackupInfo() {
 
     if (!res.ok) return;
 
-    const data = await res.json(); // ✅ PRIMERO
-  
+    const data = await res.json();
 
     // Última actualización (hora del servidor)
     const lastUpdateEl =
@@ -349,11 +348,6 @@ async function loadLastBackupInfo() {
 
     document.getElementById("lastSimpleBackup").textContent =
       fmt(data.lastSimpleBackupAt);
-
-    //document.getElementById("nextFullBackup").textContent =
-      data.nextFullBackupAt > Date.now()
-        ? fmt(data.nextFullBackupAt)
-        : "Pendiente (cuando la app esté activa)";
 
     document.getElementById("backupDetails").style.display = "block";
 
