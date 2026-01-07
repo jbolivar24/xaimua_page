@@ -332,3 +332,17 @@ thead { opacity: 0.85; }
   font-weight: 600;
   color: #00e5ff;
 }
+
+.backup-details {
+  margin-top: 8px;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.backup-details div {
+  margin-top: 2px;
+}
+
+.backup-details span {
+  font-weight: 600;
+}

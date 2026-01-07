@@ -318,13 +318,10 @@ function updateTotal(rows) {
 }
 // Llama a updateTotal cada vez que se renderiza la tabla
 async function loadLastBackupInfo() {
-  const el = document.querySelector("#lastBackupInfo span");
-  if (!el) return;
+  const token = getToken();
+  if (!token) return;
 
   try {
-    const token = getToken();
-    if (!token) return;
-
     const res = await fetch(`${API_BASE}/api/backup/last`, {
       headers: { "Authorization": token }
     });
@@ -334,18 +331,21 @@ async function loadLastBackupInfo() {
     const data = await res.json();
     console.log("Backup info:", data);
 
-    const ts =
-      data.lastSimpleBackupAt ||
-      data.lastFullBackupAt ||
-      null;
+    document.getElementById("lastFullBackup").textContent =
+      fmt(data.lastFullBackupAt);
 
-    if (!ts) return;
+    document.getElementById("lastSimpleBackup").textContent =
+      fmt(data.lastSimpleBackupAt);
 
-    const d = new Date(ts);
-    el.textContent = d.toLocaleString("es-CL");
+    document.getElementById("nextFullBackup").textContent =
+      data.nextFullBackupAt > Date.now()
+        ? fmt(data.nextFullBackupAt)
+        : "Pendiente (cuando la app esté activa)";
+
+    document.getElementById("backupDetails").style.display = "block";
 
   } catch (e) {
-    console.warn("No se pudo cargar última actualización", e);
+    console.warn("No se pudo cargar info de backup", e);
   }
 }
 
