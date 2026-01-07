@@ -332,13 +332,20 @@ async function loadLastBackupInfo() {
     if (!res.ok) return;
 
     const data = await res.json();
-    if (!data.timestamp) return;
+    console.log("Backup info:", data);
 
-    const d = new Date(data.timestamp);
+    const ts =
+      data.lastSimpleBackupAt ||
+      data.lastFullBackupAt ||
+      null;
+
+    if (!ts) return;
+
+    const d = new Date(ts);
     el.textContent = d.toLocaleString("es-CL");
 
   } catch (e) {
-    console.warn("No se pudo cargar última actualización");
+    console.warn("No se pudo cargar última actualización", e);
   }
 }
 
