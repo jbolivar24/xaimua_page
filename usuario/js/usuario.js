@@ -317,3 +317,29 @@ function updateTotal(rows) {
   totalEl.textContent = `$${total.toLocaleString("es-CL")}`;
 }
 // Llama a updateTotal cada vez que se renderiza la tabla
+async function loadLastBackupInfo() {
+  const el = document.querySelector("#lastBackupInfo span");
+  if (!el) return;
+
+  try {
+    const token = getToken();
+    if (!token) return;
+
+    const res = await fetch(`${API_BASE}/api/backup/last`, {
+      headers: { "Authorization": token }
+    });
+
+    if (!res.ok) return;
+
+    const data = await res.json();
+    if (!data.timestamp) return;
+
+    const d = new Date(data.timestamp);
+    el.textContent = d.toLocaleString("es-CL");
+
+  } catch (e) {
+    console.warn("No se pudo cargar última actualización");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadLastBackupInfo);

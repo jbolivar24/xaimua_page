@@ -320,3 +320,15 @@ thead { opacity: 0.85; }
     padding: 8px 6px;
   }
 }
+
+.last-backup {
+  font-size: 13px;
+  opacity: 0.8;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.last-backup span {
+  font-weight: 600;
+  color: #00e5ff;
+}
