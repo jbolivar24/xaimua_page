@@ -196,18 +196,9 @@ function openNotifyConfig() {
 
 // OJO: si tu endpoint /__dev/shutdown también está protegido,
 // esto debería ser un fetch con Authorization, no window.location.
-async function shutdownBackend() {
-  if (!confirm("¿Seguro que deseas detener el backend?\n\nSe cerrará inmediatamente.")) return;
-
-  try {
-    const res = await fetchAuth(`${API_BASE}/api/__dev/shutdown`, { method: "POST" });
-    log(res.ok ? "🛑 Backend detenido." : "⚠️ No se pudo detener: HTTP " + res.status);
-  } catch (e) {}
-}
 
 window.executeAction = executeAction;
 window.executeRestore = executeRestore;
 window.openNotifyConfig = openNotifyConfig;
-window.shutdownBackend = shutdownBackend;
 
 loadClients();
