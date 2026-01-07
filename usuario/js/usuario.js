@@ -178,11 +178,6 @@ document.getElementById("loadDataBtn")
         return;
       }
 
-      console.log(
-        "Filas:", rows.length,
-        "Bytes aprox:", new Blob([JSON.stringify(rows)]).size
-      );
-
       renderTable(rows);
       updateTotal(rows);
 
@@ -338,7 +333,7 @@ async function loadLastBackupInfo() {
     if (!res.ok) return;
 
     const data = await res.json(); // ✅ PRIMERO
-    console.log("Backup info:", data);
+  
 
     // Última actualización (hora del servidor)
     const lastUpdateEl =
@@ -355,7 +350,7 @@ async function loadLastBackupInfo() {
     document.getElementById("lastSimpleBackup").textContent =
       fmt(data.lastSimpleBackupAt);
 
-    document.getElementById("nextFullBackup").textContent =
+    //document.getElementById("nextFullBackup").textContent =
       data.nextFullBackupAt > Date.now()
         ? fmt(data.nextFullBackupAt)
         : "Pendiente (cuando la app esté activa)";
