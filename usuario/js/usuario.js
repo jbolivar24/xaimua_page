@@ -337,16 +337,18 @@ async function loadLastBackupInfo() {
 
     if (!res.ok) return;
 
+    const data = await res.json(); // ✅ PRIMERO
+    console.log("Backup info:", data);
+
+    // Última actualización (hora del servidor)
     const lastUpdateEl =
-    document.querySelector("#lastBackupInfo span");
+      document.querySelector("#lastBackupInfo span");
 
     if (lastUpdateEl && data.serverTime) {
       lastUpdateEl.textContent = fmt(data.serverTime);
     }
 
-    const data = await res.json();
-    console.log("Backup info:", data);
-
+    // Detalle
     document.getElementById("lastFullBackup").textContent =
       fmt(data.lastFullBackupAt);
 
