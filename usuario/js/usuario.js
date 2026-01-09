@@ -334,6 +334,11 @@ async function loadLastBackupInfo() {
 
     const data = await res.json();
 
+    const rutEl = document.getElementById("userRut");
+    if (rutEl && data.rut) {
+      rutEl.textContent = `RUT: ${data.rut}`;
+    }
+
     // Última actualización (hora del servidor)
     const lastUpdateEl =
       document.querySelector("#lastBackupInfo span");
