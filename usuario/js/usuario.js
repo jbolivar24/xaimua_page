@@ -336,7 +336,7 @@ async function loadLastBackupInfo() {
 
     const rutEl = document.getElementById("userRut");
     if (rutEl && data.rut) {
-      rutEl.textContent = `RUT: ${data.rut}`;
+      rutEl.textContent = `RUT: ${formatRut(data.rut)}`;
     }
 
     // Última actualización (hora del servidor)
@@ -362,3 +362,19 @@ async function loadLastBackupInfo() {
 }
 
 document.addEventListener("DOMContentLoaded", loadLastBackupInfo);
+
+function formatRut(rut) {
+  if (!rut) return "";
+
+  // limpiar todo lo que no sea número o K/k
+  const clean = rut.replace(/[^0-9kK]/g, "").toUpperCase();
+  if (clean.length < 2) return clean;
+
+  const body = clean.slice(0, -1);
+  const dv = clean.slice(-1);
+
+  // puntos cada 3 desde la derecha
+  const formattedBody = body.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+  return `${formattedBody}-${dv}`;
+}
