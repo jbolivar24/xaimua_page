@@ -32,10 +32,10 @@ async function doLogin() {
   const username = rawUsername;//normalized ? normalized.replace("-", "") : null;
   const password = (passwordEl.value || "").trim();
 
-  if (!username) {
-    setMsg("RUT inválido.");
-    return;
-  }
+  //if (!username) {
+    //setMsg("RUT inválido.");
+    //return;
+  //}
 
   loginBtn.disabled = true;
   setMsg("");
