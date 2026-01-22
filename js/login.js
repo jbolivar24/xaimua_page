@@ -28,9 +28,8 @@ function saveTokenByRole(role, token) {
 
 async function doLogin() {
   const rawUsername = (usernameEl.value || "").trim();
-  const normalized = normalizeRut(rawUsername);
-  const username = normalized ? normalized.replace("-", "") : null;
-
+  //const normalized = rawUsernamenormalizeRut(rawUsername);
+  const username = rawUsername;//normalized ? normalized.replace("-", "") : null;
   const password = (passwordEl.value || "").trim();
 
   if (!username) {
