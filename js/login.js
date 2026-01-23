@@ -104,10 +104,10 @@ confirmForgot.addEventListener("click", async () => {
     const rawRut = (usernameEl.value || "").trim();
     const rut = normalizeRut(rawRut);
 
-    if (!rut) {
-        setMsg("Debes ingresar un RUT válido.", true);
-        return;
-    }
+    //if (!rut) {
+        //setMsg("Debes ingresar un RUT válido.", true);
+        //return;
+    //}
 
     confirmForgot.disabled = true;
     forgotModal.classList.add("hidden");
@@ -117,7 +117,7 @@ confirmForgot.addEventListener("click", async () => {
         const res = await fetch(`${API_BASE}/api/auth/forgot-password`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ rut })
+            body: JSON.stringify({ usernameEl })
         });
 
         const data = await res.json().catch(() => null);
