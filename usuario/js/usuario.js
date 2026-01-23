@@ -336,7 +336,7 @@ async function loadLastBackupInfo() {
 
     const rutEl = document.getElementById("userEmail");
     if (rutEl && data.email) {
-      rutEl.textContent = `Email: ${data.email}`;
+      rutEl.textContent = data.email;
     }
 
     // Última actualización (hora del servidor)
