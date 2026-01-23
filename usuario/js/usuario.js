@@ -334,9 +334,9 @@ async function loadLastBackupInfo() {
 
     const data = await res.json();
 
-    const rutEl = document.getElementById("userRut");
-    if (rutEl && data.rut) {
-      rutEl.textContent = `RUT: ${formatRut(data.rut)}`;
+    const rutEl = document.getElementById("userEmail");
+    if (rutEl && data.email) {
+      rutEl.textContent = `Email: ${data.email}`;
     }
 
     // Última actualización (hora del servidor)
