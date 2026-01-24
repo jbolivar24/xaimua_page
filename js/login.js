@@ -101,39 +101,36 @@ cancelForgot.addEventListener("click", () => {
 });
 
 confirmForgot.addEventListener("click", async () => {
-    const rawRut = (usernameEl.value || "").trim();
-    const rut = normalizeRut(rawRut);
+  const email = (usernameEl.value || "").trim().toLowerCase();
 
-    //if (!rut) {
-        //setMsg("Debes ingresar un RUT válido.", true);
-        //return;
-    //}
+  if (!email) {
+    setMsg("Debes ingresar tu correo.", true);
+    return;
+  }
 
-    confirmForgot.disabled = true;
-    forgotModal.classList.add("hidden");
-    setMsg("Enviando correo...", false);
+  confirmForgot.disabled = true;
+  forgotModal.classList.add("hidden");
+  setMsg("Enviando correo...", false);
 
-    try {
-        const res = await fetch(`${API_BASE}/api/auth/forgot-password`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ usernameEl })
-        });
+  try {
+    const res = await fetch(`${API_BASE}/api/auth/forgot-password`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email })
+    });
 
-        const data = await res.json().catch(() => null);
+    const data = await res.json().catch(() => null);
 
-        setMsg(
-            data?.message ||
-            "Si el usuario existe, recibirás un correo con instrucciones.",
-            false
-        );
-
-    } catch (err) {
-        console.error(err);
-        setMsg("No fue posible enviar la solicitud. Intenta más tarde.");
-    } finally {
-        confirmForgot.disabled = false;
-    }
+    setMsg(
+      data?.message || "Si el usuario existe, recibirás un correo con instrucciones.",
+      false
+    );
+  } catch (err) {
+    console.error(err);
+    setMsg("No fue posible enviar la solicitud. Intenta más tarde.", true);
+  } finally {
+    confirmForgot.disabled = false;
+  }
 });
 
 function normalizeRut(input) {
