@@ -320,7 +320,6 @@ function fmt(ts) {
   });
 }
 
-// Llama a updateTotal cada vez que se renderiza la tabla
 async function loadLastBackupInfo() {
   const token = getToken();
   if (!token) return;
@@ -334,27 +333,20 @@ async function loadLastBackupInfo() {
 
     const data = await res.json();
 
-    const rutEl = document.getElementById("userEmail");
-    if (rutEl && data.email) {
-      rutEl.textContent = data.email;
+    // Email en header
+    const emailEl = document.getElementById("userEmail");
+    if (emailEl && data.email) {
+      emailEl.textContent = data.email;
     }
 
-    // Última actualización (hora del servidor)
-    const lastUpdateEl =
-      document.querySelector("#lastBackupInfo span");
-
-    if (lastUpdateEl && data.serverTime) {
-      lastUpdateEl.textContent = fmt(data.serverTime);
+    // ✅ SOLO lo que existe en tu HTML actual:
+    // Último respaldo (ya no usas #lastBackupInfo span)
+    const lastFullEl = document.getElementById("lastFullBackup");
+    if (lastFullEl) {
+      // intenta con varios nombres por si cambia el backend
+      const value = data.lastFullBackupAt || data.serverTime || data.lastUpdate;
+      lastFullEl.textContent = value ? fmt(value) : "—";
     }
-
-    // Detalle
-    document.getElementById("lastFullBackup").textContent =
-      fmt(data.lastFullBackupAt);
-
-    document.getElementById("lastSimpleBackup").textContent =
-      fmt(data.lastSimpleBackupAt);
-
-    document.getElementById("backupDetails").style.display = "block";
 
   } catch (e) {
     console.warn("No se pudo cargar info de backup", e);
