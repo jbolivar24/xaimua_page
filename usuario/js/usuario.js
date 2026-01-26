@@ -378,3 +378,65 @@ function formatRut(rut) {
 
   return `${formattedBody}-${dv}`;
 }
+
+// ================= USER MENU (dropdown) =================
+function setupUserMenu() {
+  const btn = document.getElementById("userMenuBtn");
+  const dd  = document.getElementById("userMenuDropdown");
+  if (!btn || !dd) return;
+
+  const show = () => (dd.style.display = "block");
+  const hide = () => (dd.style.display = "none");
+  const toggle = () => (dd.style.display === "block" ? hide() : show());
+
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    toggle();
+  });
+
+  // click afuera cierra
+  document.addEventListener("click", (e) => {
+    if (!dd.contains(e.target) && e.target !== btn) hide();
+  });
+
+  // ESC cierra
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") hide();
+  });
+
+  // tabs
+  function openTab(tab) {
+    const sec = document.getElementById("tab-security");
+    const pro = document.getElementById("tab-profile");
+    if (!sec || !pro) return;
+
+    sec.style.display = (tab === "security") ? "block" : "none";
+    pro.style.display = (tab === "profile") ? "block" : "none";
+  }
+
+  dd.querySelectorAll("[data-tab]").forEach(el => {
+    el.addEventListener("click", () => openTab(el.dataset.tab));
+  });
+
+  // default
+  openTab("security");
+
+  // botones (por ahora UI)
+  document.getElementById("saveEmailBtn")?.addEventListener("click", () => {
+    alert("Guardar email (pendiente: endpoint backend).");
+  });
+
+  document.getElementById("savePasswordBtn")?.addEventListener("click", () => {
+    alert("Guardar contraseña (pendiente: endpoint backend).");
+  });
+
+  document.getElementById("saveSecurityBtn")?.addEventListener("click", () => {
+    alert("Guardar preguntas (pendiente: endpoint backend).");
+  });
+
+  document.getElementById("saveProfileBtn")?.addEventListener("click", () => {
+    alert("Guardar datos del cliente (pendiente: endpoint backend).");
+  });
+}
+
+document.addEventListener("DOMContentLoaded", setupUserMenu);

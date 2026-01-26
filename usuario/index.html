@@ -37,8 +37,102 @@
                 </a>
             </div>
             
-            <div class="header-user">
+            <div class="header-user user-menu">
+            <button class="user-menu-btn" id="userMenuBtn" type="button">
                 <span id="userEmail">—</span>
+                <span class="user-menu-caret">▾</span>
+            </button>
+
+            <div class="user-menu-dropdown" id="userMenuDropdown" style="display:none;">
+                <div class="user-menu-title">Mi cuenta</div>
+
+                <button class="user-menu-item" type="button" data-tab="security">Seguridad</button>
+                <button class="user-menu-item" type="button" data-tab="profile">Datos del cliente</button>
+
+                <div class="user-menu-sep"></div>
+
+                <!-- ====== TAB: SEGURIDAD ====== -->
+                <div class="user-menu-panel" id="tab-security">
+                <div class="user-menu-section-title">Cambiar correo</div>
+                <label class="user-menu-label">
+                    Nuevo email
+                    <input class="user-menu-input" id="newEmail" type="email" placeholder="correo@dominio.com">
+                </label>
+                <button class="user-menu-action" id="saveEmailBtn" type="button">Guardar email</button>
+
+                <div class="user-menu-spacer"></div>
+
+                <div class="user-menu-section-title">Cambiar contraseña</div>
+                <label class="user-menu-label">
+                    Contraseña actual
+                    <input class="user-menu-input" id="currentPassword" type="password" placeholder="••••">
+                </label>
+                <label class="user-menu-label">
+                    Nueva contraseña
+                    <input class="user-menu-input" id="newPassword" type="password" placeholder="••••">
+                </label>
+                <button class="user-menu-action" id="savePasswordBtn" type="button">Guardar contraseña</button>
+
+                <div class="user-menu-spacer"></div>
+
+                <div class="user-menu-section-title">Preguntas de seguridad</div>
+                <p class="user-menu-muted">
+                    Esto se usará para recuperar tu email si lo olvidas.
+                </p>
+
+                <label class="user-menu-label">
+                    Pregunta 1
+                    <input class="user-menu-input" id="secQ1" type="text" placeholder="Ej: ¿Nombre de tu primera mascota?">
+                </label>
+                <label class="user-menu-label">
+                    Respuesta 1
+                    <input class="user-menu-input" id="secA1" type="text" placeholder="Tu respuesta">
+                </label>
+
+                <label class="user-menu-label">
+                    Pregunta 2
+                    <input class="user-menu-input" id="secQ2" type="text" placeholder="Ej: ¿Ciudad donde naciste?">
+                </label>
+                <label class="user-menu-label">
+                    Respuesta 2
+                    <input class="user-menu-input" id="secA2" type="text" placeholder="Tu respuesta">
+                </label>
+
+                <button class="user-menu-action" id="saveSecurityBtn" type="button">Guardar preguntas</button>
+                </div>
+
+                <!-- ====== TAB: DATOS CLIENTE ====== -->
+                <div class="user-menu-panel" id="tab-profile" style="display:none;">
+                <div class="user-menu-section-title">Datos del cliente (opcional)</div>
+
+                <label class="user-menu-label">
+                    Teléfono
+                    <input class="user-menu-input" id="userPhone" type="tel" placeholder="+56 9 1234 5678">
+                </label>
+
+                <label class="user-menu-label">
+                    Razón social
+                    <input class="user-menu-input" id="userBusinessName" type="text" placeholder="Empresa o nombre completo">
+                </label>
+
+                <label class="user-menu-label">
+                    RUT
+                    <input class="user-menu-input" id="userRut" type="text" placeholder="12.345.678-9">
+                </label>
+
+                <label class="user-menu-label">
+                    Dirección fiscal
+                    <input class="user-menu-input" id="userTaxAddress" type="text" placeholder="Calle, número, comuna, ciudad">
+                </label>
+
+                <label class="user-menu-label">
+                    Giro
+                    <input class="user-menu-input" id="userGiro" type="text" placeholder="Ej: Venta al por menor de alimentos">
+                </label>
+
+                <button class="user-menu-action" id="saveProfileBtn" type="button">Guardar datos</button>
+                </div>
+            </div>
             </div>
 
             <button class="logout-btn" id="logoutHeaderBtn">
@@ -52,7 +146,6 @@
 
         <section class="panel">
 
-            <!-- ================= RESTAURACIÓN ================= -->
             <!-- ================= RESTAURACIÓN ================= -->
             <div class="panel-block">
             <h3>Último respaldo</h3>
