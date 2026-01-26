@@ -184,3 +184,78 @@
     max-height: 44px;
   }
 }
+
+/* ==========================
+   Seguridad: botones simples
+   ========================== */
+.security-actions{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+@media (max-width: 900px){
+  .security-actions{ grid-template-columns: 1fr; }
+}
+
+/* ==========================
+   Modal
+   ========================== */
+.modal-backdrop{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  z-index: 9999;
+}
+
+.modal-backdrop.open{
+  display: flex;
+}
+
+.modal-card{
+  width: min(520px, 100%);
+  border-radius: 22px;
+  background: rgba(18,18,18,0.92);
+  border: 1px solid rgba(255,255,255,0.14);
+  padding: 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+}
+
+.modal-head{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.modal-close{
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(0,0,0,0.25);
+  color: rgba(255,255,255,0.90);
+  border-radius: 14px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.modal-actions{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.ghost-btn{
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(0,0,0,0.20);
+  color: rgba(255,255,255,0.90);
+  border-radius: 16px;
+  padding: 10px 16px;
+  font-weight: 800;
+  cursor: pointer;
+}

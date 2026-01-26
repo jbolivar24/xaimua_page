@@ -76,3 +76,92 @@ document.addEventListener("DOMContentLoaded", () => {
     setHint("profileHint", "Pendiente: endpoint backend para guardar datos del cliente.");
   });
 });
+
+function openModal(id){
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.add("open");
+  el.setAttribute("aria-hidden", "false");
+}
+
+function closeModal(id){
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.remove("open");
+  el.setAttribute("aria-hidden", "true");
+}
+
+function wireModals(){
+  const openEmail = document.getElementById("openEmailModalBtn");
+  const openPass  = document.getElementById("openPassModalBtn");
+
+  if (openEmail) openEmail.addEventListener("click", () => openModal("emailModal"));
+  if (openPass)  openPass.addEventListener("click", () => openModal("passModal"));
+
+  // cerrar con botones
+  document.querySelectorAll("[data-close]").forEach(btn => {
+    btn.addEventListener("click", () => closeModal(btn.getAttribute("data-close")));
+  });
+
+  // cerrar clickeando fuera
+  ["emailModal","passModal"].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener("click", (e) => {
+      if (e.target === el) closeModal(id);
+    });
+  });
+
+  // cerrar con ESC
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    closeModal("emailModal");
+    closeModal("passModal");
+  });
+}
+
+// ✅ validaciones + llamadas
+async function updateEmail(){
+  const e1 = document.getElementById("modalNewEmail").value.trim();
+  const e2 = document.getElementById("modalNewEmail2").value.trim();
+  const hint = document.getElementById("emailHint");
+
+  if (hint) hint.textContent = "";
+
+  if (!e1 || !e2) { if (hint) hint.textContent = "Completa ambos campos."; return; }
+  if (e1.toLowerCase() !== e2.toLowerCase()) { if (hint) hint.textContent = "Los correos no coinciden."; return; }
+
+  // 👉 Aquí llama tu endpoint real
+  // Ejemplo:
+  // await fetch(`${API_BASE}/api/user/email`, {method:"POST", headers:{Authorization:getToken(), "Content-Type":"application/json"}, body: JSON.stringify({email:e1})})
+
+  if (hint) hint.textContent = "✅ Correo actualizado.";
+  closeModal("emailModal");
+}
+
+async function updatePassword(){
+  const p1 = document.getElementById("modalNewPass").value;
+  const p2 = document.getElementById("modalNewPass2").value;
+  const hint = document.getElementById("passHint");
+
+  if (hint) hint.textContent = "";
+
+  if (!p1 || !p2) { if (hint) hint.textContent = "Completa ambos campos."; return; }
+  if (p1 !== p2) { if (hint) hint.textContent = "Las contraseñas no coinciden."; return; }
+  if (p1.length < 4) { if (hint) hint.textContent = "La contraseña es muy corta."; return; }
+
+  // 👉 Aquí llama tu endpoint real
+
+  if (hint) hint.textContent = "✅ Contraseña actualizada.";
+  closeModal("passModal");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  wireModals();
+
+  const b1 = document.getElementById("updateEmailBtn");
+  const b2 = document.getElementById("updatePassBtn");
+
+  if (b1) b1.addEventListener("click", updateEmail);
+  if (b2) b2.addEventListener("click", updatePassword);
+});

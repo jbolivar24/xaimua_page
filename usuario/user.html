@@ -61,74 +61,21 @@
       </div>
 
       <!-- ================= SEGURIDAD ================= -->
-      <div class="panel-block">
-        <h3>Seguridad</h3>
+        <div class="panel-block">
+            <h3>Seguridad</h3>
 
-        <div class="form-grid">
-          <div class="form-card">
-            <h4>Cambiar correo</h4>
+            <div class="security-actions">
+                <button class="primary-btn" id="openEmailModalBtn" type="button">
+                Cambiar correo
+                </button>
 
-            <label class="field">
-              Nuevo email
-              <input id="newEmail" type="email" placeholder="correo@dominio.com" autocomplete="email" />
-            </label>
-
-            <button class="primary-btn" id="saveEmailBtn">Guardar email</button>
-            <div class="hint" id="emailHint"></div>
-          </div>
-
-          <div class="form-card">
-            <h4>Cambiar contraseña</h4>
-
-            <label class="field">
-              Contraseña actual
-              <input id="currentPassword" type="password" placeholder="••••" autocomplete="current-password" />
-            </label>
-
-            <label class="field">
-              Nueva contraseña
-              <input id="newPassword" type="password" placeholder="••••" autocomplete="new-password" />
-            </label>
-
-            <button class="primary-btn" id="savePasswordBtn">Guardar contraseña</button>
-            <div class="hint" id="passHint"></div>
-          </div>
-
-          <div class="form-card form-card-full">
-            <h4>Preguntas de seguridad</h4>
-            <p class="muted" style="margin-top:-6px">
-              Se usarán para recuperar tu acceso (por ahora).
-            </p>
-
-            <div class="two-col">
-              <div>
-                <label class="field">
-                  Pregunta 1
-                  <input id="secQ1" type="text" placeholder="Ej: ¿Nombre de tu primera mascota?" />
-                </label>
-                <label class="field">
-                  Respuesta 1
-                  <input id="secA1" type="text" placeholder="Tu respuesta" />
-                </label>
-              </div>
-
-              <div>
-                <label class="field">
-                  Pregunta 2
-                  <input id="secQ2" type="text" placeholder="Ej: ¿Ciudad donde naciste?" />
-                </label>
-                <label class="field">
-                  Respuesta 2
-                  <input id="secA2" type="text" placeholder="Tu respuesta" />
-                </label>
-              </div>
+                <button class="primary-btn" id="openPassModalBtn" type="button">
+                Cambiar contraseña
+                </button>
             </div>
 
-            <button class="primary-btn" id="saveSecurityBtn">Guardar preguntas</button>
-            <div class="hint" id="secHint"></div>
-          </div>
+            <div class="hint" id="securityHint"></div>
         </div>
-      </div>
 
       <!-- ================= DATOS CLIENTE ================= -->
       <div class="panel-block">
@@ -180,5 +127,60 @@
   </main>
 
   <footer id="footer"></footer>
+
+  <!-- ================= MODAL: CAMBIAR EMAIL ================= -->
+<div class="modal-backdrop" id="emailModal" aria-hidden="true">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="emailModalTitle">
+    <div class="modal-head">
+      <h3 id="emailModalTitle">Cambiar correo</h3>
+      <button class="modal-close" type="button" data-close="emailModal">✕</button>
+    </div>
+
+    <label class="field">
+      Nuevo email
+      <input id="modalNewEmail" type="email" placeholder="correo@dominio.com" autocomplete="email" />
+    </label>
+
+    <label class="field">
+      Repite el email
+      <input id="modalNewEmail2" type="email" placeholder="correo@dominio.com" autocomplete="email" />
+    </label>
+
+    <div class="modal-actions">
+      <button class="primary-btn" id="updateEmailBtn" type="button">Actualizar</button>
+      <button class="ghost-btn" type="button" data-close="emailModal">Cancelar</button>
+    </div>
+
+    <div class="hint" id="emailHint"></div>
+  </div>
+</div>
+
+    <!-- ================= MODAL: CAMBIAR CLAVE ================= -->
+    <div class="modal-backdrop" id="passModal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="passModalTitle">
+        <div class="modal-head">
+        <h3 id="passModalTitle">Cambiar contraseña</h3>
+        <button class="modal-close" type="button" data-close="passModal">✕</button>
+        </div>
+
+        <label class="field">
+        Nueva contraseña
+        <input id="modalNewPass" type="password" placeholder="••••" autocomplete="new-password" />
+        </label>
+
+        <label class="field">
+        Repite la contraseña
+        <input id="modalNewPass2" type="password" placeholder="••••" autocomplete="new-password" />
+        </label>
+
+        <div class="modal-actions">
+        <button class="primary-btn" id="updatePassBtn" type="button">Actualizar</button>
+        <button class="ghost-btn" type="button" data-close="passModal">Cancelar</button>
+        </div>
+
+        <div class="hint" id="passHint"></div>
+    </div>
+    </div>
+
 </body>
 </html>
