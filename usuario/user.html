@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Xaimua · Mi cuenta</title>
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="/xaimua_page/img/favicon/favicon.ico">
+  <link rel="icon" type="image/png" sizes="96x96" href="/xaimua_page/img/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/svg+xml" href="/xaimua_page/img/favicon/favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/xaimua_page/img/favicon/apple-touch-icon.png">
+
+  <!-- PWA -->
+  <link rel="manifest" href="/xaimua_page/site.webmanifest">
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="/xaimua_page/css/global.css?v=1">
+  <link rel="stylesheet" href="/xaimua_page/user/css/user.css?v=1">
+
+  <!-- Guard y lógica -->
+  <script type="module" src="/xaimua_page/user/js/guard-user.js"></script>
+  <script type="module" src="/xaimua_page/user/js/user.js"></script>
+</head>
+
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <a href="/xaimua_page/index.html">
+          <img src="/xaimua_page/img/logo.png" alt="Xaimua">
+        </a>
+      </div>
+
+      <div class="header-user">
+        <span id="userEmail">—</span>
+      </div>
+
+      <button class="logout-btn" id="logoutHeaderBtn">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <!-- ===== CONTENIDO ===== -->
+  <main class="user-section">
+
+    <section class="panel">
+
+      <div class="panel-block">
+        <div class="block-head">
+          <h3>Mi cuenta</h3>
+          <a class="link-btn" href="/xaimua_page/usuario/usuario.html">Volver</a>
+        </div>
+        <p class="muted">
+          Aquí puedes actualizar tus datos de acceso y, si quieres, completar tu información de cliente.
+        </p>
+      </div>
+
+      <!-- ================= SEGURIDAD ================= -->
+      <div class="panel-block">
+        <h3>Seguridad</h3>
+
+        <div class="form-grid">
+          <div class="form-card">
+            <h4>Cambiar correo</h4>
+
+            <label class="field">
+              Nuevo email
+              <input id="newEmail" type="email" placeholder="correo@dominio.com" autocomplete="email" />
+            </label>
+
+            <button class="primary-btn" id="saveEmailBtn">Guardar email</button>
+            <div class="hint" id="emailHint"></div>
+          </div>
+
+          <div class="form-card">
+            <h4>Cambiar contraseña</h4>
+
+            <label class="field">
+              Contraseña actual
+              <input id="currentPassword" type="password" placeholder="••••" autocomplete="current-password" />
+            </label>
+
+            <label class="field">
+              Nueva contraseña
+              <input id="newPassword" type="password" placeholder="••••" autocomplete="new-password" />
+            </label>
+
+            <button class="primary-btn" id="savePasswordBtn">Guardar contraseña</button>
+            <div class="hint" id="passHint"></div>
+          </div>
+
+          <div class="form-card form-card-full">
+            <h4>Preguntas de seguridad</h4>
+            <p class="muted" style="margin-top:-6px">
+              Se usarán para recuperar tu acceso (por ahora).
+            </p>
+
+            <div class="two-col">
+              <div>
+                <label class="field">
+                  Pregunta 1
+                  <input id="secQ1" type="text" placeholder="Ej: ¿Nombre de tu primera mascota?" />
+                </label>
+                <label class="field">
+                  Respuesta 1
+                  <input id="secA1" type="text" placeholder="Tu respuesta" />
+                </label>
+              </div>
+
+              <div>
+                <label class="field">
+                  Pregunta 2
+                  <input id="secQ2" type="text" placeholder="Ej: ¿Ciudad donde naciste?" />
+                </label>
+                <label class="field">
+                  Respuesta 2
+                  <input id="secA2" type="text" placeholder="Tu respuesta" />
+                </label>
+              </div>
+            </div>
+
+            <button class="primary-btn" id="saveSecurityBtn">Guardar preguntas</button>
+            <div class="hint" id="secHint"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= DATOS CLIENTE ================= -->
+      <div class="panel-block">
+        <h3>Datos del cliente</h3>
+        <p class="muted">
+          Opcional. Esto te ayudará a tener tus datos listos para facturación o soporte.
+        </p>
+
+        <div class="form-grid">
+          <div class="form-card form-card-full">
+            <div class="two-col">
+              <div>
+                <label class="field">
+                  Teléfono
+                  <input id="userPhone" type="tel" placeholder="+56 9 1234 5678" />
+                </label>
+
+                <label class="field">
+                  Razón social
+                  <input id="userBusinessName" type="text" placeholder="Empresa o nombre completo" />
+                </label>
+
+                <label class="field">
+                  RUT
+                  <input id="userRut" type="text" placeholder="12.345.678-9" />
+                </label>
+              </div>
+
+              <div>
+                <label class="field">
+                  Dirección fiscal
+                  <input id="userTaxAddress" type="text" placeholder="Calle, número, comuna, ciudad" />
+                </label>
+
+                <label class="field">
+                  Giro
+                  <input id="userGiro" type="text" placeholder="Ej: Venta al por menor de alimentos" />
+                </label>
+              </div>
+            </div>
+
+            <button class="primary-btn" id="saveProfileBtn">Guardar datos</button>
+            <div class="hint" id="profileHint"></div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer id="footer"></footer>
+</body>
+</html>
