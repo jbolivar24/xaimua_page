@@ -95,3 +95,92 @@
   .form-grid{ grid-template-columns: 1fr; }
   .two-col{ grid-template-columns: 1fr; }
 }
+
+/* ===========================
+   USER PAGE POLISH (Xaimua)
+   =========================== */
+
+/* 1) Evita que el header se vea enorme en user.html */
+.app-header .header-logo img{
+  max-height: 54px;
+  width: auto;
+}
+
+/* 2) Header alineado y con mejor spacing */
+.app-header .header-inner{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* El email no debe quedar pegado al logo ni ocupar todo */
+.header-user{
+  margin-left: 8px;
+  font-weight: 700;
+  opacity: 0.92;
+  white-space: nowrap;
+}
+
+/* 3) Que el contenido no quede pegado arriba */
+.user-section{
+  padding-top: 18px;
+}
+
+/* 4) Botón Volver más bonito y consistente */
+.link-btn{
+  border-radius: 16px;
+  padding: 10px 16px;
+  font-weight: 800;
+}
+
+/* 5) Las tarjetas (form-card) más “premium” */
+.form-card{
+  border-radius: 22px;
+  background: rgba(0,0,0,0.22);
+  border: 1px solid rgba(255,255,255,0.10);
+}
+
+/* 6) Títulos más consistentes */
+.form-card h4{
+  font-size: 18px;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+
+/* 7) Inputs y labels con aire */
+.field{
+  margin-top: 12px;
+}
+
+.field input{
+  height: 44px;
+}
+
+/* 8) Botones del mismo “look” que tu primary-btn */
+.form-card .primary-btn{
+  width: 100%;
+  margin-top: 14px;
+}
+
+/* 9) Responsive: en pantallas chicas el header debe compactar */
+@media (max-width: 780px){
+  .app-header .header-inner{
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .header-user{
+    width: 100%;
+  }
+
+  .logout-btn{
+    width: 100%;
+    max-width: 240px;
+  }
+
+  .app-header .header-logo img{
+    max-height: 44px;
+  }
+}
