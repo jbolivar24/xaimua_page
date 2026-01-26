@@ -1,4 +1,4 @@
 // /user/js/guard-user.js
-import { requireRole } from "../js/auth.js";
+import { requireRole } from "../usuario/js/auth.js";
 
 requireRole("USUARIO");
