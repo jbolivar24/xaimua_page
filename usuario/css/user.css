@@ -191,14 +191,15 @@
 .security-actions{
   grid-template-columns: 1fr 1fr;
   display: flex;
-  flex-direction: column;   /* 🔑 esto los pone uno debajo del otro */
-  gap: 14px;                /* separación bonita */
+  flex-direction: column;   /* 🔑 esto los pone uno debajo del otro */              /* separación bonita */
   margin-top: 10px;
+  gap: 16px;
 }
 
 .security-actions .primary-btn {
-  width: 20%;              /* botones largos, elegantes */
-  justify-content: center;
+  width: 320px;          /* ancho elegante */
+  max-width: 100%;
+  align-self: center;    /* centra el botón */
 }
 
 @media (max-width: 900px){
