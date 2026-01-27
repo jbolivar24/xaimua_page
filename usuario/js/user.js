@@ -211,3 +211,12 @@ const saveSecBtn = document.getElementById("saveSecurityAnswersBtn");
 if (saveSecBtn) {
   saveSecBtn.addEventListener("click", saveSecurityAnswers);
 }
+
+document.getElementById("backBtn").addEventListener("click", () => {
+  window.location.href = "/xaimua_page/usuario/index.html";
+});
+
+document.getElementById("logoutHeaderBtn").addEventListener("click", () => {
+  localStorage.removeItem("token");
+  window.location.href = "/xaimua_page/index.html";
+});
