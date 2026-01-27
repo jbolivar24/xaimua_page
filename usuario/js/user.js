@@ -165,3 +165,49 @@ document.addEventListener("DOMContentLoaded", () => {
   if (b1) b1.addEventListener("click", updateEmail);
   if (b2) b2.addEventListener("click", updatePassword);
 });
+
+const openSecQ = document.getElementById("openSecurityQModalBtn");
+if (openSecQ) {
+  openSecQ.addEventListener("click", () => openModal("securityQModal"));
+}
+
+async function saveSecurityAnswers(){
+  const a1 = document.getElementById("secAns1").value.trim();
+  const a2 = document.getElementById("secAns2").value.trim();
+  const a3 = document.getElementById("secAns3").value.trim();
+  const hint = document.getElementById("securityQHint");
+
+  if (hint) hint.textContent = "";
+
+  if (!a1 || !a2 || !a3) {
+    if (hint) hint.textContent = "Debes responder todas las preguntas.";
+    return;
+  }
+
+  const payload = {
+    questions: [
+      "nombre_mascota_favorita",
+      "lugar_nacimiento_abuela_materna",
+      "escuela_basica"
+    ],
+    answers: [a1, a2, a3]
+  };
+
+  // 👉 Aquí conectas tu endpoint real
+  // await fetch(`${API_BASE}/api/user/security-questions`, {
+  //   method: "POST",
+  //   headers: {
+  //     "Authorization": getToken(),
+  //     "Content-Type": "application/json"
+  //   },
+  //   body: JSON.stringify(payload)
+  // });
+
+  if (hint) hint.textContent = "✅ Preguntas guardadas correctamente.";
+  closeModal("securityQModal");
+}
+
+const saveSecBtn = document.getElementById("saveSecurityAnswersBtn");
+if (saveSecBtn) {
+  saveSecBtn.addEventListener("click", saveSecurityAnswers);
+}
