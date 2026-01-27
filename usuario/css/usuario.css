@@ -192,14 +192,23 @@
 
 .date-range {
   display: flex;
-  flex-wrap: wrap;
   gap: 14px;
-  align-items: flex-end;
+  align-items: center; /* 🔑 clave */
+}
+
+.date-range label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 220px;
+}
+
+.date-range input {
+  height: 42px;
 }
 
 .date-range .primary-btn {
-  height: 42px;          /* igual que el input */
-  margin-bottom: 2px;   /* micro-ajuste visual */
+  height: 42px;
 }
 
 .date-range label {
@@ -375,4 +384,27 @@ thead { opacity: 0.85; }
 }
 .link-btn:hover{
   box-shadow: 0 10px 18px rgba(0,0,0,0.25);
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: auto;
+  padding: 14px 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* empuja el grupo de botones a la derecha */
+.header-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 12px;
+}
+
+/* ambos botones idénticos */
+.header-actions .logout-btn {
+  min-width: 150px;
+  text-align: center;
 }
