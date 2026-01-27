@@ -189,10 +189,16 @@
    Seguridad: botones simples
    ========================== */
 .security-actions{
-  display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  margin-top: 12px;
+  display: flex;
+  flex-direction: column;   /* 🔑 esto los pone uno debajo del otro */
+  gap: 14px;                /* separación bonita */
+  margin-top: 10px;
+}
+
+.security-actions .primary-btn {
+  width: 100%;              /* botones largos, elegantes */
+  justify-content: center;
 }
 
 @media (max-width: 900px){
