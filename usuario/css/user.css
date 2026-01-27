@@ -586,20 +586,26 @@ thead { opacity: 0.85; }
 }
 
 /* =========================
-   BOTONES DE SEGURIDAD (MOBILE)
+   SEGURIDAD – MOBILE FIX REAL
    ========================= */
 
-@media (max-width: 728px) {
+@media (max-width: 768px) {
 
   .security-actions {
     display: flex;
     flex-direction: column;
-    gap: 14px;          /* 👈 AIRE REAL ENTRE BOTONES */
   }
 
   .security-actions .primary-btn {
     width: 100%;
-    padding: 14px 16px;
+    margin-bottom: 14px;     /* 👈 AIRE REAL */
+    padding: 16px;
     font-size: 15px;
+    border-radius: 16px;     /* 👈 evita efecto bloque */
+  }
+
+  /* elimina margen del último */
+  .security-actions .primary-btn:last-child {
+    margin-bottom: 0;
   }
 }
