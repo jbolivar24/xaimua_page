@@ -212,11 +212,12 @@ if (saveSecBtn) {
   saveSecBtn.addEventListener("click", saveSecurityAnswers);
 }
 
-document.getElementById("backBtn").addEventListener("click", () => {
-  window.location.href = "/xaimua_page/usuario/index.html";
-});
 
-document.getElementById("logoutHeaderBtn").addEventListener("click", () => {
-  localStorage.removeItem("token");
-  window.location.href = "/xaimua_page/index.html";
+document.addEventListener("DOMContentLoaded", () => {
+  const backBtn = document.getElementById("backBtn");
+  if(backBtn){
+    backBtn.addEventListener("click", () => {
+      window.location.href = "/xaimua_page/usuario/index.html";
+    });
+  }
 });
