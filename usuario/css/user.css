@@ -317,3 +317,18 @@
   width: 320px;          /* ancho elegante */
   max-width: 100%;
 }
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-actions .logout-btn {
+  min-width: 140px;      /* 👈 mismo ancho visual */
+  height: 40px;
+  padding: 0 18px;
+  font-size: 14px;
+  font-weight: 800;
+  border-radius: 18px;
+}
