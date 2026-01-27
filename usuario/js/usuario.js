@@ -2,6 +2,34 @@ import { API_BASE, buildPath } from "/xaimua_page/js/config.js";
 
 let currentRows = [];
 
+// =========================
+// UI helpers (toggle Consultar / Exportar)
+// =========================
+
+function setExportMode(enabled) {
+  const consultBtn = document.getElementById("loadDataBtn");
+  const csvBtn = document.getElementById("exportCsvBtn");
+  const pdfBtn = document.getElementById("exportPdfBtn");
+
+  // enabled = true  -> ocultar Consultar y mostrar Exportar
+  // enabled = false -> mostrar Consultar y ocultar Exportar
+  if (consultBtn) consultBtn.classList.toggle("is-hidden", enabled);
+  if (csvBtn) csvBtn.classList.toggle("is-hidden", !enabled);
+  if (pdfBtn) pdfBtn.classList.toggle("is-hidden", !enabled);
+}
+
+function resetQueryUI() {
+  // Vuelve al estado "antes de consultar"
+  setExportMode(false);
+
+  // Evita exportar datos viejos si cambias la fecha
+  currentRows = [];
+  renderTable([]);
+
+  const total = document.getElementById("totalAmount");
+  if (total) total.textContent = "$0";
+}
+
 // ================= TOKEN =================
 function getToken() {
   return (
@@ -67,6 +95,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const mm = String(today.getMonth() + 1).padStart(2, "0");
     const dd = String(today.getDate()).padStart(2, "0");
     fromEl.value = `${yyyy}-${mm}-${dd}`;
+  }
+
+  // Estado inicial: ocultar Exportar y mostrar Consultar
+  resetQueryUI();
+
+  // Si el usuario cambia la fecha, invalidamos exportaciones previas
+  if (fromEl) {
+    fromEl.addEventListener("change", resetQueryUI);
+    fromEl.addEventListener("input", resetQueryUI);
   }
 });
 
@@ -174,6 +211,9 @@ document.getElementById("loadDataBtn")
         renderTable([]);
         updateTotal([]);
 
+        // No hay datos: mantener Consultar visible y Exportar oculto
+        setExportMode(false);
+
         alert("No hay ventas registradas para el día seleccionado.");
         return;
       }
@@ -181,8 +221,13 @@ document.getElementById("loadDataBtn")
       renderTable(rows);
       updateTotal(rows);
 
+      // Datos OK: ocultar Consultar y mostrar Exportar
+      setExportMode(true);
+
     } catch (err) {
       console.error(err);
+      // Error al consultar: dejar la UI en modo "Consultar"
+      setExportMode(false);
       alert(`No se pudieron cargar los datos. (${err.message})`);
     }
   });
