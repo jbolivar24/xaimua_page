@@ -1,7 +1,12 @@
 /* user/css/user.css */
 
+/* =========================
+   Layout base
+   ========================= */
+
 .user-section{
   padding: 18px;
+  padding-top: 18px;
 }
 
 .panel{
@@ -16,22 +21,30 @@
   gap: 12px;
 }
 
+/* =========================
+   Links y botones simples
+   ========================= */
+
 .link-btn{
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 14px;
-  border-radius: 14px;
+  padding: 10px 16px;
+  border-radius: 16px;
   border: 1px solid rgba(255,255,255,0.14);
   background: rgba(0,0,0,0.20);
   color: rgba(255,255,255,0.9);
   text-decoration: none;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .link-btn:hover{
   box-shadow: 0 10px 18px rgba(0,0,0,0.25);
 }
+
+/* =========================
+   Formularios
+   ========================= */
 
 .form-grid{
   display: grid;
@@ -41,9 +54,9 @@
 }
 
 .form-card{
-  border-radius: 18px;
+  border-radius: 22px;
   border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(0,0,0,0.28);
+  background: rgba(0,0,0,0.22);
   padding: 14px;
 }
 
@@ -52,17 +65,16 @@
 }
 
 .form-card h4{
-  margin: 0 0 10px;
-  font-size: 16px;
+  margin: 0 0 12px;
+  font-size: 18px;
   font-weight: 900;
-  letter-spacing: 0.2px;
 }
 
 .field{
   display: flex;
   flex-direction: column;
   gap: 6px;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.3px;
@@ -71,7 +83,8 @@
 }
 
 .field input{
-  padding: 12px 12px;
+  height: 44px;
+  padding: 12px;
   border-radius: 12px;
   border: 1px solid rgba(0,188,212,0.35);
   background: rgba(0,0,0,0.25);
@@ -91,29 +104,20 @@
   opacity: 0.85;
 }
 
-@media (max-width: 860px){
-  .form-grid{ grid-template-columns: 1fr; }
-  .two-col{ grid-template-columns: 1fr; }
-}
+/* =========================
+   Header
+   ========================= */
 
-/* ===========================
-   USER PAGE POLISH (Xaimua)
-   =========================== */
-
-/* 1) Evita que el header se vea enorme en user.html */
 .app-header .header-logo img{
   max-height: 54px;
-  width: auto;
 }
 
-/* 2) Header alineado y con mejor spacing */
 .app-header .header-inner{
   display: flex;
   align-items: center;
   gap: 14px;
 }
 
-/* El email no debe quedar pegado al logo ni ocupar todo */
 .header-user{
   margin-left: 8px;
   font-weight: 700;
@@ -121,94 +125,44 @@
   white-space: nowrap;
 }
 
-/* 3) Que el contenido no quede pegado arriba */
-.user-section{
-  padding-top: 18px;
+.header-actions{
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-/* 4) Botón Volver más bonito y consistente */
-.link-btn{
-  border-radius: 16px;
-  padding: 10px 16px;
+.header-actions .logout-btn{
+  min-width: 160px;
+  height: 42px;
+  padding: 0 20px;
+  font-size: 14px;
   font-weight: 800;
+  border-radius: 18px;
 }
 
-/* 5) Las tarjetas (form-card) más “premium” */
-.form-card{
-  border-radius: 22px;
-  background: rgba(0,0,0,0.22);
-  border: 1px solid rgba(255,255,255,0.10);
-}
+/* =========================
+   Seguridad – BOTONES (FIX)
+   ========================= */
 
-/* 6) Títulos más consistentes */
-.form-card h4{
-  font-size: 18px;
-  font-weight: 900;
-  margin-bottom: 12px;
-}
-
-/* 7) Inputs y labels con aire */
-.field{
-  margin-top: 12px;
-}
-
-.field input{
-  height: 44px;
-}
-
-/* 8) Botones del mismo “look” que tu primary-btn */
-.form-card .primary-btn{
-  width: 100%;
+.security-actions{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
   margin-top: 14px;
 }
 
-/* 9) Responsive: en pantallas chicas el header debe compactar */
-@media (max-width: 780px){
-  .app-header .header-inner{
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    text-align: center;
-  }
-
-  .header-user{
-    width: 100%;
-  }
-
-  .logout-btn{
-    width: 100%;
-    max-width: 240px;
-  }
-
-  .app-header .header-logo img{
-    max-height: 44px;
-  }
-}
-
-/* ==========================
-   Seguridad: botones simples
-   ========================== */
-.security-actions{
-  grid-template-columns: 1fr 1fr;
-  display: flex;
-  flex-direction: column;   /* 🔑 esto los pone uno debajo del otro */              /* separación bonita */
-  margin-top: 10px;
-  gap: 16px;
-}
-
-.security-actions .primary-btn {
-  width: 320px;          /* ancho elegante */
+.security-actions .primary-btn{
+  width: 320px;      /* 👈 TODOS IGUALES */
   max-width: 100%;
-  align-self: center;    /* centra el botón */
+  height: 44px;
+  text-align: center;
 }
 
-@media (max-width: 900px){
-  .security-actions{ grid-template-columns: 1fr; }
-}
-
-/* ==========================
+/* =========================
    Modal
-   ========================== */
+   ========================= */
+
 .modal-backdrop{
   position: fixed;
   inset: 0;
@@ -268,77 +222,47 @@
 }
 
 /* =========================
-   DATOS DEL CLIENTE – VERTICAL
+   Estados especiales
    ========================= */
 
-.panel-block .form-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.panel-block .two-col {
-  display: flex;
-  flex-direction: column; /* 🔑 elimina columnas */
-  gap: 14px;
-}
-
-.panel-block .field {
-  width: 100%;
-}
-
 .field input:disabled,
-.field input.readonly {
+.field input.readonly{
   background: #2f3433;
   color: #cfd8d6;
 }
 
-/* Botón Volver con el mismo look que Cerrar sesión */
-.panel-block .logout-btn {
-  padding: 10px 18px;
-  min-width: auto;
-  height: 40px;
-  font-size: 14px;
+/* =========================
+   Responsive
+   ========================= */
+
+@media (max-width: 860px){
+  .form-grid{ grid-template-columns: 1fr; }
+  .two-col{ grid-template-columns: 1fr; }
 }
 
-.security-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: center;   /* 👈 clave */
-  gap: 14px;
+@media (max-width: 780px){
+  .app-header .header-inner{
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .header-user{
+    width: 100%;
+  }
+
+  .logout-btn{
+    width: 100%;
+    max-width: 240px;
+  }
+
+  .app-header .header-logo img{
+    max-height: 44px;
+  }
 }
 
-.security-actions .primary-btn {
-  width: 320px;          /* ancho elegante */
-  max-width: 100%;
-}
-
-
-/* ===== Header unified buttons ===== */
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.header-actions .logout-btn {
-  min-width: 160px;
-  height: 42px;
-  padding: 0 20px;
-  font-size: 14px;
-  font-weight: 800;
-  border-radius: 18px;
-}
-
-/* ===== Security buttons layout ===== */
-.security-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-}
-
-.security-actions .primary-btn {
-  width: 320px;
-  max-width: 100%;
+@media (max-width: 480px){
+  .security-actions .primary-btn{
+    width: 100%;
+  }
 }
