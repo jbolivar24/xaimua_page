@@ -197,6 +197,11 @@
   align-items: flex-end;
 }
 
+.date-range .primary-btn {
+  height: 42px;          /* igual que el input */
+  margin-bottom: 2px;   /* micro-ajuste visual */
+}
+
 .date-range label {
   display: flex;
   flex-direction: column;
