@@ -1,235 +1,240 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Xaimua · Mi cuenta</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Xaimua · Mi cuenta</title>
 
-  <!-- Favicons -->
-  <link rel="icon" type="image/x-icon" href="/xaimua_page/img/favicon/favicon.ico">
-  <link rel="icon" type="image/png" sizes="96x96" href="/xaimua_page/img/favicon/favicon-96x96.png">
-  <link rel="icon" type="image/svg+xml" href="/xaimua_page/img/favicon/favicon.svg">
-  <link rel="apple-touch-icon" sizes="180x180" href="/xaimua_page/img/favicon/apple-touch-icon.png">
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/xaimua_page/img/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="96x96" href="/xaimua_page/img/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/svg+xml" href="/xaimua_page/img/favicon/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="/xaimua_page/img/favicon/apple-touch-icon.png">
 
-  <!-- PWA -->
-  <link rel="manifest" href="/xaimua_page/site.webmanifest">
+    <!-- PWA -->
+    <link rel="manifest" href="/xaimua_page/site.webmanifest">
 
-  <!-- Estilos -->
-  <link rel="stylesheet" href="/xaimua_page/css/global.css?v=1">
-  <link rel="stylesheet" href="/xaimua_page/usuario/css/usuario.css?v=1">
-  <link rel="stylesheet" href="/xaimua_page/usuario/css/user.css?v=1">
+    <!-- Estilos -->
+    <link rel="stylesheet" href="/xaimua_page/css/global.css?v=1">
+    <link rel="stylesheet" href="/xaimua_page/usuario/css/usuario.css?v=1">
+    <link rel="stylesheet" href="/xaimua_page/usuario/css/user.css?v=1">
 
-  <!-- Guard y lógica -->
-  <script type="module" src="/xaimua_page/usuario/js/guard-user.js"></script>
-  <script type="module" src="/xaimua_page/usuario/js/user.js"></script>
-</head>
+    <!-- Guard y lógica -->
+    <script type="module" src="/xaimua_page/usuario/js/guard-user.js"></script>
+    <script type="module" src="/xaimua_page/usuario/js/user.js"></script>
+  </head>
 
-<body>
+  <body>
 
-  <!-- ===== HEADER ===== -->
-  <header class="app-header">
-    <div class="header-inner">
-      <div class="header-logo">
-        <a href="/xaimua_page/index.html">
-          <img src="/xaimua_page/img/logo.png" alt="Xaimua">
-        </a>
-      </div>
-
-      <div class="header-user">
-        <span id="userEmail">—</span>
-      </div>
-      
-      <div class="header-actions">
-        <button class="logout-btn" id="backBtn">Volver</button>
-        <button class="logout-btn" id="logoutHeaderBtn">Cerrar sesión</button>
-      </div>
-
-    </div>
-  </header>
-
-  <!-- ===== CONTENIDO ===== -->
-  <main class="user-section">
-
-    <section class="panel">
-
-      <div class="panel-block">
-        <div class="block-head">
-          <h3>Mi cuenta</h3>
-            
+    <!-- ===== HEADER ===== -->
+    <header class="app-header">
+      <div class="header-inner">
+        <div class="header-logo">
+          <a href="/xaimua_page/index.html">
+            <img src="/xaimua_page/img/logo.png" alt="Xaimua">
+          </a>
         </div>
-        <p class="muted">
-          Aquí puedes actualizar tus datos de acceso y, si quieres, completar tu información de cliente.
-        </p>
-      </div>
 
-      <!-- ================= SEGURIDAD ================= -->
+        <div class="header-user">
+          <span id="userEmail">—</span>
+        </div>
+        
+        <div class="header-actions">
+          <button class="logout-btn" id="backBtn">Volver</button>
+          <button class="logout-btn" id="logoutHeaderBtn">Cerrar sesión</button>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- ===== CONTENIDO ===== -->
+    <main class="user-section">
+
+      <section class="panel">
+
         <div class="panel-block">
-            <h3>Seguridad</h3>
-
-            <div class="security-actions">
-                <button class="primary-btn" id="openEmailModalBtn" type="button">
-                  Cambiar correo
-                </button>
-
-                <button class="primary-btn" id="openPassModalBtn" type="button">
-                  Cambiar contraseña
-                </button>
-
-                <button class="primary-btn" id="openSecurityQModalBtn">
-                  Preguntas de seguridad
-                </button>
-            </div>
-
-            <div class="hint" id="securityHint"></div>
-        </div>
-
-      <!-- ================= DATOS CLIENTE ================= -->
-      <div class="panel-block">
-        <h3>Datos del cliente</h3>
-        <p class="muted">
-          Opcional. Esto te ayudará a tener tus datos listos para facturación o soporte.
-        </p>
-
-        <div class="form-grid">
-          <div class="form-card form-card-full">
-            <div class="two-col">
-              <div>
-                <label class="field">
-                  Teléfono
-                  <input id="userPhone" type="tel" placeholder="+56 9 1234 5678" />
-                </label>
-
-                <label class="field">
-                  Razón social
-                  <input id="userBusinessName" type="text" placeholder="Empresa o nombre completo" />
-                </label>
-
-                <label class="field">
-                  RUT
-                  <input id="userRut" type="text" placeholder="12.345.678-9" />
-                </label>
-              </div>
-
-              <div>
-                <label class="field">
-                  Dirección fiscal
-                  <input id="userTaxAddress" type="text" placeholder="Calle, número, comuna, ciudad" />
-                </label>
-
-                <label class="field">
-                  Giro
-                  <input id="userGiro" type="text" placeholder="Ej: Venta al por menor de alimentos" />
-                </label>
-              </div>
-            </div>
-
-            <button class="primary-btn" id="saveProfileBtn">Guardar datos</button>
-            <div class="hint" id="profileHint"></div>
+          <div class="block-head">
+            <h3>Mi cuenta</h3>
+              
           </div>
-        </div>
-      </div>
-
-    </section>
-  </main>
-
-  <footer id="footer"></footer>
-
-    <!-- ================= MODAL: CAMBIAR EMAIL ================= -->
-    <div class="modal-backdrop" id="emailModal" aria-hidden="true">
-      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="emailModalTitle">
-        <div class="modal-head">
-          <h3 id="emailModalTitle">Cambiar correo</h3>
-          <button class="modal-close" type="button" data-close="emailModal">✕</button>
+          <p class="muted">
+            Aquí puedes actualizar tus datos de acceso y, si quieres, completar tu información de cliente.
+          </p>
         </div>
 
-        <label class="field">
-          Nuevo email
-          <input id="modalNewEmail" type="email" placeholder="correo@dominio.com" autocomplete="email" />
-        </label>
+        <!-- ================= SEGURIDAD ================= -->
+          <div class="panel-block">
+              <h3>Seguridad</h3>
 
-        <label class="field">
-          Repite el email
-          <input id="modalNewEmail2" type="email" placeholder="correo@dominio.com" autocomplete="email" />
-        </label>
+              <div class="security-actions">
+                  <button class="primary-btn" id="openEmailModalBtn" type="button">
+                    Cambiar correo
+                  </button>
 
-        <div class="modal-actions">
-          <button class="primary-btn" id="updateEmailBtn" type="button">Actualizar</button>
-          <button class="ghost-btn" type="button" data-close="emailModal">Cancelar</button>
-        </div>
+                  <button class="primary-btn" id="openPassModalBtn" type="button">
+                    Cambiar contraseña
+                  </button>
 
-        <div class="hint" id="emailHint"></div>
-      </div>
-    </div>
+                  <button class="primary-btn" id="openSecurityQModalBtn">
+                    Preguntas de seguridad
+                  </button>
+              </div>
 
-    <!-- ================= MODAL: CAMBIAR CLAVE ================= -->
-    <div class="modal-backdrop" id="passModal" aria-hidden="true">
-      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="passModalTitle">
+              <button class="primary-btn" id="openClientDataModalBtn" type="button">
+                Datos del cliente
+              </button>
+              <div class="hint" id="securityHint"></div>
+          </div>
+
+      </section>
+    </main>
+
+    <footer id="footer"></footer>
+
+      <!-- ================= MODAL: CAMBIAR EMAIL ================= -->
+      <div class="modal-backdrop" id="emailModal" aria-hidden="true">
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="emailModalTitle">
           <div class="modal-head">
-          <h3 id="passModalTitle">Cambiar contraseña</h3>
-          <button class="modal-close" type="button" data-close="passModal">✕</button>
+            <h3 id="emailModalTitle">Cambiar correo</h3>
+            <button class="modal-close" type="button" data-close="emailModal">✕</button>
           </div>
 
           <label class="field">
-          Nueva contraseña
-          <input id="modalNewPass" type="password" placeholder="••••" autocomplete="new-password" />
+            Nuevo email
+            <input id="modalNewEmail" type="email" placeholder="correo@dominio.com" autocomplete="email" />
           </label>
 
           <label class="field">
-          Repite la contraseña
-          <input id="modalNewPass2" type="password" placeholder="••••" autocomplete="new-password" />
+            Repite el email
+            <input id="modalNewEmail2" type="email" placeholder="correo@dominio.com" autocomplete="email" />
           </label>
 
           <div class="modal-actions">
-          <button class="primary-btn" id="updatePassBtn" type="button">Actualizar</button>
-          <button class="ghost-btn" type="button" data-close="passModal">Cancelar</button>
+            <button class="primary-btn" id="updateEmailBtn" type="button">Actualizar</button>
+            <button class="ghost-btn" type="button" data-close="emailModal">Cancelar</button>
           </div>
 
-          <div class="hint" id="passHint"></div>
-      </div >
-    </div>
-
-    <!-- ================= MODAL: PREGUNTAS DE SEGURIDAD ================= -->
-    <div class="modal-backdrop" id="securityQModal" aria-hidden="true">
-      <div class="modal-card" role="dialog" aria-modal="true">
-        <div class="modal-head">
-          <h3>Preguntas de seguridad</h3>
-          <button class="modal-close" type="button" data-close="securityQModal">✕</button>
+          <div class="hint" id="emailHint"></div>
         </div>
-
-        <p class="muted" style="margin-top:-6px">
-          Estas preguntas se usarán para recuperar tu acceso.
-        </p>
-
-        <!-- Pregunta 1 -->
-        <label class="field">
-          Nombre de tu mascota favorita
-          <input id="secAns1" type="text" placeholder="Tu respuesta" />
-        </label>
-
-        <!-- Pregunta 2 -->
-        <label class="field">
-          Lugar de nacimiento de tu abuela materna
-          <input id="secAns2" type="text" placeholder="Tu respuesta" />
-        </label>
-
-        <!-- Pregunta 3 -->
-        <label class="field">
-          Nombre de tu escuela básica
-          <input id="secAns3" type="text" placeholder="Tu respuesta" />
-        </label>
-
-        <div class="modal-actions">
-          <button class="primary-btn" id="saveSecurityAnswersBtn">
-            Guardar respuestas
-          </button>
-          <button class="ghost-btn" type="button" data-close="securityQModal">
-            Cancelar
-          </button>
-        </div>
-
-        <div class="hint" id="securityQHint"></div>
       </div>
-    </div>
 
-</body>
+      <!-- ================= MODAL: CAMBIAR CLAVE ================= -->
+      <div class="modal-backdrop" id="passModal" aria-hidden="true">
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="passModalTitle">
+            <div class="modal-head">
+            <h3 id="passModalTitle">Cambiar contraseña</h3>
+            <button class="modal-close" type="button" data-close="passModal">✕</button>
+            </div>
+
+            <label class="field">
+            Nueva contraseña
+            <input id="modalNewPass" type="password" placeholder="••••" autocomplete="new-password" />
+            </label>
+
+            <label class="field">
+            Repite la contraseña
+            <input id="modalNewPass2" type="password" placeholder="••••" autocomplete="new-password" />
+            </label>
+
+            <div class="modal-actions">
+            <button class="primary-btn" id="updatePassBtn" type="button">Actualizar</button>
+            <button class="ghost-btn" type="button" data-close="passModal">Cancelar</button>
+            </div>
+
+            <div class="hint" id="passHint"></div>
+        </div >
+      </div>
+
+      <!-- ================= MODAL: PREGUNTAS DE SEGURIDAD ================= -->
+      <div class="modal-backdrop" id="securityQModal" aria-hidden="true">
+        <div class="modal-card" role="dialog" aria-modal="true">
+          <div class="modal-head">
+            <h3>Preguntas de seguridad</h3>
+            <button class="modal-close" type="button" data-close="securityQModal">✕</button>
+          </div>
+
+          <p class="muted" style="margin-top:-6px">
+            Estas preguntas se usarán para recuperar tu acceso.
+          </p>
+
+          <!-- Pregunta 1 -->
+          <label class="field">
+            Nombre de tu mascota favorita
+            <input id="secAns1" type="text" placeholder="Tu respuesta" />
+          </label>
+
+          <!-- Pregunta 2 -->
+          <label class="field">
+            Lugar de nacimiento de tu abuela materna
+            <input id="secAns2" type="text" placeholder="Tu respuesta" />
+          </label>
+
+          <!-- Pregunta 3 -->
+          <label class="field">
+            Nombre de tu escuela básica
+            <input id="secAns3" type="text" placeholder="Tu respuesta" />
+          </label>
+
+          <div class="modal-actions">
+            <button class="primary-btn" id="saveSecurityAnswersBtn">
+              Guardar respuestas
+            </button>
+            <button class="ghost-btn" type="button" data-close="securityQModal">
+              Cancelar
+            </button>
+          </div>
+
+          <div class="hint" id="securityQHint"></div>
+        </div>
+      </div>
+
+      <!-- ================= MODAL: DATOS DEL CLIENTE ================= -->
+      <div class="modal-backdrop" id="clientDataModal" aria-hidden="true">
+        <div class="modal-card" role="dialog" aria-modal="true">
+          <div class="modal-head">
+            <h3>Datos del cliente</h3>
+            <button class="modal-close" type="button" data-close="clientDataModal">✕</button>
+          </div>
+
+          <p class="muted">
+            Opcional. Se usan para facturación o soporte.
+          </p>
+
+          <label class="field">
+            Teléfono
+            <input id="userPhone" type="tel" placeholder="+56 9 1234 5678" />
+          </label>
+
+          <label class="field">
+            Razón social
+            <input id="userBusinessName" type="text" />
+          </label>
+
+          <label class="field">
+            RUT
+            <input id="userRut" type="text" />
+          </label>
+
+          <label class="field">
+            Dirección fiscal
+            <input id="userTaxAddress" type="text" />
+          </label>
+
+          <label class="field">
+            Giro
+            <input id="userGiro" type="text" />
+          </label>
+
+          <div class="modal-actions">
+            <button class="primary-btn" id="saveProfileBtn">Guardar</button>
+            <button class="ghost-btn" type="button" data-close="clientDataModal">
+              Cancelar
+            </button>
+          </div>
+
+          <div class="hint" id="profileHint"></div>
+        </div>
+      </div>
+
+  </body>
 </html>

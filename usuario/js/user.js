@@ -221,3 +221,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+const openClientData = document.getElementById("openClientDataModalBtn");
+if (openClientData) {
+  openClientData.addEventListener("click", () =>
+    openModal("clientDataModal")
+  );
+}
