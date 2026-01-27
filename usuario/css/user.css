@@ -265,3 +265,34 @@
   font-weight: 800;
   cursor: pointer;
 }
+
+/* =========================
+   DATOS DEL CLIENTE – VERTICAL
+   ========================= */
+
+.panel-block .form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.panel-block .two-col {
+  display: flex;
+  flex-direction: column; /* 🔑 elimina columnas */
+  gap: 14px;
+}
+
+.panel-block .field {
+  width: 100%;
+}
+
+.panel-block .primary-btn {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.field input:disabled,
+.field input.readonly {
+  background: #2f3433;
+  color: #cfd8d6;
+}
