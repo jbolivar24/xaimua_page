@@ -417,3 +417,45 @@ thead { opacity: 0.85; }
   border-radius: 12px;
 }
 
+/* =========================
+   HEADER RESPONSIVE (MOBILE)
+   ========================= */
+
+@media (max-width: 768px) {
+
+  .header-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .header-user {
+    margin: 0;
+    font-size: 14px;
+    text-align: center;
+    white-space: normal;
+    word-break: break-all;
+  }
+
+  .header-actions {
+    width: 100%;
+    margin-left: 0;
+    display: flex;
+    gap: 10px;
+  }
+
+  .header-actions .logout-btn {
+    flex: 1;                /* 👈 ambos botones mismo ancho */
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .header-logo {
+    display: flex;
+    justify-content: center;
+  }
+
+  .header-logo img {
+    height: 48px;
+  }
+}
