@@ -287,11 +287,6 @@
   width: 100%;
 }
 
-.panel-block .primary-btn {
-  width: 100%;
-  margin-top: 10px;
-}
-
 .field input:disabled,
 .field input.readonly {
   background: #2f3433;
