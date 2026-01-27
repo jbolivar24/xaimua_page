@@ -546,7 +546,7 @@ thead { opacity: 0.85; }
    HEADER RESPONSIVE (MOBILE)
    ========================= */
 
-@media (max-width: 768px) {
+@media (max-width: 728px) {
 
   .header-inner {
     flex-direction: column;
@@ -589,7 +589,7 @@ thead { opacity: 0.85; }
    BOTONES DE SEGURIDAD (MOBILE)
    ========================= */
 
-@media (max-width: 768px) {
+@media (max-width: 728px) {
 
   .security-actions {
     display: flex;
