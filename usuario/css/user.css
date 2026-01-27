@@ -160,6 +160,10 @@
   text-align: center;
 }
 
+.security-actions .primary-btn:not(.logout-btn){
+  min-width: 320px;
+}
+
 /* =========================
    Modal
    ========================= */
