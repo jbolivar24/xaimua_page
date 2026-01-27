@@ -1,273 +1,486 @@
-/* user/css/user.css */
+/* ===== SECCIÓN USUARIO ===== */
 
-/* =========================
-   Layout base
-   ========================= */
-
-.user-section{
-  padding: 18px;
-  padding-top: 18px;
+.usuario-section {
+    min-height: calc(100vh - 160px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.panel{
-  max-width: 980px;
-  margin: 0 auto;
+.usuario-card {
+    width: 100%;
+    max-width: 420px;
+    padding: 32px;
+
+    background: rgba(255,255,255,0.06);
+    border-radius: 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+    backdrop-filter: blur(6px);
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
 }
 
-.block-head{
+.usuario-card h2 { margin: 0; }
+
+.usuario-card .muted {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.usuario-card .info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 14px;
+}
+
+/* ===================================================== */
+/* ===== BOTÓN PRINCIPAL (ESTILO BASE REUTILIZABLE) ===== */
+/* ===================================================== */
+
+.primary-btn {
+    padding: 14px 18px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+
+    background: linear-gradient(135deg, #00bcd4, #00a0b8);
+    color: #000;
+    font-weight: 600;
+    font-size: 14px;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.primary-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+}
+
+/* ============================== */
+/* ===== HEADER DE USUARIO ====== */
+/* ============================== */
+
+.app-header {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.header-inner {
+    max-width: 1100px;
+    margin: auto;
+    padding: 14px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-logo a {
+  display: inline-block;
+}
+
+.header-logo img {
+    height: 70px;
+    width: auto;
+    display: block;
+    cursor: pointer;
+}
+
+/* ============================== */
+/* ===== LOGOUT (HEADER) ======== */
+/* ============================== */
+
+.logout-btn {
+    display: inline-flex;          /* 🔑 clave */
+    align-items: center;           /* 🔑 centra vertical */
+    justify-content: center;       /* 🔑 centra horizontal */
+
+    padding: 12px 18px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+
+    background: linear-gradient(135deg, #00bcd4, #00a0b8);
+    color: #000;
+    font-weight: 600;
+    font-size: 14px;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.logout-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+}
+
+/* ================= PANEL USUARIO ================= */
+
+.panel {
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+  padding: 32px;
+
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  flex-direction: column;
+  gap: 28px;
 }
 
-/* =========================
-   Links y botones simples
-   ========================= */
+.panel-block {
+  background: rgba(255,255,255,0.06);
+  border-radius: 18px;
+  padding: 24px;
 
-.link-btn{
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.14);
-  background: rgba(0,0,0,0.20);
-  color: rgba(255,255,255,0.9);
-  text-decoration: none;
-  font-weight: 800;
-}
-
-.link-btn:hover{
-  box-shadow: 0 10px 18px rgba(0,0,0,0.25);
-}
-
-/* =========================
-   Formularios
-   ========================= */
-
-.form-grid{
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 14px;
+}
+
+.panel-block h3 { margin: 0; }
+
+.panel-block .muted {
+  font-size: 0.9rem;
+  opacity: 0.75;
+}
+
+/* ===== BOTONES ===== */
+
+.primary-btn {
+  align-self: flex-start;
+  padding: 12px 18px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+
+  background: linear-gradient(135deg, #00bcd4, #00a0b8);
+  color: #000;
+  font-weight: 600;
+}
+
+.primary-btn.danger {
+  background: linear-gradient(135deg, #ff6b6b, #ff4c4c);
+}
+
+/* ===== TOTAL RESUMEN ===== */
+
+.total-summary {
   margin-top: 12px;
+  padding: 14px 18px;
+  border-radius: 14px;
+
+  background: rgba(0, 188, 212, 0.15);
+  border: 1px solid rgba(0, 188, 212, 0.35);
+
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.form-card{
-  border-radius: 22px;
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(0,0,0,0.22);
-  padding: 14px;
-}
-
-.form-card-full{
-  grid-column: 1 / -1;
-}
-
-.form-card h4{
-  margin: 0 0 12px;
+.total-summary span {
   font-size: 18px;
-  font-weight: 900;
+  font-weight: 700;
+  color: #00e5ff;
 }
 
-.field{
+/* ===== SELECTOR DÍA ===== */
+
+.date-range {
+  display: flex;
+  gap: 14px;
+  align-items: center; /* 🔑 clave */
+}
+
+.date-range label {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  margin-top: 12px;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.70);
+  min-width: 220px;
 }
 
-.field input{
-  height: 44px;
-  padding: 12px;
-  border-radius: 12px;
+.date-range input {
+  height: 42px;
+}
+
+.date-range .primary-btn {
+  height: 42px;
+}
+
+.date-range label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px; /* 👈 separa el texto del input */
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+
+  color: rgba(255,255,255,0.75);
+  min-width: 220px;
+}
+
+.date-range input {
+  padding: 10px 12px;
+  border-radius: 10px;
   border: 1px solid rgba(0,188,212,0.35);
+
   background: rgba(0,0,0,0.25);
   color: #fff;
   font-size: 14px;
 }
 
-.two-col{
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+/* ===== TABLA ===== */
+
+.table-container {
+  max-height: 720px;   /* desktop */
+  overflow-y: auto;
+  overflow-x: auto;
+  border-radius: 12px;
 }
 
-.hint{
-  margin-top: 10px;
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  min-width: 780px;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  text-align: left;
+  white-space: nowrap;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: rgba(20,20,20,0.95);
+  backdrop-filter: blur(4px);
+}
+
+thead { opacity: 0.85; }
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+
+  .usuario-section {
+    min-height: auto;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-top: 16px;
+    padding-bottom: 24px;
+  }
+
+  .header-logo a {
+    display: inline-block;
+  }
+
+  .header-logo img { 
+    height: 52px; 
+    cursor: pointer;
+  }
+  .header-inner { padding: 10px 14px; }
+
+  .panel {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 12px 12px;
+    gap: 20px;
+  }
+
+  .panel-block {
+    padding: 14px;
+    gap: 10px;
+  }
+
+  .primary-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .date-range {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .date-range label {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .date-range input {
+    width: 100%;
+  }
+
+  .table-container {
+    max-height: 540px;
+  }
+
+  table {
+    font-size: 13px;
+    min-width: 720px;
+  }
+
+  th, td {
+    padding: 8px 6px;
+  }
+}
+
+.last-backup {
+  font-size: 13px;
+  opacity: 0.8;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.last-backup span {
+  font-weight: 600;
+  color: #00e5ff;
+}
+
+.backup-details {
+  margin-top: 8px;
   font-size: 13px;
   opacity: 0.85;
 }
 
-/* =========================
-   Header
-   ========================= */
-
-.app-header .header-logo img{
-  max-height: 54px;
+.backup-details div {
+  margin-top: 2px;
 }
 
-.app-header .header-inner{
-  display: flex;
-  align-items: center;
-  gap: 14px;
+.backup-details span {
+  font-weight: 600;
 }
 
-.header-user{
-  margin-left: 8px;
-  font-weight: 700;
-  opacity: 0.92;
+.header-user {
+  margin-right: 16px;
+  font-size: 20px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.85);
   white-space: nowrap;
 }
 
-.header-actions{
+/* ===== Link button (Mi cuenta) ===== */
+.link-btn{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(0,0,0,0.20);
+  color: rgba(255,255,255,0.9);
+  text-decoration: none;
+  font-weight: 700;
+}
+.link-btn:hover{
+  box-shadow: 0 10px 18px rgba(0,0,0,0.25);
+}
+
+/* =========================
+   Utils
+   ========================= */
+
+.is-hidden{
+  display: none !important;
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: auto;
+  padding: 14px 20px;
+
   display: flex;
   align-items: center;
+  gap: 16px;
+}
+
+/* empuja el grupo de botones a la derecha */
+.header-actions {
+  margin-left: auto;
+  display: flex;
   gap: 12px;
 }
 
-.header-actions .logout-btn{
-  min-width: 160px;
-  height: 42px;
-  padding: 0 20px;
-  font-size: 14px;
-  font-weight: 800;
-  border-radius: 18px;
+/* ambos botones idénticos */
+.header-actions .logout-btn {
+  min-width: 130px;
+  height: 38px;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 12px;
 }
 
 /* =========================
-   Seguridad – BOTONES (FIX)
+   MODALES
    ========================= */
 
-.security-actions{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  margin-top: 14px;
-}
-
-.security-actions .primary-btn{
-  width: 320px;          /* ancho fijo correcto */
-  min-width: 320px;      /* 👈 CLAVE: mata herencia del header */
-  max-width: 100%;
-  height: 44px;
-  text-align: center;
-}
-
-.security-actions .primary-btn:not(.logout-btn){
-  min-width: 320px;
-}
-
-/* =========================
-   Modal
-   ========================= */
-
-.modal-backdrop{
+.modal-backdrop {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.55);
-  display: none;
+  backdrop-filter: blur(4px);
+  display: none;                 /* 👈 OCULTOS POR DEFECTO */
   align-items: center;
   justify-content: center;
-  padding: 18px;
-  z-index: 9999;
+  z-index: 999;
 }
 
-.modal-backdrop.open{
+.modal-backdrop.open {
+  display: flex;                 /* 👈 SE MUESTRAN AL ABRIR */
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 420px;
+  background: rgba(25,25,25,0.95);
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.45);
   display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-.modal-card{
-  width: min(520px, 100%);
-  border-radius: 22px;
-  background: rgba(18,18,18,0.92);
-  border: 1px solid rgba(255,255,255,0.14);
-  padding: 16px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.35);
-}
-
-.modal-head{
+.modal-head {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 10px;
+  align-items: center;
 }
 
-.modal-close{
-  border: 1px solid rgba(255,255,255,0.14);
-  background: rgba(0,0,0,0.25);
-  color: rgba(255,255,255,0.90);
-  border-radius: 14px;
-  padding: 8px 12px;
+.modal-close {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 18px;
   cursor: pointer;
 }
 
-.modal-actions{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.modal-actions {
+  display: flex;
   gap: 12px;
-  margin-top: 14px;
+  justify-content: flex-end;
 }
 
-.ghost-btn{
-  border: 1px solid rgba(255,255,255,0.14);
-  background: rgba(0,0,0,0.20);
-  color: rgba(255,255,255,0.90);
-  border-radius: 16px;
+.ghost-btn {
   padding: 10px 16px;
-  font-weight: 800;
+  border-radius: 12px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff;
   cursor: pointer;
-}
-
-/* =========================
-   Estados especiales
-   ========================= */
-
-.field input:disabled,
-.field input.readonly{
-  background: #2f3433;
-  color: #cfd8d6;
-}
-
-/* =========================
-   Responsive
-   ========================= */
-
-@media (max-width: 860px){
-  .form-grid{ grid-template-columns: 1fr; }
-  .two-col{ grid-template-columns: 1fr; }
-}
-
-@media (max-width: 780px){
-  .app-header .header-inner{
-    flex-wrap: wrap;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .header-user{
-    width: 100%;
-  }
-
-  .logout-btn{
-    width: 100%;
-    max-width: 240px;
-  }
-
-  .app-header .header-logo img{
-    max-height: 44px;
-  }
-}
-
-@media (max-width: 480px){
-  .security-actions .primary-btn{
-    width: 100%;
-  }
 }
