@@ -104,7 +104,7 @@ function wireModals(){
   });
 
   // cerrar clickeando fuera
-  ["emailModal","passModal"].forEach(id => {
+  ["emailModal","passModal","securityQModal","clientDataModal"].forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
     el.addEventListener("click", (e) => {
@@ -117,6 +117,8 @@ function wireModals(){
     if (e.key !== "Escape") return;
     closeModal("emailModal");
     closeModal("passModal");
+    closeModal("securityQModal");
+    closeModal("clientDataModal");
   });
 }
 

@@ -91,150 +91,149 @@
 
     <footer id="footer"></footer>
 
-      <!-- ================= MODAL: CAMBIAR EMAIL ================= -->
-      <div class="modal-backdrop" id="emailModal" aria-hidden="true">
-        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="emailModalTitle">
+    <!-- ================= MODAL: CAMBIAR EMAIL ================= -->
+    <div class="modal-backdrop" id="emailModal" aria-hidden="true">
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="emailModalTitle">
+        <div class="modal-head">
+          <h3 id="emailModalTitle">Cambiar correo</h3>
+          <button class="modal-close" type="button" data-close="emailModal">✕</button>
+        </div>
+
+        <label class="field">
+          Nuevo email
+          <input id="modalNewEmail" type="email" placeholder="correo@dominio.com" autocomplete="email" />
+        </label>
+
+        <label class="field">
+          Repite el email
+          <input id="modalNewEmail2" type="email" placeholder="correo@dominio.com" autocomplete="email" />
+        </label>
+
+        <div class="modal-actions">
+          <button class="primary-btn" id="updateEmailBtn" type="button">Actualizar</button>
+          <button class="ghost-btn" type="button" data-close="emailModal">Cancelar</button>
+        </div>
+
+        <div class="hint" id="emailHint"></div>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: CAMBIAR CLAVE ================= -->
+    <div class="modal-backdrop" id="passModal" aria-hidden="true">
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="passModalTitle">
           <div class="modal-head">
-            <h3 id="emailModalTitle">Cambiar correo</h3>
-            <button class="modal-close" type="button" data-close="emailModal">✕</button>
+          <h3 id="passModalTitle">Cambiar contraseña</h3>
+          <button class="modal-close" type="button" data-close="passModal">✕</button>
           </div>
 
           <label class="field">
-            Nuevo email
-            <input id="modalNewEmail" type="email" placeholder="correo@dominio.com" autocomplete="email" />
+          Nueva contraseña
+          <input id="modalNewPass" type="password" placeholder="••••" autocomplete="new-password" />
           </label>
 
           <label class="field">
-            Repite el email
-            <input id="modalNewEmail2" type="email" placeholder="correo@dominio.com" autocomplete="email" />
+          Repite la contraseña
+          <input id="modalNewPass2" type="password" placeholder="••••" autocomplete="new-password" />
           </label>
 
           <div class="modal-actions">
-            <button class="primary-btn" id="updateEmailBtn" type="button">Actualizar</button>
-            <button class="ghost-btn" type="button" data-close="emailModal">Cancelar</button>
+          <button class="primary-btn" id="updatePassBtn" type="button">Actualizar</button>
+          <button class="ghost-btn" type="button" data-close="passModal">Cancelar</button>
           </div>
 
-          <div class="hint" id="emailHint"></div>
+          <div class="hint" id="passHint"></div>
+      </div >
+    </div>
+
+    <!-- ================= MODAL: PREGUNTAS DE SEGURIDAD ================= -->
+    <div class="modal-backdrop" id="securityQModal" aria-hidden="true">
+      <div class="modal-card" role="dialog" aria-modal="true">
+        <div class="modal-head">
+          <h3>Preguntas de seguridad</h3>
+          <button class="modal-close" type="button" data-close="securityQModal">✕</button>
         </div>
-      </div>
 
-      <!-- ================= MODAL: CAMBIAR CLAVE ================= -->
-      <div class="modal-backdrop" id="passModal" aria-hidden="true">
-        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="passModalTitle">
-            <div class="modal-head">
-            <h3 id="passModalTitle">Cambiar contraseña</h3>
-            <button class="modal-close" type="button" data-close="passModal">✕</button>
-            </div>
+        <p class="muted" style="margin-top:-6px">
+          Estas preguntas se usarán para recuperar tu acceso.
+        </p>
 
-            <label class="field">
-            Nueva contraseña
-            <input id="modalNewPass" type="password" placeholder="••••" autocomplete="new-password" />
-            </label>
+        <!-- Pregunta 1 -->
+        <label class="field">
+          Nombre de tu mascota favorita
+          <input id="secAns1" type="text" placeholder="Tu respuesta" />
+        </label>
 
-            <label class="field">
-            Repite la contraseña
-            <input id="modalNewPass2" type="password" placeholder="••••" autocomplete="new-password" />
-            </label>
+        <!-- Pregunta 2 -->
+        <label class="field">
+          Lugar de nacimiento de tu abuela materna
+          <input id="secAns2" type="text" placeholder="Tu respuesta" />
+        </label>
 
-            <div class="modal-actions">
-            <button class="primary-btn" id="updatePassBtn" type="button">Actualizar</button>
-            <button class="ghost-btn" type="button" data-close="passModal">Cancelar</button>
-            </div>
+        <!-- Pregunta 3 -->
+        <label class="field">
+          Nombre de tu escuela básica
+          <input id="secAns3" type="text" placeholder="Tu respuesta" />
+        </label>
 
-            <div class="hint" id="passHint"></div>
-        </div >
-      </div>
-
-      <!-- ================= MODAL: PREGUNTAS DE SEGURIDAD ================= -->
-      <div class="modal-backdrop" id="securityQModal" aria-hidden="true">
-        <div class="modal-card" role="dialog" aria-modal="true">
-          <div class="modal-head">
-            <h3>Preguntas de seguridad</h3>
-            <button class="modal-close" type="button" data-close="securityQModal">✕</button>
-          </div>
-
-          <p class="muted" style="margin-top:-6px">
-            Estas preguntas se usarán para recuperar tu acceso.
-          </p>
-
-          <!-- Pregunta 1 -->
-          <label class="field">
-            Nombre de tu mascota favorita
-            <input id="secAns1" type="text" placeholder="Tu respuesta" />
-          </label>
-
-          <!-- Pregunta 2 -->
-          <label class="field">
-            Lugar de nacimiento de tu abuela materna
-            <input id="secAns2" type="text" placeholder="Tu respuesta" />
-          </label>
-
-          <!-- Pregunta 3 -->
-          <label class="field">
-            Nombre de tu escuela básica
-            <input id="secAns3" type="text" placeholder="Tu respuesta" />
-          </label>
-
-          <div class="modal-actions">
-            <button class="primary-btn" id="saveSecurityAnswersBtn">
-              Guardar respuestas
-            </button>
-            <button class="ghost-btn" type="button" data-close="securityQModal">
-              Cancelar
-            </button>
-          </div>
-
-          <div class="hint" id="securityQHint"></div>
+        <div class="modal-actions">
+          <button class="primary-btn" id="saveSecurityAnswersBtn">
+            Guardar respuestas
+          </button>
+          <button class="ghost-btn" type="button" data-close="securityQModal">
+            Cancelar
+          </button>
         </div>
+
+        <div class="hint" id="securityQHint"></div>
       </div>
+    </div>
 
-      <!-- ================= MODAL: DATOS DEL CLIENTE ================= -->
-      <div class="modal-backdrop" id="clientDataModal" aria-hidden="true">
-        <div class="modal-card" role="dialog" aria-modal="true">
-          <div class="modal-head">
-            <h3>Datos del cliente</h3>
-            <button class="modal-close" type="button" data-close="clientDataModal">✕</button>
-          </div>
-
-          <p class="muted">
-            Opcional. Se usan para facturación o soporte.
-          </p>
-
-          <label class="field">
-            Teléfono
-            <input id="userPhone" type="tel" placeholder="+56 9 1234 5678" />
-          </label>
-
-          <label class="field">
-            Razón social
-            <input id="userBusinessName" type="text" />
-          </label>
-
-          <label class="field">
-            RUT
-            <input id="userRut" type="text" />
-          </label>
-
-          <label class="field">
-            Dirección fiscal
-            <input id="userTaxAddress" type="text" />
-          </label>
-
-          <label class="field">
-            Giro
-            <input id="userGiro" type="text" />
-          </label>
-
-          <div class="modal-actions">
-            <button class="primary-btn" id="saveProfileBtn">Guardar</button>
-            <button class="ghost-btn" type="button" data-close="clientDataModal">
-              Cancelar
-            </button>
-          </div>
-
-          <div class="hint" id="profileHint"></div>
+    <!-- ================= MODAL: DATOS DEL CLIENTE ================= -->
+    <div class="modal-backdrop" id="clientDataModal" aria-hidden="true">
+      <div class="modal-card" role="dialog" aria-modal="true">
+        <div class="modal-head">
+          <h3>Datos del cliente</h3>
+          <button class="modal-close" type="button" data-close="clientDataModal">✕</button>
         </div>
-      </div>
 
+        <p class="muted">
+          Opcional. Se usan para facturación o soporte.
+        </p>
+
+        <label class="field">
+          Teléfono
+          <input id="userPhone" type="tel" placeholder="+56 9 1234 5678" />
+        </label>
+
+        <label class="field">
+          Razón social
+          <input id="userBusinessName" type="text" />
+        </label>
+
+        <label class="field">
+          RUT
+          <input id="userRut" type="text" />
+        </label>
+
+        <label class="field">
+          Dirección fiscal
+          <input id="userTaxAddress" type="text" />
+        </label>
+
+        <label class="field">
+          Giro
+          <input id="userGiro" type="text" />
+        </label>
+
+        <div class="modal-actions">
+          <button class="primary-btn" id="saveProfileBtn">Guardar</button>
+          <button class="ghost-btn" type="button" data-close="clientDataModal">
+            Cancelar
+          </button>
+        </div>
+
+        <div class="hint" id="profileHint"></div>
+      </div>
+    </div>
   </body>
 </html>
