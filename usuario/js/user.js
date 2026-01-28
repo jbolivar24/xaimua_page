@@ -11,7 +11,8 @@ function getToken() {
   );
 }
 
-function setHint(id, msg, ok=false){
+// ================= HINT =================
+function setHint(id, msg, ok = false) {
   const el = document.getElementById(id);
   if (!el) return;
   el.textContent = msg || "";
@@ -28,162 +29,151 @@ function logout() {
   window.location.href = "/xaimua_page/index.html";
 }
 
-// ================= CARGAR EMAIL (reutiliza /api/backup/last) =================
+// ================= EMAIL HEADER =================
 async function loadUserEmail() {
   const token = getToken();
   if (!token) return;
 
   try {
     const res = await fetch(`${API_BASE}/api/backup/last`, {
-      headers: { "Authorization": token }
+      headers: { Authorization: token }
     });
     if (!res.ok) return;
 
     const data = await res.json();
-
-    // En tu back ya viene rut/email en varios endpoints; aquí tomamos lo que exista
     const email = data.email || data.userEmail || data.rut || "";
-    if (email) {
-      const el = document.getElementById("userEmail");
-      if (el) el.textContent = email;
-    }
+    if (email) document.getElementById("userEmail").textContent = email;
   } catch (e) {
-    console.warn("loadUserEmail error", e);
+    console.warn("loadUserEmail", e);
   }
 }
 
-// ================= INIT UI =================
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("logoutHeaderBtn")?.addEventListener("click", logout);
-
-  // Carga email arriba
-  loadUserEmail();
-
-  // Botones: por ahora solo placeholders hasta que hagamos endpoints
-  document.getElementById("saveEmailBtn")?.addEventListener("click", async () => {
-    setHint("emailHint", "Pendiente: endpoint backend para cambiar email.");
-  });
-
-  document.getElementById("savePasswordBtn")?.addEventListener("click", async () => {
-    setHint("passHint", "Pendiente: endpoint backend para cambiar contraseña.");
-  });
-
-  document.getElementById("saveSecurityBtn")?.addEventListener("click", async () => {
-    setHint("secHint", "Pendiente: endpoint backend para guardar preguntas de seguridad.");
-  });
-
-  document.getElementById("saveProfileBtn")?.addEventListener("click", async () => {
-    setHint("profileHint", "Pendiente: endpoint backend para guardar datos del cliente.");
-  });
-});
-
-function openModal(id){
+// ================= MODALS =================
+function openModal(id) {
   const el = document.getElementById(id);
   if (!el) return;
   el.classList.add("open");
   el.setAttribute("aria-hidden", "false");
 }
 
-function closeModal(id){
+function closeModal(id) {
   const el = document.getElementById(id);
   if (!el) return;
   el.classList.remove("open");
   el.setAttribute("aria-hidden", "true");
 }
 
-function wireModals(){
-  const openEmail = document.getElementById("openEmailModalBtn");
-  const openPass  = document.getElementById("openPassModalBtn");
+function wireModals() {
+  document.getElementById("openEmailModalBtn")?.addEventListener("click", () => openModal("emailModal"));
+  document.getElementById("openPassModalBtn")?.addEventListener("click", () => openModal("passModal"));
+  document.getElementById("openSecurityQModalBtn")?.addEventListener("click", () => openModal("securityQModal"));
+  document.getElementById("openClientDataModalBtn")?.addEventListener("click", async () => {
+    openModal("clientDataModal");
+    await loadUserProfile();
+  });
 
-  if (openEmail) openEmail.addEventListener("click", () => openModal("emailModal"));
-  if (openPass)  openPass.addEventListener("click", () => openModal("passModal"));
-
-  // cerrar con botones
   document.querySelectorAll("[data-close]").forEach(btn => {
     btn.addEventListener("click", () => closeModal(btn.getAttribute("data-close")));
   });
 
-  // cerrar clickeando fuera
-  ["emailModal","passModal","securityQModal","clientDataModal"].forEach(id => {
+  ["emailModal", "passModal", "securityQModal", "clientDataModal"].forEach(id => {
     const el = document.getElementById(id);
-    if (!el) return;
-    el.addEventListener("click", (e) => {
+    el?.addEventListener("click", e => {
       if (e.target === el) closeModal(id);
     });
   });
 
-  // cerrar con ESC
-  document.addEventListener("keydown", (e) => {
-    if (e.key !== "Escape") return;
-    closeModal("emailModal");
-    closeModal("passModal");
-    closeModal("securityQModal");
-    closeModal("clientDataModal");
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") {
+      closeModal("emailModal");
+      closeModal("passModal");
+      closeModal("securityQModal");
+      closeModal("clientDataModal");
+    }
   });
 }
 
-// ✅ validaciones + llamadas
-async function updateEmail(){
-  const e1 = document.getElementById("modalNewEmail").value.trim();
-  const e2 = document.getElementById("modalNewEmail2").value.trim();
-  const hint = document.getElementById("emailHint");
+// ================= UPDATE EMAIL =================
+async function updateEmail() {
+  const e1 = document.getElementById("modalNewEmail").value.trim().toLowerCase();
+  const e2 = document.getElementById("modalNewEmail2").value.trim().toLowerCase();
 
-  if (hint) hint.textContent = "";
+  setHint("emailHint", "");
 
-  if (!e1 || !e2) { if (hint) hint.textContent = "Completa ambos campos."; return; }
-  if (e1.toLowerCase() !== e2.toLowerCase()) { if (hint) hint.textContent = "Los correos no coinciden."; return; }
+  if (!e1 || !e2) return setHint("emailHint", "Completa ambos campos.");
+  if (e1 !== e2) return setHint("emailHint", "Los correos no coinciden.");
 
-  // 👉 Aquí llama tu endpoint real
-  // Ejemplo:
-  // await fetch(`${API_BASE}/api/user/email`, {method:"POST", headers:{Authorization:getToken(), "Content-Type":"application/json"}, body: JSON.stringify({email:e1})})
+  try {
+    const res = await fetch(`${API_BASE}/api/user/email`, {
+      method: "PUT",
+      headers: {
+        Authorization: getToken(),
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ newEmail: e1 })
+    });
 
-  if (hint) hint.textContent = "✅ Correo actualizado.";
-  closeModal("emailModal");
+    const data = await res.json();
+
+    if (!res.ok) return setHint("emailHint", data.message || "Error");
+
+    setHint("emailHint", data.message, true);
+
+    if (data.action === "RELOGIN_REQUIRED") {
+      setTimeout(logout, 1200);
+    } else {
+      closeModal("emailModal");
+    }
+
+  } catch (e) {
+    console.error(e);
+    setHint("emailHint", "Error de conexión");
+  }
 }
 
-async function updatePassword(){
+// ================= UPDATE PASSWORD =================
+async function updatePassword() {
   const p1 = document.getElementById("modalNewPass").value;
   const p2 = document.getElementById("modalNewPass2").value;
-  const hint = document.getElementById("passHint");
 
-  if (hint) hint.textContent = "";
+  setHint("passHint", "");
 
-  if (!p1 || !p2) { if (hint) hint.textContent = "Completa ambos campos."; return; }
-  if (p1 !== p2) { if (hint) hint.textContent = "Las contraseñas no coinciden."; return; }
-  if (p1.length < 4) { if (hint) hint.textContent = "La contraseña es muy corta."; return; }
+  if (!p1 || !p2) return setHint("passHint", "Completa ambos campos.");
+  if (p1 !== p2) return setHint("passHint", "Las contraseñas no coinciden.");
+  if (p1.length < 4) return setHint("passHint", "Contraseña muy corta.");
 
-  // 👉 Aquí llama tu endpoint real
+  try {
+    const res = await fetch(`${API_BASE}/api/user/password`, {
+      method: "PUT",
+      headers: {
+        Authorization: getToken(),
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ newPassword: p1 })
+    });
 
-  if (hint) hint.textContent = "✅ Contraseña actualizada.";
-  closeModal("passModal");
+    const data = await res.json();
+    if (!res.ok) return setHint("passHint", data.message || "Error");
+
+    setHint("passHint", "Contraseña actualizada", true);
+    closeModal("passModal");
+
+  } catch (e) {
+    console.error(e);
+    setHint("passHint", "Error de conexión");
+  }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  wireModals();
-
-  const b1 = document.getElementById("updateEmailBtn");
-  const b2 = document.getElementById("updatePassBtn");
-
-  if (b1) b1.addEventListener("click", updateEmail);
-  if (b2) b2.addEventListener("click", updatePassword);
-});
-
-const openSecQ = document.getElementById("openSecurityQModalBtn");
-if (openSecQ) {
-  openSecQ.addEventListener("click", () => openModal("securityQModal"));
-}
-
-async function saveSecurityAnswers(){
+// ================= SECURITY QUESTIONS =================
+async function saveSecurityAnswers() {
   const a1 = document.getElementById("secAns1").value.trim();
   const a2 = document.getElementById("secAns2").value.trim();
   const a3 = document.getElementById("secAns3").value.trim();
-  const hint = document.getElementById("securityQHint");
 
-  if (hint) hint.textContent = "";
+  setHint("securityQHint", "");
 
   if (!a1 || !a2 || !a3) {
-    if (hint) hint.textContent = "Debes responder todas las preguntas.";
-    return;
+    return setHint("securityQHint", "Debes responder todas las preguntas.");
   }
 
   const payload = {
@@ -195,38 +185,93 @@ async function saveSecurityAnswers(){
     answers: [a1, a2, a3]
   };
 
-  // 👉 Aquí conectas tu endpoint real
-  // await fetch(`${API_BASE}/api/user/security-questions`, {
-  //   method: "POST",
-  //   headers: {
-  //     "Authorization": getToken(),
-  //     "Content-Type": "application/json"
-  //   },
-  //   body: JSON.stringify(payload)
-  // });
-
-  if (hint) hint.textContent = "✅ Preguntas guardadas correctamente.";
-  closeModal("securityQModal");
-}
-
-const saveSecBtn = document.getElementById("saveSecurityAnswersBtn");
-if (saveSecBtn) {
-  saveSecBtn.addEventListener("click", saveSecurityAnswers);
-}
-
-
-document.addEventListener("DOMContentLoaded", () => {
-  const backBtn = document.getElementById("backBtn");
-  if(backBtn){
-    backBtn.addEventListener("click", () => {
-      window.location.href = "/xaimua_page/usuario/index.html";
+  try {
+    const res = await fetch(`${API_BASE}/api/user/security-questions`, {
+      method: "POST",
+      headers: {
+        Authorization: getToken(),
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
     });
-  }
-});
 
-const openClientData = document.getElementById("openClientDataModalBtn");
-if (openClientData) {
-  openClientData.addEventListener("click", () =>
-    openModal("clientDataModal")
-  );
+    const data = await res.json();
+    if (!res.ok) return setHint("securityQHint", data.message || "Error");
+
+    setHint("securityQHint", "Preguntas guardadas", true);
+    closeModal("securityQModal");
+
+  } catch (e) {
+    console.error(e);
+    setHint("securityQHint", "Error de conexión");
+  }
 }
+
+// ================= PROFILE =================
+async function loadUserProfile() {
+  try {
+    const res = await fetch(`${API_BASE}/api/user/profile`, {
+      headers: { Authorization: getToken() }
+    });
+    if (!res.ok) return;
+
+    const d = await res.json();
+    document.getElementById("userPhone").value = d.phone || "";
+    document.getElementById("userBusinessName").value = d.businessName || "";
+    document.getElementById("userRut").value = d.rut || "";
+    document.getElementById("userTaxAddress").value = d.taxAddress || "";
+    document.getElementById("userGiro").value = d.giro || "";
+
+  } catch (e) {
+    console.warn("loadUserProfile", e);
+  }
+}
+
+async function saveUserProfile() {
+  setHint("profileHint", "");
+
+  const payload = {
+    phone: document.getElementById("userPhone").value.trim(),
+    businessName: document.getElementById("userBusinessName").value.trim(),
+    rut: document.getElementById("userRut").value.trim(),
+    taxAddress: document.getElementById("userTaxAddress").value.trim(),
+    giro: document.getElementById("userGiro").value.trim()
+  };
+
+  try {
+    const res = await fetch(`${API_BASE}/api/user/profile`, {
+      method: "PUT",
+      headers: {
+        Authorization: getToken(),
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+    if (!res.ok) return setHint("profileHint", data.message || "Error");
+
+    setHint("profileHint", "Datos guardados correctamente", true);
+    closeModal("clientDataModal");
+
+  } catch (e) {
+    console.error(e);
+    setHint("profileHint", "Error de conexión");
+  }
+}
+
+// ================= INIT =================
+document.addEventListener("DOMContentLoaded", () => {
+  loadUserEmail();
+  wireModals();
+
+  document.getElementById("logoutHeaderBtn")?.addEventListener("click", logout);
+  document.getElementById("updateEmailBtn")?.addEventListener("click", updateEmail);
+  document.getElementById("updatePassBtn")?.addEventListener("click", updatePassword);
+  document.getElementById("saveSecurityAnswersBtn")?.addEventListener("click", saveSecurityAnswers);
+  document.getElementById("saveProfileBtn")?.addEventListener("click", saveUserProfile);
+
+  document.getElementById("backBtn")?.addEventListener("click", () => {
+    window.location.href = "/xaimua_page/usuario/index.html";
+  });
+});
