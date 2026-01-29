@@ -263,6 +263,7 @@ async function saveUserProfile() {
 // ================= INIT =================
 document.addEventListener("DOMContentLoaded", () => {
   loadUserEmail();
+  loadUserInfoPanel(); // 👈 NUEVO
   wireModals();
 
   document.getElementById("logoutHeaderBtn")?.addEventListener("click", logout);
@@ -275,3 +276,30 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "/xaimua_page/usuario/index.html";
   });
 });
+
+async function loadUserInfoPanel() {
+  try {
+    const res = await fetch(`${API_BASE}/api/user/profile`, {
+      headers: { Authorization: getToken() }
+    });
+    if (!res.ok) return;
+
+    const d = await res.json();
+
+    function setRow(rowId, valId, value) {
+      if (value && value.trim()) {
+        document.getElementById(valId).textContent = value;
+        document.getElementById(rowId).classList.remove("is-hidden");
+      }
+    }
+
+    setRow("infoBusiness", "infoBusinessVal", d.businessName);
+    setRow("infoRut", "infoRutVal", d.rut);
+    setRow("infoGiro", "infoGiroVal", d.giro);
+    setRow("infoAddress", "infoAddressVal", d.address || d.taxAddress);
+    setRow("infoPhone", "infoPhoneVal", d.phone);
+
+  } catch (e) {
+    console.warn("loadUserInfoPanel", e);
+  }
+}

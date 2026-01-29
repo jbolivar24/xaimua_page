@@ -609,3 +609,29 @@ thead { opacity: 0.85; }
     margin-bottom: 0;
   }
 }
+
+/* ===== DATOS DE USUARIO (MI CUENTA) ===== */
+
+.user-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.user-info-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 4px;
+  border-bottom: 1px dashed rgba(255,255,255,0.12);
+}
+
+.user-info-row span {
+  opacity: 0.75;
+}
+
+.user-info-row strong {
+  font-weight: 600;
+  color: #00e5ff;
+}
