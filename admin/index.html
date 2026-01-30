@@ -80,6 +80,18 @@
 <section class="card table-container">
     <h2>Registro de ventas (hoy)</h2>
 
+    <div class="registro-controls">
+        <label for="repartidorSelect">Repartidor:</label>
+        <select id="repartidorSelect">
+            <option value="ALL">Todos</option>
+        </select>
+
+        <div class="registro-totales">
+            <span>Total repartidor: <b id="totalRepartidor">0</b></span>
+            <span>Total general: <b id="totalGeneral">0</b></span>
+        </div>
+    </div>
+
     <table id="registroTable">
         <thead>
             <tr>

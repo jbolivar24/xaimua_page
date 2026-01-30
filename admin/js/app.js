@@ -8,6 +8,7 @@ import { logout } from "../../js/auth.js";
 
 const IDLE_LIMIT = 2 * 60 * 1000; // 2 minutos
 let idleTimer = null;
+let registroHoy = [];
 
 function resetIdleTimer() {
   clearTimeout(idleTimer);
@@ -211,21 +212,12 @@ async function loadRegistroHoy() {
       return;
     }
 
-    const tbody = document.querySelector("#registroTable tbody");
-    tbody.innerHTML = "";
+    registroHoy = arr;
 
-    arr.forEach(r => {
-      const tr = document.createElement("tr");
+    buildRepartidorSelect(arr);
+    renderRegistro(arr);
 
-      tr.innerHTML = `
-        <td>${r.hora ?? "-"}</td>
-        <td>${r.repartidor ?? "-"}</td>
-        <td style="text-align:right">${r.cantidad ?? "-"}</td>
-        <td>${r.cliente ?? "-"}</td>
-      `;
-
-      tbody.appendChild(tr);
-    });
+    updateTotales(arr);
 
     log(`📋 Registro cargado (${arr.length} filas)`);
 
@@ -235,6 +227,75 @@ async function loadRegistroHoy() {
     }
   }
 }
+
+function buildRepartidorSelect(arr) {
+  const select = document.getElementById("repartidorSelect");
+  select.innerHTML = `<option value="ALL">Todos</option>`;
+
+  const set = new Set();
+
+  arr.forEach(r => {
+    if (r.repartidor) {
+      set.add(r.repartidor);
+    }
+  });
+
+  [...set].sort().forEach(rep => {
+    const opt = document.createElement("option");
+    opt.value = rep;
+    opt.textContent = rep;
+    select.appendChild(opt);
+  });
+}
+
+function renderRegistro(arr) {
+  const tbody = document.querySelector("#registroTable tbody");
+  tbody.innerHTML = "";
+
+  arr.forEach(r => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${r.hora ?? "-"}</td>
+      <td>${r.repartidor ?? "-"}</td>
+      <td style="text-align:right">${r.cantidad ?? 0}</td>
+      <td>${r.cliente ?? "-"}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function updateTotales(arr) {
+  let total = 0;
+
+  arr.forEach(r => {
+    const v = parseFloat(r.cantidad);
+    if (!isNaN(v)) total += v;
+  });
+
+  document.getElementById("totalRepartidor").textContent = total.toFixed(2);
+
+  // total general SIEMPRE es sobre todo el día
+  let totalAll = 0;
+  registroHoy.forEach(r => {
+    const v = parseFloat(r.cantidad);
+    if (!isNaN(v)) totalAll += v;
+  });
+
+  document.getElementById("totalGeneral").textContent = totalAll.toFixed(2);
+}
+
+document.getElementById("repartidorSelect").addEventListener("change", e => {
+  const rep = e.target.value;
+
+  if (rep === "ALL") {
+    renderRegistro(registroHoy);
+    updateTotales(registroHoy);
+  } else {
+    const filtrado = registroHoy.filter(r => r.repartidor === rep);
+    renderRegistro(filtrado);
+    updateTotales(filtrado);
+  }
+});
 
 loadClients();
 loadRegistroHoy();
