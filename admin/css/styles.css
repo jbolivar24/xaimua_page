@@ -262,3 +262,7 @@ button.danger:hover {
         gap: 10px;
     }
 }
+
+body {
+    padding-top: 110px; /* altura real del header */
+}
