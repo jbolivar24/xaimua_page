@@ -297,7 +297,10 @@ document.getElementById("repartidorSelect").addEventListener("change", e => {
   }
 });
 
-loadClients();
-loadRegistroHoy();
+document.addEventListener("DOMContentLoaded", () => {
+  loadClients();
+  loadRegistroHoy();
+});
+
 
 
