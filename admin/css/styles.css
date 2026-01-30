@@ -1,9 +1,17 @@
+/* =====================================================
+   BASE
+===================================================== */
+
 body {
     background: #f5f5f5;
     margin: 0;
     font-family: "Segoe UI", sans-serif;
     color: #333;
 }
+
+/* =====================================================
+   HEADER
+===================================================== */
 
 header {
     background: #3D403D;
@@ -13,46 +21,51 @@ header {
     font-size: 22px;
 }
 
-.table-container {
-    padding: 20px;
-}
+/* ================= ADMIN HEADER ================= */
 
-h2 {
-    margin-top: 0;
-}
-
-/* TABLA */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 2px 4px #0002;
-}
-
-thead {
+.admin-header {
     background: #3D403D;
     color: white;
+    padding: 12px 20px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.25);
 }
 
-th, td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
-    font-size: 14px;
+.admin-logo {
+    display: flex;
+    align-items: center;
 }
 
-tbody tr:hover {
-    background: #f3f3f3;
-    cursor: pointer;
+.admin-logo img {
+    height: 74px;
+    display: block;
 }
 
-tbody tr.selected {
-    background: #cde3ff !important;
+.admin-title {
+    font-size: 18px;
+    font-weight: 600;
 }
 
-/* CARDS */
+.admin-server {
+    font-size: 12px;
+    opacity: 0.8;
+    font-family: monospace;
+    white-space: nowrap;
+}
+
+/* =====================================================
+   LAYOUT
+===================================================== */
+
+.row {
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+}
+
 .card {
     background: white;
     padding: 15px;
@@ -61,18 +74,20 @@ tbody tr.selected {
     flex: 1;
 }
 
-/* LAYOUT */
-.row {
-    display: flex;
-    padding: 20px;
-    gap: 20px;
-}
+/* =====================================================
+   ACTION BAR & BUTTONS
+===================================================== */
 
-/* BOTONERA */
 .action-bar {
     display: flex;
     gap: 10px;
     margin-bottom: 15px;
+}
+
+.action-bar.always-visible {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
 }
 
 .action-bar.hidden {
@@ -92,7 +107,18 @@ button:hover {
     background: #4e514e;
 }
 
-/* ÁREAS DE TEXTO */
+button.danger {
+    background: #b30000;
+}
+
+button.danger:hover {
+    background: #8f0000;
+}
+
+/* =====================================================
+   OUTPUT / LOG
+===================================================== */
+
 .output {
     background: #eee;
     padding: 10px;
@@ -101,70 +127,9 @@ button:hover {
     border-radius: 6px;
 }
 
-/* ================= ADMIN HEADER ================= */
-
-.admin-header {
-    background: #3D403D;
-    color: white;
-    padding: 12px 20px;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: 16px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.25);
-}
-
-.admin-logo img {
-    height: 74px;
-    display: block;
-}
-
-.admin-logo {
-    display: flex;
-    align-items: center;
-}
-
-.admin-title {
-    font-size: 18px;
-    font-weight: 600;
-}
- 
-
-.admin-server {
-    font-size: 12px;
-    opacity: 0.8;
-    font-family: monospace;
-    white-space: nowrap;
-}
-
-/* ================= ADMIN FOOTER ================= */
-
-.admin-footer {
-    margin-top: 40px;
-    padding: 12px;
-    text-align: center;
-    font-size: 13px;
-    color: #777;
-}
-
-button.danger {
-    background: #b30000;
-    color: white;
-}
-
-button.danger:hover {
-    background: #8f0000;
-}
-
-.action-bar.always-visible {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 10px;
-}
-
-.action-bar.hidden {
-    display: none;
-}
+/* =====================================================
+   REGISTRO CONTROLS
+===================================================== */
 
 .registro-controls {
     display: flex;
@@ -177,7 +142,6 @@ button.danger:hover {
 
 .registro-controls label {
     font-weight: 600;
-    opacity: 0.9;
 }
 
 .registro-controls select {
@@ -203,33 +167,53 @@ button.danger:hover {
     color: #6cf;
 }
 
+/* =====================================================
+   TABLE CONTAINER (DARK)
+===================================================== */
+
 .table-container {
     background: #1c1f1d;
+    color: #eee;
     border-radius: 14px;
     padding: 16px;
     box-shadow: 0 8px 30px rgba(0,0,0,0.4);
 }
 
+/* =====================================================
+   TABLE
+===================================================== */
+
 #registroTable {
     width: 100%;
     border-collapse: collapse;
-    overflow: hidden;
     border-radius: 10px;
+    overflow: hidden;
 }
 
 #registroTable thead {
     background: linear-gradient(90deg, #2f3431, #3a3f3c);
 }
 
-#registroTable thead th {
+#registroTable th {
     padding: 10px;
     font-weight: 600;
     font-size: 0.85rem;
     text-transform: uppercase;
-    color: #dcdcdc;
+    color: #ffffff;
 }
 
+#registroTable td {
+    padding: 10px;
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: #eaeaea;
+}
 
+#registroTable td:nth-child(3) {
+    text-align: right;
+    font-weight: 600;
+    color: #9cffc7;
+}
 
 #registroTable tbody tr:nth-child(even) {
     background: rgba(255,255,255,0.03);
@@ -239,19 +223,27 @@ button.danger:hover {
     background: rgba(108, 204, 255, 0.15);
 }
 
-#registroTable td {
-    padding: 10px;
-    font-size: 0.9rem;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.admin-footer {
+    margin-top: 40px;
+    padding: 12px;
+    text-align: center;
+    font-size: 13px;
+    color: #777;
 }
 
-#registroTable td:nth-child(3) {
-    text-align: right;
-    font-weight: 600;
-    color: #9cffc7;
-}
+/* =====================================================
+   MOBILE
+===================================================== */
 
 @media (max-width: 768px) {
+
+    .row {
+        flex-direction: column;
+    }
 
     .table-container {
         overflow-x: auto;
@@ -270,4 +262,3 @@ button.danger:hover {
         gap: 10px;
     }
 }
-
