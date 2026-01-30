@@ -201,4 +201,42 @@ window.executeAction = executeAction;
 window.executeRestore = executeRestore;
 window.openNotifyConfig = openNotifyConfig;
 
+async function loadRegistroHoy() {
+  try {
+    const res = await fetchAuth(`${API_BASE}/api/logs/registro/hoy`);
+    const arr = await res.json();
+
+    if (!Array.isArray(arr)) {
+      log("❌ Registro no es un array");
+      return;
+    }
+
+    const tbody = document.querySelector("#registroTable tbody");
+    tbody.innerHTML = "";
+
+    arr.forEach(r => {
+      const tr = document.createElement("tr");
+
+      tr.innerHTML = `
+        <td>${r.hora ?? "-"}</td>
+        <td>${r.repartidor ?? "-"}</td>
+        <td style="text-align:right">${r.cantidad ?? "-"}</td>
+        <td>${r.cliente ?? "-"}</td>
+      `;
+
+      tbody.appendChild(tr);
+    });
+
+    log(`📋 Registro cargado (${arr.length} filas)`);
+
+  } catch (e) {
+    if (e.message !== "Unauthorized") {
+      log("❌ Error cargando registro: " + e);
+    }
+  }
+}
+
 loadClients();
+loadRegistroHoy();
+
+
