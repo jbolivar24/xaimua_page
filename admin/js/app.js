@@ -205,21 +205,23 @@ window.openNotifyConfig = openNotifyConfig;
 async function loadRegistroHoy() {
   try {
     const res = await fetchAuth(`${API_BASE}/api/logs/registro/hoy`);
-    const arr = await res.json();
+    const data = await res.json();
 
-    if (!Array.isArray(arr)) {
-      log("❌ Registro no es un array");
+    if (!data || !Array.isArray(data.registros)) {
+      log("❌ Respuesta inválida del backend");
+      console.warn("Respuesta:", data);
       return;
     }
 
-    registroHoy = arr;
+    registroHoy = data.registros;
+    window.cobranzasHoy = data.cobranzas || [];
 
-    buildRepartidorSelect(arr);
-    renderRegistro(arr);
+    buildRepartidorSelect(registroHoy);
+    renderRegistro(registroHoy);
+    updateTotales(registroHoy);
 
-    updateTotales(arr);
-
-    log(`📋 Registro cargado (${arr.length} filas)`);
+    log(`📋 Registro cargado (${registroHoy.length} filas)`);
+    log(`💰 Cobranzas cargadas (${window.cobranzasHoy.length})`);
 
   } catch (e) {
     if (e.message !== "Unauthorized") {
