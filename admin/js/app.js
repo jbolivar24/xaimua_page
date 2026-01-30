@@ -315,7 +315,7 @@ function exportCSV(data) {
   const csvContent =
     [headers, ...rows]
       .map(row =>
-        row.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")
+        row.map(v => `"${String(v).replace(/"/g, '""')}"`).join(";")
       )
       .join("\n");
 
