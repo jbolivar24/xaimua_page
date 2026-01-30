@@ -267,12 +267,51 @@ body {
     padding-top: 110px; /* altura real del header */
 }
 
-#cobranzaTable th,
+/* ===============================
+   TABLA RESUMEN DE COBRANZAS
+   =============================== */
+
+#cobranzaTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#cobranzaTable thead {
+    background: rgba(255,255,255,0.08);
+}
+
+#cobranzaTable th {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #ffffff;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
 #cobranzaTable td {
+    padding: 9px 12px;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.85);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+/* Alineación */
+#cobranzaTable th:not(:first-child),
+#cobranzaTable td:not(:first-child) {
     text-align: right;
 }
 
 #cobranzaTable th:first-child,
 #cobranzaTable td:first-child {
     text-align: left;
+}
+
+/* Hover sutil */
+#cobranzaTable tbody tr:hover {
+    background: rgba(255,255,255,0.04);
 }
