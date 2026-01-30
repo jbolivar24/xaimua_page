@@ -297,6 +297,110 @@ document.getElementById("repartidorSelect").addEventListener("change", e => {
   }
 });
 
+function exportCSV(data) {
+  if (!data.length) {
+    alert("No hay datos para exportar");
+    return;
+  }
+
+  const headers = ["Hora", "Repartidor", "Cantidad", "Cliente"];
+
+  const rows = data.map(r => [
+    r.hora ?? "",
+    r.repartidor ?? "",
+    r.cantidad ?? "",
+    r.cliente ?? ""
+  ]);
+
+  const csvContent =
+    [headers, ...rows]
+      .map(row =>
+        row.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")
+      )
+      .join("\n");
+
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `registro_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById("btnExportCSV").addEventListener("click", () => {
+  const rep = document.getElementById("repartidorSelect").value;
+
+  if (rep === "ALL") {
+    exportCSV(registroHoy);
+  } else {
+    exportCSV(registroHoy.filter(r => r.repartidor === rep));
+  }
+});
+
+function exportPDF(data) {
+  if (!data.length) {
+    alert("No hay datos para exportar");
+    return;
+  }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({
+    orientation: "landscape",
+    unit: "mm",
+    format: "a4"
+  });
+
+  const today = new Date().toLocaleDateString("es-CL");
+
+  doc.setFontSize(14);
+  doc.text("Registro de ventas", 14, 15);
+
+  doc.setFontSize(10);
+  doc.text(`Fecha: ${today}`, 14, 22);
+
+  const rows = data.map(r => [
+    r.hora ?? "",
+    r.repartidor ?? "",
+    r.cantidad ?? "",
+    r.cliente ?? ""
+  ]);
+
+  doc.autoTable({
+    startY: 28,
+    head: [["Hora", "Repartidor", "Cantidad", "Cliente"]],
+    body: rows,
+    theme: "grid",
+    styles: { fontSize: 9 },
+    headStyles: { fillColor: [60, 64, 61] }
+  });
+
+  const total = data.reduce((acc, r) => {
+    const v = parseFloat(r.cantidad);
+    return isNaN(v) ? acc : acc + v;
+  }, 0);
+
+  doc.text(
+    `Total: ${total.toFixed(2)}`,
+    14,
+    doc.lastAutoTable.finalY + 10
+  );
+
+  doc.save(`registro_${today.replace(/\//g, "-")}.pdf`);
+}
+
+document.getElementById("btnExportPDF").addEventListener("click", () => {
+  const rep = document.getElementById("repartidorSelect").value;
+
+  if (rep === "ALL") {
+    exportPDF(registroHoy);
+  } else {
+    exportPDF(registroHoy.filter(r => r.repartidor === rep));
+  }
+});
+
 document.addEventListener("DOMContentLoaded", () => {
   loadClients();
   loadRegistroHoy();
