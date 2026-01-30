@@ -219,6 +219,7 @@ async function loadRegistroHoy() {
     buildRepartidorSelect(registroHoy);
     renderRegistro(registroHoy);
     updateTotales(registroHoy);
+    renderCobranzas(window.cobranzasHoy);
 
     log(`📋 Registro cargado (${registroHoy.length} filas)`);
     log(`💰 Cobranzas cargadas (${window.cobranzasHoy.length})`);
@@ -402,6 +403,32 @@ document.getElementById("btnExportPDF").addEventListener("click", () => {
     exportPDF(registroHoy.filter(r => r.repartidor === rep));
   }
 });
+
+function renderCobranzas(arr) {
+  const tbody = document.querySelector("#cobranzaTable tbody");
+  tbody.innerHTML = "";
+
+  if (!arr || !arr.length) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td colspan="7" style="text-align:center">Sin cobranzas</td>`;
+    tbody.appendChild(tr);
+    return;
+  }
+
+  arr.forEach(c => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${c.repartidor ?? "-"}</td>
+      <td>${Number(c.kilos ?? 0).toFixed(2)}</td>
+      <td>${Number(c.precio ?? 0).toLocaleString("es-CL")}</td>
+      <td>${Number(c.total ?? 0).toLocaleString("es-CL")}</td>
+      <td>${Number(c.entrega ?? 0).toLocaleString("es-CL")}</td>
+      <td>${Number(c.deuda ?? 0).toLocaleString("es-CL")}</td>
+      <td>${Number(c.arrastre ?? 0).toLocaleString("es-CL")}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   loadClients();

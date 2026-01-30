@@ -266,3 +266,13 @@ button.danger:hover {
 body {
     padding-top: 110px; /* altura real del header */
 }
+
+#cobranzaTable th,
+#cobranzaTable td {
+    text-align: right;
+}
+
+#cobranzaTable th:first-child,
+#cobranzaTable td:first-child {
+    text-align: left;
+}
