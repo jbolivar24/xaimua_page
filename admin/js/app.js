@@ -434,6 +434,3 @@ document.addEventListener("DOMContentLoaded", () => {
   loadClients();
   loadRegistroHoy();
 });
-
-
-
