@@ -253,3 +253,22 @@ button.danger:hover {
     color: #9cffc7;
 }
 
+@media (max-width: 768px) {
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    #registroTable {
+        min-width: 640px;
+    }
+
+    .registro-controls {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .registro-totales {
+        gap: 10px;
+    }
+}
