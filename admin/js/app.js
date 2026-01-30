@@ -422,8 +422,8 @@ function renderCobranzas(arr) {
       <td>${Number(c.kilos ?? 0).toFixed(2)}</td>
       <td>${Number(c.precio ?? 0).toLocaleString("es-CL")}</td>
       <td>${Number(c.total ?? 0).toLocaleString("es-CL")}</td>
-      <td>${Number(c.entrega ?? 0).toLocaleString("es-CL")}</td>
       <td>${Number(c.deuda ?? 0).toLocaleString("es-CL")}</td>
+      <td>${Number(c.entrega ?? 0).toLocaleString("es-CL")}</td>
       <td>${Number(c.arrastre ?? 0).toLocaleString("es-CL")}</td>
     `;
     tbody.appendChild(tr);
