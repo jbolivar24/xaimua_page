@@ -165,3 +165,91 @@ button.danger:hover {
 .action-bar.hidden {
     display: none;
 }
+
+.registro-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.registro-controls label {
+    font-weight: 600;
+    opacity: 0.9;
+}
+
+.registro-controls select {
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background: #1f1f1f;
+    color: #fff;
+    outline: none;
+}
+
+.registro-controls select:focus {
+    border-color: #6cf;
+}
+
+.registro-totales {
+    display: flex;
+    gap: 20px;
+    font-size: 0.95rem;
+}
+
+.registro-totales b {
+    color: #6cf;
+}
+
+.table-container {
+    background: #1c1f1d;
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+
+#registroTable {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+#registroTable thead {
+    background: linear-gradient(90deg, #2f3431, #3a3f3c);
+}
+
+#registroTable thead th {
+    padding: 10px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: #dcdcdc;
+}
+
+#registroTable tbody tr {
+    transition: background 0.2s ease;
+}
+
+#registroTable tbody tr:nth-child(even) {
+    background: rgba(255,255,255,0.03);
+}
+
+#registroTable tbody tr:hover {
+    background: rgba(108, 204, 255, 0.15);
+}
+
+#registroTable td {
+    padding: 10px;
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+#registroTable td:nth-child(3) {
+    text-align: right;
+    font-weight: 600;
+    color: #9cffc7;
+}
+
