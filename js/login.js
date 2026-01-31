@@ -86,12 +86,6 @@ document.addEventListener("keydown", (e) => {
 forgotBtn.addEventListener("click", () => {
   const email = (usernameEl.value || "").trim();
 
-  if (!email) {
-    setMsg("Debes ingresar tu correo para continuar.");
-    usernameEl.focus();
-    return;
-  }
-
   recoverTypeModal.classList.remove("hidden");
 });
 
