@@ -5,36 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Xaimua - Login</title>
 
-  <!-- Favicons -->
-  <link rel="icon" type="image/x-icon" href="/xaimua_page/img/favicon/favicon.ico">
-  <link rel="icon" type="image/png" sizes="96x96" href="/xaimua_page/img/favicon/favicon-96x96.png">
-  <link rel="icon" type="image/svg+xml" href="/xaimua_page/img/favicon/favicon.svg">
-  <link rel="apple-touch-icon" sizes="180x180" href="/xaimua_page/img/favicon/apple-touch-icon.png">
-
-  <!-- CSS -->
   <link rel="stylesheet" href="../css/global.css">
-  <link rel="stylesheet" href="../css/header.css">
-  <link rel="stylesheet" href="../css/footer.css">
-  <link rel="stylesheet" href="../css/responsive.css">
   <link rel="stylesheet" href="../css/login.css">
 
-  <script src="../js/layout.js" defer></script>
   <script type="module" src="../js/login.js"></script>
 </head>
 
 <body>
 
-<header id="header"></header>
-
 <section class="login-section">
   <h2>Iniciar sesión</h2>
 
   <div class="login-box">
-    <label for="username">Correo</label>
-    <input type="text" id="username" placeholder="Ingresa tu correo">
+    <label>Correo</label>
+    <input type="text" id="username">
 
-    <label for="password">Contraseña</label>
-    <input type="password" id="password" placeholder="Ingresa tu contraseña">
+    <label>Contraseña</label>
+    <input type="password" id="password">
 
     <button id="loginBtn">Entrar</button>
 
@@ -42,11 +29,11 @@
       ¿Problemas para iniciar sesión?
     </button>
 
-    <p id="loginMessage" class="login-message"></p>
+    <p id="loginMessage"></p>
   </div>
 </section>
 
-<!-- ================= MODAL TIPO RECUPERACIÓN ================= -->
+<!-- ===== MODAL SELECCIÓN ===== -->
 <div id="recoverTypeModal" class="modal hidden">
   <div class="modal-box">
     <h3>¿Qué necesitas recuperar?</h3>
@@ -55,31 +42,39 @@
     <label><input type="radio" name="recoverType" value="EMAIL"> Mi correo</label>
     <label><input type="radio" name="recoverType" value="BOTH"> Correo y contraseña</label>
 
-    <div class="modal-actions">
-      <button id="continueRecover" class="btn-primary">Continuar</button>
-      <button id="cancelRecoverType" class="btn-secondary">Cancelar</button>
-    </div>
+    <button id="continueRecover">Continuar</button>
+    <button id="cancelRecoverType">Cancelar</button>
   </div>
 </div>
 
-<!-- ================= MODAL RECUPERAR CONTRASEÑA ================= -->
+<!-- ===== MODAL RECUPERAR CONTRASEÑA ===== -->
 <div id="recoverPasswordModal" class="modal hidden">
   <div class="modal-box">
     <h3>Recuperar contraseña</h3>
 
-    <p>
-      Te enviaremos un correo con las instrucciones
-      para crear una nueva contraseña.
-    </p>
+    <label>Correo</label>
+    <input type="email" id="recoverEmailInput">
 
-    <div class="modal-actions">
-      <button id="cancelRecoverPassword" class="btn-secondary">Cancelar</button>
-      <button id="confirmRecoverPassword" class="btn-primary">Enviar correo</button>
-    </div>
+    <button id="confirmRecoverPassword">Continuar</button>
+    <button id="cancelRecoverPassword">Cancelar</button>
   </div>
 </div>
 
-<footer id="footer"></footer>
+<!-- ===== MODAL RECUPERAR CORREO / TODO ===== -->
+<div id="recoverEmailModal" class="modal hidden">
+  <div class="modal-box">
+    <h3>Recuperar acceso</h3>
+
+    <label>Nuevo correo</label>
+    <input type="email" id="newEmailInput">
+
+    <label>Confirmar correo</label>
+    <input type="email" id="confirmNewEmailInput">
+
+    <button id="confirmRecoverEmail">Continuar</button>
+    <button id="cancelRecoverEmail">Cancelar</button>
+  </div>
+</div>
 
 </body>
 </html>

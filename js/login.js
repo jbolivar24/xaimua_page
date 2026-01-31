@@ -9,14 +9,24 @@ const msgEl      = document.getElementById("loginMessage");
 const forgotBtn  = document.getElementById("forgotBtn");
 
 // Modales
-const recoverTypeModal      = document.getElementById("recoverTypeModal");
-const recoverPasswordModal  = document.getElementById("recoverPasswordModal");
+const recoverTypeModal     = document.getElementById("recoverTypeModal");
+const recoverPasswordModal = document.getElementById("recoverPasswordModal");
+const recoverEmailModal    = document.getElementById("recoverEmailModal");
 
-// Botones modales
-const continueRecover        = document.getElementById("continueRecover");
-const cancelRecoverType      = document.getElementById("cancelRecoverType");
-const cancelRecoverPassword  = document.getElementById("cancelRecoverPassword");
-const confirmRecoverPassword = document.getElementById("confirmRecoverPassword");
+// Botones
+const continueRecover          = document.getElementById("continueRecover");
+const cancelRecoverType        = document.getElementById("cancelRecoverType");
+
+const cancelRecoverPassword    = document.getElementById("cancelRecoverPassword");
+const confirmRecoverPassword   = document.getElementById("confirmRecoverPassword");
+
+const cancelRecoverEmail       = document.getElementById("cancelRecoverEmail");
+const confirmRecoverEmail      = document.getElementById("confirmRecoverEmail");
+
+// Inputs recovery
+const recoverEmailInput        = document.getElementById("recoverEmailInput");
+const newEmailInput            = document.getElementById("newEmailInput");
+const confirmNewEmailInput     = document.getElementById("confirmNewEmailInput");
 
 // ================== HELPERS ==================
 function setMsg(text, isError = true) {
@@ -84,8 +94,6 @@ document.addEventListener("keydown", (e) => {
 
 // ================== RECUPERACIÓN ==================
 forgotBtn.addEventListener("click", () => {
-  const email = (usernameEl.value || "").trim();
-
   recoverTypeModal.classList.remove("hidden");
 });
 
@@ -107,23 +115,23 @@ continueRecover.addEventListener("click", () => {
     recoverPasswordModal.classList.remove("hidden");
   }
 
-  if (type === "EMAIL") {
-    setMsg("Recuperación de correo aún no disponible.", true);
-  }
-
-  if (type === "BOTH") {
-    recoverAccount();
+  if (type === "EMAIL" || type === "BOTH") {
+    recoverEmailModal.classList.remove("hidden");
   }
 });
 
+// ================== RECUPERAR CONTRASEÑA ==================
 cancelRecoverPassword.addEventListener("click", () => {
   recoverPasswordModal.classList.add("hidden");
 });
 
 confirmRecoverPassword.addEventListener("click", async () => {
-  const email = (usernameEl.value || "").trim().toLowerCase();
+  const email = (recoverEmailInput.value || "").trim().toLowerCase();
 
-  if (!email) return;
+  if (!email) {
+    setMsg("Debes ingresar un correo.", true);
+    return;
+  }
 
   recoverPasswordModal.classList.add("hidden");
   setMsg("Enviando correo...", false);
@@ -144,20 +152,37 @@ confirmRecoverPassword.addEventListener("click", async () => {
   }
 });
 
-async function recoverAccount() {
+// ================== RECUPERAR CORREO / TODO ==================
+cancelRecoverEmail.addEventListener("click", () => {
+  recoverEmailModal.classList.add("hidden");
+});
+
+confirmRecoverEmail.addEventListener("click", async () => {
+  const email1 = (newEmailInput.value || "").trim().toLowerCase();
+  const email2 = (confirmNewEmailInput.value || "").trim().toLowerCase();
+
+  if (!email1 || !email2) {
+    setMsg("Debes completar ambos campos.", true);
+    return;
+  }
+
+  if (email1 !== email2) {
+    setMsg("Los correos no coinciden.", true);
+    return;
+  }
+
+  recoverEmailModal.classList.add("hidden");
   setMsg("Enviando instrucciones...", false);
 
   try {
     await fetch(`${API_BASE}/api/auth/recover-account`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: (usernameEl.value || "").trim().toLowerCase()
-      })
+      body: JSON.stringify({ newEmail: email1 })
     });
 
     setMsg("Revisa tu correo para continuar.", false);
   } catch (e) {
     setMsg("No fue posible enviar la solicitud.", true);
   }
-}
+});
