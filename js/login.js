@@ -99,17 +99,18 @@ forgotBtn.addEventListener("click", () => {
 
 cancelRecoverType.addEventListener("click", () => {
   recoverTypeModal.classList.add("hidden");
+  resetRecoverTypeSelection();
 });
 
 continueRecover.addEventListener("click", () => {
   const type = document.querySelector("input[name='recoverType']:checked")?.value;
 
   if (!type) {
-    setMsg("Debes seleccionar una opción.");
     return;
   }
 
   recoverTypeModal.classList.add("hidden");
+  resetRecoverTypeSelection();
 
   if (type === "PASSWORD") {
     resetRecoverPasswordForm();
@@ -126,39 +127,14 @@ continueRecover.addEventListener("click", () => {
 cancelRecoverPassword.addEventListener("click", () => {
   recoverPasswordModal.classList.add("hidden");
   clearRecoverPasswordMsg();
-});
-
-confirmRecoverPassword.addEventListener("click", async () => {
-  const email = (recoverEmailInput.value || "").trim().toLowerCase();
-
-  if (!email) {
-    setMsg("Debes ingresar un correo.", true);
-    return;
-  }
-
-  recoverPasswordModal.classList.add("hidden");
-  setMsg("Enviando correo...", false);
-
-  try {
-    const res = await fetch(`${API_BASE}/api/auth/forgot-password`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email })
-    });
-
-    const data = await res.json().catch(() => null);
-    setMsg(data?.message || "Revisa tu correo.", false);
-
-  } catch (err) {
-    console.error(err);
-    setMsg("No fue posible enviar el correo.", true);
-  }
+  resetRecoverPasswordForm();
 });
 
 // ================== RECUPERAR CORREO / TODO ==================
 cancelRecoverEmail.addEventListener("click", () => {
   recoverEmailModal.classList.add("hidden");
   clearRecoverEmailMsg();
+  resetRecoverPasswordForm();
 });
 
 confirmRecoverEmail.addEventListener("click", async () => {
@@ -254,4 +230,9 @@ function resetRecoverEmailForm() {
   newEmailInput.value = "";
   confirmNewEmailInput.value = "";
   clearRecoverEmailMsg();
+}
+
+function resetRecoverTypeSelection() {
+  const radios = document.querySelectorAll("input[name='recoverType']");
+  radios.forEach(r => r.checked = false);
 }
