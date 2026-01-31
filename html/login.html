@@ -1,97 +1,85 @@
-<!-- Favicons -->
-<link rel="icon" type="image/x-icon" href="/xaimua_page/img/favicon/favicon.ico">
-<link rel="icon" type="image/png" sizes="96x96" href="/xaimua_page/img/favicon/favicon-96x96.png">
-<link rel="icon" type="image/svg+xml" href="/xaimua_page/img/favicon/favicon.svg">
-<link rel="apple-touch-icon" sizes="180x180" href="/xaimua_page/img/favicon/apple-touch-icon.png">
-
-<!-- PWA -->
-<link rel="manifest" href="/xaimua_page/site.webmanifest">
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xaimua - Login</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xaimua - Login</title>
 
-    <!-- CSS global -->
-    <link rel="stylesheet" href="../css/global.css">
-    <link rel="stylesheet" href="../css/header.css">
-    <link rel="stylesheet" href="../css/footer.css">
-    <link rel="stylesheet" href="../css/responsive.css">
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="/xaimua_page/img/favicon/favicon.ico">
+  <link rel="icon" type="image/png" sizes="96x96" href="/xaimua_page/img/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/svg+xml" href="/xaimua_page/img/favicon/favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/xaimua_page/img/favicon/apple-touch-icon.png">
 
-    <!-- CSS específico login -->
-    <link rel="stylesheet" href="../css/login.css">
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/header.css">
+  <link rel="stylesheet" href="../css/footer.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/login.css">
 
-    <script src="../js/layout.js" defer></script>
-    <script type="module" src="../js/login.js"></script>
+  <script src="../js/layout.js" defer></script>
+  <script type="module" src="../js/login.js"></script>
 </head>
-    <body>
-        <header id="header"></header>
 
-        <section class="login-section">
-            <h2>Iniciar sesión</h2>
+<body>
 
-            <div class="login-box">
+<header id="header"></header>
 
-                <label for="username">Usuario</label>
-                <input type="text" id="username" placeholder="Ingresa tu usuario">
+<section class="login-section">
+  <h2>Iniciar sesión</h2>
 
-                <label for="password">Contraseña</label>
-                <input type="password" id="password" placeholder="Ingresa tu contraseña">
+  <div class="login-box">
+    <label for="username">Correo</label>
+    <input type="text" id="username" placeholder="Ingresa tu correo">
 
-                <button id="loginBtn">Entrar</button>
+    <label for="password">Contraseña</label>
+    <input type="password" id="password" placeholder="Ingresa tu contraseña">
 
-                <!-- 👇 nuevo -->
-                <button id="forgotBtn" class="link-button">
-                    ¿Problemas para iniciar sesión?
-                </button>
+    <button id="loginBtn">Entrar</button>
 
-                <p id="loginMessage" class="login-message"></p>
-            </div>
+    <button id="forgotBtn" class="link-button">
+      ¿Problemas para iniciar sesión?
+    </button>
 
-            <div id="forgotModal" class="modal hidden">
-                <h3>¿Qué necesitas recuperar?</h3>
+    <p id="loginMessage" class="login-message"></p>
+  </div>
+</section>
 
-                <label>
-                    <input type="radio" name="recoverType" value="PASSWORD">
-                    Mi contraseña
-                </label>
+<!-- ================= MODAL TIPO RECUPERACIÓN ================= -->
+<div id="recoverTypeModal" class="modal hidden">
+  <div class="modal-box">
+    <h3>¿Qué necesitas recuperar?</h3>
 
-                <label>
-                    <input type="radio" name="recoverType" value="EMAIL">
-                    Mi correo
-                </label>
+    <label><input type="radio" name="recoverType" value="PASSWORD"> Mi contraseña</label>
+    <label><input type="radio" name="recoverType" value="EMAIL"> Mi correo</label>
+    <label><input type="radio" name="recoverType" value="BOTH"> Correo y contraseña</label>
 
-                <label>
-                    <input type="radio" name="recoverType" value="BOTH">
-                    Correo y contraseña
-                </label>
+    <div class="modal-actions">
+      <button id="continueRecover" class="btn-primary">Continuar</button>
+      <button id="cancelRecoverType" class="btn-secondary">Cancelar</button>
+    </div>
+  </div>
+</div>
 
-                <button id="continueRecover">Continuar</button>
-                <button id="cancelForgot">Cancelar</button>
-            </div>
+<!-- ================= MODAL RECUPERAR CONTRASEÑA ================= -->
+<div id="recoverPasswordModal" class="modal hidden">
+  <div class="modal-box">
+    <h3>Recuperar contraseña</h3>
 
-        </section>      
+    <p>
+      Te enviaremos un correo con las instrucciones
+      para crear una nueva contraseña.
+    </p>
 
-        <footer id="footer"></footer>
+    <div class="modal-actions">
+      <button id="cancelRecoverPassword" class="btn-secondary">Cancelar</button>
+      <button id="confirmRecoverPassword" class="btn-primary">Enviar correo</button>
+    </div>
+  </div>
+</div>
 
-        <!-- ===== MODAL RECUPERAR CONTRASEÑA ===== -->
-        <div id="forgotModal" class="modal hidden">
-            <div class="modal-box">
-                <h3>Recuperar contraseña</h3>
+<footer id="footer"></footer>
 
-                <p>
-                    Se enviará un correo a la dirección registrada en el sistema
-                    con las instrucciones para crear una nueva contraseña.
-                </p>
-
-                <div class="modal-actions">
-                    <button id="cancelForgot" class="btn-secondary">Cancelar</button>
-                    <button id="confirmForgot" class="btn-primary">Enviar correo</button>
-                </div>
-            </div>
-        </div>
-
-    </body>
+</body>
 </html>
