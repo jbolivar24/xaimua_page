@@ -1,87 +1,105 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
-    <!-- Favicons -->
-<link rel="icon" type="image/x-icon" href="/xaimua_page/img/favicon/favicon.ico">
-<link rel="icon" type="image/png" sizes="96x96" href="/xaimua_page/img/favicon/favicon-96x96.png">
-<link rel="icon" type="image/svg+xml" href="/xaimua_page/img/favicon/favicon.svg">
-<link rel="apple-touch-icon" sizes="180x180" href="/xaimua_page/img/favicon/apple-touch-icon.png">
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Xaimua - Login</title>
 
+  <!-- ===== FAVICONS ===== -->
+  <link rel="icon" href="../img/favicon/favicon.ico">
+  <link rel="icon" type="image/png" sizes="96x96" href="../img/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/svg+xml" href="../img/favicon/favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="../img/favicon/apple-touch-icon.png">
+
+  <!-- ===== CSS ===== -->
   <link rel="stylesheet" href="../css/global.css">
   <link rel="stylesheet" href="../css/login.css">
 
+  <!-- ===== JS ===== -->
   <script type="module" src="../js/login.js"></script>
 </head>
 
 <body>
 
-<section class="login-section">
-  <h2>Iniciar sesión</h2>
+  <section class="login-section">
+    <h2>Iniciar sesión</h2>
 
-  <div class="login-box">
-    <label>Correo</label>
-    <input type="text" id="username">
+    <div class="login-box">
+      <label for="username">Correo</label>
+      <input type="text" id="username" autocomplete="username">
 
-    <label>Contraseña</label>
-    <input type="password" id="password">
+      <label for="password">Contraseña</label>
+      <input type="password" id="password" autocomplete="current-password">
 
-    <button id="loginBtn">Entrar</button>
+      <button id="loginBtn">Entrar</button>
 
-    <button id="forgotBtn" class="link-button">
-      ¿Problemas para iniciar sesión?
-    </button>
+      <button id="forgotBtn" class="link-button">
+        ¿Problemas para iniciar sesión?
+      </button>
 
-    <p id="loginMessage"></p>
+      <p id="loginMessage"></p>
+    </div>
+  </section>
+
+  <!-- ===== MODAL SELECCIÓN ===== -->
+  <div id="recoverTypeModal" class="modal hidden">
+    <div class="modal-box">
+      <h3>¿Qué necesitas recuperar?</h3>
+
+      <label>
+        <input type="radio" name="recoverType" value="PASSWORD">
+        Mi contraseña
+      </label>
+
+      <label>
+        <input type="radio" name="recoverType" value="EMAIL">
+        Mi correo
+      </label>
+
+      <label>
+        <input type="radio" name="recoverType" value="BOTH">
+        Correo y contraseña
+      </label>
+
+      <div class="modal-actions">
+        <button id="continueRecover">Continuar</button>
+        <button id="cancelRecoverType">Cancelar</button>
+      </div>
+    </div>
   </div>
-</section>
 
-<!-- ===== MODAL SELECCIÓN ===== -->
-<div id="recoverTypeModal" class="modal hidden">
-  <div class="modal-box">
-    <h3>¿Qué necesitas recuperar?</h3>
+  <!-- ===== MODAL RECUPERAR CONTRASEÑA ===== -->
+  <div id="recoverPasswordModal" class="modal hidden">
+    <div class="modal-box">
+      <h3>Recuperar contraseña</h3>
 
-    <label><input type="radio" name="recoverType" value="PASSWORD"> Mi contraseña</label>
-    <label><input type="radio" name="recoverType" value="EMAIL"> Mi correo</label>
-    <label><input type="radio" name="recoverType" value="BOTH"> Correo y contraseña</label>
+      <label for="recoverEmailInput">Correo</label>
+      <input type="email" id="recoverEmailInput" autocomplete="email">
 
-    <button id="continueRecover">Continuar</button>
-    <button id="cancelRecoverType">Cancelar</button>
+      <div class="modal-actions">
+        <button id="confirmRecoverPassword">Continuar</button>
+        <button id="cancelRecoverPassword">Cancelar</button>
+      </div>
+    </div>
   </div>
-</div>
 
-<!-- ===== MODAL RECUPERAR CONTRASEÑA ===== -->
-<div id="recoverPasswordModal" class="modal hidden">
-  <div class="modal-box">
-    <h3>Recuperar contraseña</h3>
+  <!-- ===== MODAL RECUPERAR CORREO / TODO ===== -->
+  <div id="recoverEmailModal" class="modal hidden">
+    <div class="modal-box">
+      <h3>Recuperar acceso</h3>
 
-    <label>Correo</label>
-    <input type="email" id="recoverEmailInput">
+      <label for="newEmailInput">Nuevo correo</label>
+      <input type="email" id="newEmailInput" autocomplete="email">
 
-    <button id="confirmRecoverPassword">Continuar</button>
-    <button id="cancelRecoverPassword">Cancelar</button>
+      <label for="confirmNewEmailInput">Confirmar correo</label>
+      <input type="email" id="confirmNewEmailInput" autocomplete="email">
+
+      <div class="modal-actions">
+        <button id="confirmRecoverEmail">Continuar</button>
+        <button id="cancelRecoverEmail">Cancelar</button>
+      </div>
+    </div>
   </div>
-</div>
-
-<!-- ===== MODAL RECUPERAR CORREO / TODO ===== -->
-<div id="recoverEmailModal" class="modal hidden">
-  <div class="modal-box">
-    <h3>Recuperar acceso</h3>
-
-    <label>Nuevo correo</label>
-    <input type="email" id="newEmailInput">
-
-    <label>Confirmar correo</label>
-    <input type="email" id="confirmNewEmailInput">
-
-    <button id="confirmRecoverEmail">Continuar</button>
-    <button id="cancelRecoverEmail">Cancelar</button>
-  </div>
-</div>
 
 </body>
 </html>
