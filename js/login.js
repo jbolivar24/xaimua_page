@@ -186,3 +186,37 @@ confirmRecoverEmail.addEventListener("click", async () => {
     setMsg("No fue posible enviar la solicitud.", true);
   }
 });
+
+function setRecoverPasswordMsg(text, isError = true) {
+  const el = document.getElementById("recoverPasswordMsg");
+  if (!el) return;
+
+  el.textContent = text || "";
+  el.style.color = isError ? "#ff6b6b" : "#7CFFB2";
+}
+
+confirmRecoverPassword.addEventListener("click", async () => {
+  const email = (recoverEmailInput.value || "").trim().toLowerCase();
+
+  if (!email) {
+    setRecoverPasswordMsg("Debes ingresar tu correo.", true);
+    return;
+  }
+
+  setRecoverPasswordMsg("Enviando correo...", false);
+
+  try {
+    const res = await fetch(`${API_BASE}/api/auth/forgot-password`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email })
+    });
+
+    const data = await res.json().catch(() => null);
+    setRecoverPasswordMsg(data?.message || "Revisa tu correo.", false);
+
+  } catch (err) {
+    setRecoverPasswordMsg("No fue posible enviar el correo.", true);
+  }
+});
+
