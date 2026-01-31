@@ -112,10 +112,12 @@ continueRecover.addEventListener("click", () => {
   recoverTypeModal.classList.add("hidden");
 
   if (type === "PASSWORD") {
+    resetRecoverPasswordForm();
     recoverPasswordModal.classList.remove("hidden");
   }
 
   if (type === "EMAIL" || type === "BOTH") {
+    resetRecoverEmailForm();
     recoverEmailModal.classList.remove("hidden");
   }
 });
@@ -123,6 +125,7 @@ continueRecover.addEventListener("click", () => {
 // ================== RECUPERAR CONTRASEÑA ==================
 cancelRecoverPassword.addEventListener("click", () => {
   recoverPasswordModal.classList.add("hidden");
+  clearRecoverPasswordMsg();
 });
 
 confirmRecoverPassword.addEventListener("click", async () => {
@@ -155,6 +158,7 @@ confirmRecoverPassword.addEventListener("click", async () => {
 // ================== RECUPERAR CORREO / TODO ==================
 cancelRecoverEmail.addEventListener("click", () => {
   recoverEmailModal.classList.add("hidden");
+  clearRecoverEmailMsg();
 });
 
 confirmRecoverEmail.addEventListener("click", async () => {
@@ -231,3 +235,23 @@ function setRecoverEmailMsg(text, isError = true) {
   el.style.color = isError ? "#ff6b6b" : "#7CFFB2";
 }
 
+function clearRecoverPasswordMsg() {
+  const el = document.getElementById("recoverPasswordMsg");
+  if (el) el.textContent = "";
+}
+
+function clearRecoverEmailMsg() {
+  const el = document.getElementById("recoverEmailMsg");
+  if (el) el.textContent = "";
+}
+
+function resetRecoverPasswordForm() {
+  recoverEmailInput.value = "";
+  clearRecoverPasswordMsg();
+}
+
+function resetRecoverEmailForm() {
+  newEmailInput.value = "";
+  confirmNewEmailInput.value = "";
+  clearRecoverEmailMsg();
+}
