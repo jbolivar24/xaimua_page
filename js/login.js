@@ -162,17 +162,16 @@ confirmRecoverEmail.addEventListener("click", async () => {
   const email2 = (confirmNewEmailInput.value || "").trim().toLowerCase();
 
   if (!email1 || !email2) {
-    setMsg("Debes completar ambos campos.", true);
+    setRecoverEmailMsg("Debes completar ambos campos.", true);
     return;
   }
 
   if (email1 !== email2) {
-    setMsg("Los correos no coinciden.", true);
+    setRecoverEmailMsg("Los correos no coinciden.", true);
     return;
   }
 
-  recoverEmailModal.classList.add("hidden");
-  setMsg("Enviando instrucciones...", false);
+  setRecoverEmailMsg("Enviando instrucciones...", false);
 
   try {
     await fetch(`${API_BASE}/api/auth/recover-account`, {
@@ -181,9 +180,13 @@ confirmRecoverEmail.addEventListener("click", async () => {
       body: JSON.stringify({ newEmail: email1 })
     });
 
-    setMsg("Revisa tu correo para continuar.", false);
+    setRecoverEmailMsg("Revisa tu correo para continuar.", false);
+
+    // 👉 opcional: cerrar luego de unos segundos
+    // setTimeout(() => recoverEmailModal.classList.add("hidden"), 4000);
+
   } catch (e) {
-    setMsg("No fue posible enviar la solicitud.", true);
+    setRecoverEmailMsg("No fue posible enviar la solicitud.", true);
   }
 });
 
@@ -219,4 +222,12 @@ confirmRecoverPassword.addEventListener("click", async () => {
     setRecoverPasswordMsg("No fue posible enviar el correo.", true);
   }
 });
+
+function setRecoverEmailMsg(text, isError = true) {
+  const el = document.getElementById("recoverEmailMsg");
+  if (!el) return;
+
+  el.textContent = text || "";
+  el.style.color = isError ? "#ff6b6b" : "#7CFFB2";
+}
 
