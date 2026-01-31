@@ -87,7 +87,7 @@ forgotBtn.addEventListener("click", () => {
     const username = (usernameEl.value || "").trim();
 
     if (!username) {
-        setMsg("Debes ingresar tu RUT para recuperar la contraseña.");
+        setMsg("Debes ingresar tu correo para recuperar la contraseña.");
         usernameEl.focus();
         return;
     }
@@ -122,7 +122,7 @@ confirmForgot.addEventListener("click", async () => {
     const data = await res.json().catch(() => null);
 
     setMsg(
-      data?.message || "Si el usuario existe, recibirás un correo con instrucciones.",
+      data?.message || "Si el correo se encuentra registrado, recibirás un mensaje con las instrucciones.",
       false
     );
   } catch (err) {
@@ -158,4 +158,51 @@ function normalizeRut(input) {
 
     // 6. Formato final estándar
     return `${body}-${dv}`;
+}
+
+const continueRecover = document.getElementById("continueRecover");
+
+continueRecover.addEventListener("click", () => {
+  const type = document.querySelector("input[name='recoverType']:checked")?.value;
+
+  if (!type) {
+    setMsg("Debes seleccionar una opción.");
+    return;
+  }
+
+  forgotModal.classList.add("hidden");
+
+  if (type === "PASSWORD") {
+    recoverPassword();
+  }
+
+  if (type === "EMAIL") {
+    openRecoverEmailModal();
+  }
+
+  if (type === "BOTH") {
+    recoverAccount();
+  }
+});
+
+function recoverPassword() {
+  confirmForgot.click(); // reutilizas lo que ya tienes
+}
+
+function openRecoverEmailModal() {
+  // abrir modal nuevo para ingresar y confirmar correo
+}
+
+async function recoverAccount() {
+  setMsg("Enviando instrucciones...", false);
+
+  await fetch(`${API_BASE}/api/auth/recover-account`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email: (usernameEl.value || "").trim().toLowerCase()
+    })
+  });
+
+  setMsg("Revisa tu correo para continuar.", false);
 }

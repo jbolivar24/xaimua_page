@@ -44,11 +44,34 @@
 
                 <!-- 👇 nuevo -->
                 <button id="forgotBtn" class="link-button">
-                    ¿Olvidaste tu contraseña?
+                    ¿Problemas para iniciar sesión?
                 </button>
 
                 <p id="loginMessage" class="login-message"></p>
             </div>
+
+            <div id="forgotModal" class="modal hidden">
+                <h3>¿Qué necesitas recuperar?</h3>
+
+                <label>
+                    <input type="radio" name="recoverType" value="PASSWORD">
+                    Mi contraseña
+                </label>
+
+                <label>
+                    <input type="radio" name="recoverType" value="EMAIL">
+                    Mi correo
+                </label>
+
+                <label>
+                    <input type="radio" name="recoverType" value="BOTH">
+                    Correo y contraseña
+                </label>
+
+                <button id="continueRecover">Continuar</button>
+                <button id="cancelForgot">Cancelar</button>
+            </div>
+
         </section>      
 
         <footer id="footer"></footer>
