@@ -157,7 +157,7 @@ confirmRecoverEmail.addEventListener("click", async () => {
     await fetch(`${API_BASE}/api/auth/recover-account`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ newEmail: email1 })
+      body: JSON.stringify({ email: email1 })
     });
 
     setRecoverEmailMsg("Revisa tu correo para continuar.", false);
