@@ -236,25 +236,3 @@ function resetRecoverTypeSelection() {
   const radios = document.querySelectorAll("input[name='recoverType']");
   radios.forEach(r => r.checked = false);
 }
-
-function recoverPassword() {
-  confirmForgot.click(); // reutilizas lo que ya tienes
-}
-
-function openRecoverEmailModal() {
-  // abrir modal nuevo para ingresar y confirmar correo
-}
-
-async function recoverAccount() {
-  setMsg("Enviando instrucciones...", false);
-
-  await fetch(`${API_BASE}/api/auth/recover-account`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      email: (usernameEl.value || "").trim().toLowerCase()
-    })
-  });
-
-  setMsg("Revisa tu correo para continuar.", false);
-}
