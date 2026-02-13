@@ -1,6 +1,6 @@
 // js/config.js
 
-const isLocal = true;//["localhost", "127.0.0.1"].includes(window.location.hostname);
+const isLocal = false;//["localhost", "127.0.0.1"].includes(window.location.hostname);
 
 // Base del frontend
 export const FRONT_BASE = isLocal
