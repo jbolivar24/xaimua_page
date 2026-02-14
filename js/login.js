@@ -154,16 +154,20 @@ confirmRecoverEmail.addEventListener("click", async () => {
   setRecoverEmailMsg("Enviando instrucciones...", false);
 
   try {
-    await fetch(`${API_BASE}/api/auth/recover-account`, {
+    const res = await fetch(`${API_BASE}/api/auth/recover-account`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: email1 })
     });
 
-    setRecoverEmailMsg("Revisa tu correo para continuar.", false);
+    const data = await res.json().catch(() => null);
 
-    // 👉 opcional: cerrar luego de unos segundos
-    // setTimeout(() => recoverEmailModal.classList.add("hidden"), 4000);
+    if (!res.ok) {
+      setRecoverEmailMsg(data?.message || "Error al procesar la solicitud.", true);
+      return;
+    }
+
+    setRecoverEmailMsg(data?.message || "Solicitud procesada.", false);
 
   } catch (e) {
     setRecoverEmailMsg("No fue posible enviar la solicitud.", true);
@@ -236,3 +240,77 @@ function resetRecoverTypeSelection() {
   const radios = document.querySelectorAll("input[name='recoverType']");
   radios.forEach(r => r.checked = false);
 }
+
+async function openSecurityQuestionsModal(token) {
+
+  const modal = document.getElementById("securityQuestionsModal");
+  const container = document.getElementById("securityQuestionsContainer");
+
+  modal.classList.remove("hidden");
+  container.innerHTML = "Cargando preguntas...";
+
+  try {
+    const res = await fetch(`${API_BASE}/api/auth/recovery-questions?token=${token}`);
+    const data = await res.json();
+
+    container.innerHTML = "";
+
+    data.questions.forEach(q => {
+      container.innerHTML += `
+        <label>${formatQuestion(q)}</label>
+        <input type="text" data-question="${q}" class="securityAnswer">
+      `;
+    });
+
+    setupSecurityValidation(token);
+
+  } catch {
+    container.innerHTML = "No fue posible cargar las preguntas.";
+  }
+}
+
+function getRecoveryTokenFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("recoverToken");
+}
+
+function formatQuestion(q) {
+  return q.replaceAll("_", " ");
+}
+
+function setupSecurityValidation(token) {
+
+  document.getElementById("confirmSecurityAnswers")
+    .onclick = async () => {
+
+      const answers = {};
+      document.querySelectorAll(".securityAnswer").forEach(input => {
+        answers[input.dataset.question] = input.value.trim().toLowerCase();
+      });
+
+      const res = await fetch(`${API_BASE}/api/auth/recovery-validate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token, answers })
+      });
+
+      const data = await res.json();
+
+      document.getElementById("securityQuestionsMsg")
+        .textContent = data.message;
+
+      if (res.ok) {
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 2000);
+      }
+  };
+}
+
+window.addEventListener("DOMContentLoaded", async () => {
+
+  const token = getRecoveryTokenFromUrl();
+  if (!token) return;
+
+  await openSecurityQuestionsModal(token);
+});
