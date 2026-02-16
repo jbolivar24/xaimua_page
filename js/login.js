@@ -1,6 +1,9 @@
 // js/login.js
 import { API_BASE, ROUTES, buildPath } from "./config.js";
 
+const RECOVERY_TOKEN = new URLSearchParams(window.location.search).get("recoverToken");
+const IS_RECOVERY_FLOW = !!RECOVERY_TOKEN;
+
 // ================== ELEMENTOS ==================
 const usernameEl = document.getElementById("username");
 const passwordEl = document.getElementById("password");
@@ -278,7 +281,10 @@ async function openSecurityQuestionsModal(token) {
   container.innerHTML = "Cargando preguntas...";
 
   try {
-    const res = await fetch(`${API_BASE}/api/auth/recovery-questions?token=${token}`);
+    const res = await fetch(
+      `${API_BASE}/api/auth/recovery-questions?token=${encodeURIComponent(token)}`
+    );
+
     const data = await res.json();
 
     container.innerHTML = "";
