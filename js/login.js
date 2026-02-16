@@ -138,39 +138,67 @@ cancelRecoverEmail.addEventListener("click", () => {
 });
 
 confirmRecoverEmail.addEventListener("click", async () => {
-  const email1 = (newEmailInput.value || "").trim().toLowerCase();
-  const email2 = (confirmNewEmailInput.value || "").trim().toLowerCase();
 
-  if (!email1 || !email2) {
-    setRecoverEmailMsg("Debes completar ambos campos.", true);
+  const currentEmail = (currentEmailInput.value || "").trim().toLowerCase();
+  const newEmail     = (newEmailInput.value || "").trim().toLowerCase();
+  const confirmEmail = (confirmNewEmailInput.value || "").trim().toLowerCase();
+
+  // ===== VALIDACIONES =====
+  if (!currentEmail || !newEmail || !confirmEmail) {
+    setRecoverEmailMsg("Debes completar todos los campos.", true);
     return;
   }
 
-  if (email1 !== email2) {
-    setRecoverEmailMsg("Los correos no coinciden.", true);
+  if (!currentEmail.includes("@")) {
+    setRecoverEmailMsg("El correo actual no es válido.", true);
     return;
   }
 
-  setRecoverEmailMsg("Enviando instrucciones...", false);
+  if (!newEmail.includes("@")) {
+    setRecoverEmailMsg("El nuevo correo no es válido.", true);
+    return;
+  }
+
+  if (newEmail !== confirmEmail) {
+    setRecoverEmailMsg("Los correos nuevos no coinciden.", true);
+    return;
+  }
+
+  if (currentEmail === newEmail) {
+    setRecoverEmailMsg("El nuevo correo debe ser diferente al actual.", true);
+    return;
+  }
+
+  // ===== ENVÍO =====
+  setRecoverEmailMsg("Verificando cuenta...", false);
 
   try {
+
     const res = await fetch(`${API_BASE}/api/auth/recover-account`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: email1 })
+      body: JSON.stringify({
+        currentEmail: currentEmail,
+        newEmail: newEmail,
+        type: "EMAIL_CHANGE"
+      })
     });
 
     const data = await res.json().catch(() => null);
 
     if (!res.ok) {
-      setRecoverEmailMsg(data?.message || "Error al procesar la solicitud.", true);
+      setRecoverEmailMsg(data?.message || "No se pudo procesar la solicitud.", true);
       return;
     }
 
-    setRecoverEmailMsg(data?.message || "Solicitud procesada.", false);
+    setRecoverEmailMsg(
+      data?.message || "Si la cuenta existe, recibirás un correo para continuar.",
+      false
+    );
 
   } catch (e) {
-    setRecoverEmailMsg("No fue posible enviar la solicitud.", true);
+    console.error(e);
+    setRecoverEmailMsg("Error de conexión con el servidor.", true);
   }
 });
 
