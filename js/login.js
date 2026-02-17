@@ -31,7 +31,19 @@ const recoverEmailInput        = document.getElementById("recoverEmailInput");
 const newEmailInput            = document.getElementById("newEmailInput");
 const confirmNewEmailInput     = document.getElementById("confirmNewEmailInput");
 
+let selectedRecoverType = null;
+
 // ================== HELPERS ==================
+
+function mapRecoverType(uiType){
+  switch(uiType){
+    case "PASSWORD": return "PASSWORD_RESET";
+    case "EMAIL":    return "EMAIL_CHANGE";
+    case "BOTH":     return "FULL_RECOVERY";
+    default:         return "ACCESS_RECOVERY";
+  }
+}
+
 function setMsg(text, isError = true) {
   msgEl.textContent = text || "";
   msgEl.style.color = isError ? "#ff6b6b" : "#7CFFB2";
@@ -107,10 +119,9 @@ cancelRecoverType.addEventListener("click", () => {
 
 continueRecover.addEventListener("click", () => {
   const type = document.querySelector("input[name='recoverType']:checked")?.value;
+  if (!type) return;
 
-  if (!type) {
-    return;
-  }
+  selectedRecoverType = type; // 👈 IMPORTANTE
 
   recoverTypeModal.classList.add("hidden");
   resetRecoverTypeSelection();
@@ -146,7 +157,6 @@ confirmRecoverEmail.addEventListener("click", async () => {
   const newEmail     = (newEmailInput.value || "").trim().toLowerCase();
   const confirmEmail = (confirmNewEmailInput.value || "").trim().toLowerCase();
 
-  // ===== VALIDACIONES =====
   if (!currentEmail || !newEmail || !confirmEmail) {
     setRecoverEmailMsg("Debes completar todos los campos.", true);
     return;
@@ -167,13 +177,14 @@ confirmRecoverEmail.addEventListener("click", async () => {
     return;
   }
 
-  if (currentEmail === newEmail) {
+  if (currentEmail === newEmail && selectedRecoverType !== "PASSWORD") {
     setRecoverEmailMsg("El nuevo correo debe ser diferente al actual.", true);
     return;
   }
 
-  // ===== ENVÍO =====
-  setRecoverEmailMsg("Verificando cuenta...", false);
+  const backendType = mapRecoverType(selectedRecoverType);
+
+  setRecoverEmailMsg("Enviando instrucciones...", false);
 
   try {
 
@@ -183,7 +194,7 @@ confirmRecoverEmail.addEventListener("click", async () => {
       body: JSON.stringify({
         currentEmail: currentEmail,
         newEmail: newEmail,
-        type: "EMAIL_CHANGE"
+        type: backendType
       })
     });
 
@@ -194,10 +205,7 @@ confirmRecoverEmail.addEventListener("click", async () => {
       return;
     }
 
-    setRecoverEmailMsg(
-      data?.message || "Si la cuenta existe, recibirás un correo para continuar.",
-      false
-    );
+    setRecoverEmailMsg(data?.message || "Revisa tu correo para continuar.", false);
 
   } catch (e) {
     console.error(e);
