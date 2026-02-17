@@ -314,13 +314,20 @@ function formatQuestion(q) {
 
 function setupSecurityValidation(token) {
 
-  document.getElementById("confirmSecurityAnswers")
-    .onclick = async () => {
+  const btn = document.getElementById("confirmSecurityAnswers");
 
-      const answers = {};
-      document.querySelectorAll(".securityAnswer").forEach(input => {
-        answers[input.dataset.question] = input.value.trim().toLowerCase();
-      });
+  btn.onclick = async () => {
+
+    // 🔒 evitar doble envío
+    btn.disabled = true;
+    btn.textContent = "Verificando...";
+
+    const answers = {};
+    document.querySelectorAll(".securityAnswer").forEach(input => {
+      answers[input.dataset.question] = input.value.trim().toLowerCase();
+    });
+
+    try {
 
       const res = await fetch(`${API_BASE}/api/auth/recovery-validate`, {
         method: "POST",
@@ -330,14 +337,25 @@ function setupSecurityValidation(token) {
 
       const data = await res.json();
 
-      document.getElementById("securityQuestionsMsg")
-        .textContent = data.message;
+      document.getElementById("securityQuestionsMsg").textContent = data.message;
 
-      if (res.ok) {
-        setTimeout(() => {
-          window.location.href = "login.html";
-        }, 2000);
+      if (!res.ok) {
+        btn.disabled = false;
+        btn.textContent = "Validar";
+        return;
       }
+
+      // 🔥 AQUÍ MUERE EL TOKEN Y LA PANTALLA
+      document.querySelectorAll(".securityAnswer").forEach(i => i.disabled = true);
+
+      setTimeout(() => {
+        window.location.replace("login.html"); // replace, no href
+      }, 1500);
+
+    } catch(e) {
+      btn.disabled = false;
+      btn.textContent = "Validar";
+    }
   };
 }
 
