@@ -345,11 +345,30 @@ function setupSecurityValidation(token) {
         return;
       }
 
-      // 🔥 AQUÍ MUERE EL TOKEN Y LA PANTALLA
+      // 🔒 bloquear inputs
       document.querySelectorAll(".securityAnswer").forEach(i => i.disabled = true);
 
+      // ⬇️ decidir según respuesta del backend
       setTimeout(() => {
-        window.location.replace("login.html"); // replace, no href
+
+        // 1️⃣ Recuperar contraseña (correo + contraseña)
+        if (data.action === "ALLOW_PASSWORD_RESET") {
+
+          window.location.replace(
+            `crear-password.html?token=${encodeURIComponent(token)}`
+          );
+          return;
+        }
+
+        // 2️⃣ Cambio de correo
+        if (data.action === "EMAIL_CONFIRMED") {
+          window.location.replace("login.html");
+          return;
+        }
+
+        // 3️⃣ Recuperación simple de acceso
+        window.location.replace("login.html");
+
       }, 1500);
 
     } catch(e) {
