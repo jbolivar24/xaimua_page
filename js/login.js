@@ -367,7 +367,7 @@ function setupSecurityValidation(token) {
         }*/
 
         if (data.action === "ALLOW_PASSWORD_RESET") {
-            window.location.href = `reset-password.html?token=${token}`;
+            window.location.href = `crear-password.html?token=${token}`;
             return;
         }
 
