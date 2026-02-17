@@ -351,11 +351,16 @@ function setupSecurityValidation(token) {
       // ⬇️ decidir según respuesta del backend
       setTimeout(() => {
 
-        if (data.action === "ALLOW_PASSWORD_RESET") {
+        /*if (data.action === "ALLOW_PASSWORD_RESET") {
           window.location.replace(
             `crear-password.html?token=${encodeURIComponent(data.token)}`
           );
           return;
+        }*/
+
+        if (data.action === "ALLOW_PASSWORD_RESET") {
+            window.location.href = `reset-password.html?token=${token}`;
+            return;
         }
 
         window.location.replace("login.html");
