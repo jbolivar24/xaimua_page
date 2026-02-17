@@ -351,22 +351,13 @@ function setupSecurityValidation(token) {
       // ⬇️ decidir según respuesta del backend
       setTimeout(() => {
 
-        // 1️⃣ Recuperar contraseña (correo + contraseña)
         if (data.action === "ALLOW_PASSWORD_RESET") {
-
           window.location.replace(
-            `crear-password.html?token=${encodeURIComponent(token)}`
+            `crear-password.html?token=${encodeURIComponent(data.token)}`
           );
           return;
         }
 
-        // 2️⃣ Cambio de correo
-        if (data.action === "EMAIL_CONFIRMED") {
-          window.location.replace("login.html");
-          return;
-        }
-
-        // 3️⃣ Recuperación simple de acceso
         window.location.replace("login.html");
 
       }, 1500);
